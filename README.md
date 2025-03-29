@@ -33,6 +33,8 @@
 
 ## 🚀 **Installazione Automatica (Termux)**
 
+[![blog](https://img.shields.io/badge/Tutorial-Installazione-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/shorts/qek7wWadhtI?feature=share)
+
  **Apri Termux** e digita i seguenti comandi:
    ```bash
    termux-setup-storage
@@ -84,14 +86,14 @@
   <summary><b>Clicca qui per vedere i passaggi</b></summary>
 
 1. **Fai nuova sessione e scrivi**:
-   ```bash
+ ```bash
   cd chatunity-bot
-   ```
+  ```
 
  2. **Elimina le Sessioni**:
-   ```bash
+```bash
   rm -rf Sessioni
-   ```
+ ```
 
 2. **Ricollega il bot**:
    ```bash
