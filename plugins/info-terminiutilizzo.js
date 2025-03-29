@@ -46,7 +46,7 @@ export default handler;
 
 function generateMenuText(prefix, botName, userCount) {
     return `
-*_Tutte le informazioni menzionate qui non escludono il proprietario del bot e i Proprietari accreditati per l'uso di chatunity-bot*
+*Tutte le informazioni menzionate qui non escludono il proprietario del bot e i Proprietari accreditati per l'uso di chatunity-bot*
 *_Non siamo responsabili dell'ignoranza che potresti avere riguardo a queste informazioni._* 
 
 *TERMINI DI PRIVACY*
