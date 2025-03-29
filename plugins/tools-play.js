@@ -20,7 +20,7 @@ import axios from "axios";
 
 // Formati audio e video supportati
 const audioFormats = ["mp3", "m4a", "webm", "acc", "flac", "opus", "ogg", "wav"];
-const videoResolutions = ["360", "480", "720", "1080", "1440", "4k"];
+const videoResolutions = ["360", "480", "720", "1080",];
 
 // Funzione per scaricare video/audio
 const downloader = {
