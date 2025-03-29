@@ -133,7 +133,6 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 💋 *${prefix}sega* @
 ┃◈┃• 💋 *${prefix}bacia* @
 ┃◈┃• 💋 *${prefix}scopa* @
-┃◈┃• 💋 *${prefix}stupra* @
 ┃◈┃• 🖕 *${prefix}insulta* @
 ┃◈┃• 🔥 *${prefix}zizzania* @
 ┃◈┃• 💍 *${prefix}sposa* @
