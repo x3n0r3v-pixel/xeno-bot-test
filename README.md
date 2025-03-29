@@ -170,7 +170,7 @@
 ---
 
 <p align="center">
-  <strong>🌟 Supporta il progetto con una Uniticoin su GitHub! 🌟</strong>
+  <strong>🌟 Supporta il progetto con una Stella su GitHub! 🌟</strong>
 </p>
 
 ---
