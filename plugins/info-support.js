@@ -29,7 +29,9 @@ let handler = async (_0x4955de, { conn: _0x4b9a49, usedPrefix: _0xeb2cc9 }) => {
        👑 *SUPPORTO BOT* 👑
 ╚═══════════════╝
 
-✨ *Problemi con il bot?* ✨
+➤ UN OPERATORE ARRIVERÀ A BREVE PER DARTI SUPPORTO
+
+✨ *NEL FRATTEMPO* ✨
 
 ➤ Se hai difficoltà a scaricare il bot:
   📌 Segui il tutorial passo-passo
@@ -38,15 +40,23 @@ https://youtube.com/shorts/qek7wWadhtI?si=MrrA3bLWWAsLmpw6
 ➤ Se non riesci ad accedere al canale:
   📞 Contatta il supporto:
   ➟ +86 19858371809
+═════════════════
+💡 *DOMANDE FREQUENTI* 💡
 
+❓ Come faccio a inserire il bot al mio gruppo?
+✅ Basta mandare l'invito o il link del gruppo in privato al bot. Deve avere minimo 25 membri.
 
-  ➤ IG creatore: https://www.instagram.com/yyktv.vale/
+═════════════════
+
+➤ IG creatore: https://www.instagram.com/yyktv.vale/
+
+═════════════════
 
 
 > 𝐩𝐨𝐰𝐞𝐫𝐞𝐝 𝐛𝐲 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
 `.trim();
 
-  let _0xf5c7c0 = global.db.data.nomedelbot || "ℝ𝕚𝕟𝕠𝕩ᵇᵒᵗ²⁴²";
+  let _0xf5c7c0 = global.db.data.nomedelbot || "𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲";
 
   // Invia il messaggio con una grafica migliorata
   _0x4b9a49.sendMessage(_0x4955de.chat, {
