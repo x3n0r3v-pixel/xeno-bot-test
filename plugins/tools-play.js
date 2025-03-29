@@ -88,6 +88,7 @@ const handleCommand = async (msg, { conn, text, usedPrefix, command }) => {
 ┃◈┃• *Pubblicato:* ${ago}
 ┃◈┃• *Link:* ${url}
 ┃◈└───────────┈⊷
+┃◈┃• *Sto inviando l'audio..*
 ╰━━━━━━━━━━━━━┈·๏
 `.trim();
 
