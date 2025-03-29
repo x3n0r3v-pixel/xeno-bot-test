@@ -59,11 +59,14 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈╭─✦ MUSICA & AUDIO ✦═╗
 ┃◈┃• 🎵 *${prefix}play* (canzone)
 ┃◈┃• 🎥 *${prefix}video* (canzone) 
+┃◈┃• 🔊 *${prefix}ytmp4* (in arrivo)
 ┃◈┃• 🎶 *${prefix}shazam* (audio) 
 ┃◈┃• 🔊 *${prefix}tomp3* (video)
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
 ┃◈╭✦ INFORMAZIONI & UTILITÀ ✦╗
+┃◈┃• 🤖 *${prefix}ia*
+┃◈┃• 🤖 *${prefix}Alya*
 ┃◈┃• 🌍 *${prefix}meteo* (città)
 ┃◈┃• 🕒 *${prefix}orario* (città)
 ┃◈┃• 🌐 *${prefix}traduci* (testo)
@@ -73,7 +76,6 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• ℹ️ *${prefix}info* [@]
 ┃◈┃• 📸 *${prefix}setig* [@]
 ┃◈┃• 📝 *${prefix}msg* [@]
-┃◈┃• ❓ *${prefix}FAQ* (Politica)
 ┃◈┃• ❓ *${prefix}script* 
 ┃◈┃• 📜 *${prefix}regole* (regole gruppo)
 ┃◈┃• 📜 *${prefix}dashboard* 
@@ -89,7 +91,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 🖼️ *${prefix}toimg* (sticker)
 ┃◈┃• 📖 *${prefix}leggi* (foto)
 ┃◈┃• 🌀 *${prefix}blur* (foto)
-┃◈┃• 🖼️ *${prefix}pinterest*
+┃◈┃• 🖼️ *${prefix}pinterest* (in arrivo)
 ┃◈┃• 🎴 *${prefix}hornycard* [@utente]
 ┃◈┃• 🧠 *${prefix}stupido/a* @
 ┃◈╰━━━━━━━━━━━━┈⊷
@@ -115,21 +117,24 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
 ┃◈╭✦ ECONOMIA & CLASSIFICHE ✦╗
-┃◈┃• 💳 *${prefix}portafoglio* → Il tuo saldo
-┃◈┃• 💸 *${prefix}daily* → Ricompensa giornaliera
-┃◈┃• 🏆 *${prefix}classifica* 
+┃◈┃• 💳 *${prefix}portafoglio* 
+┃◈┃• 💸 *${prefix}daily* → Ricompensa
+┃◈┃• 🏆 *${prefix}classifica* UC 
 ┃◈┃• 💳 *${prefix}dona* → (tot) @
 ┃◈┃• 🛒 *${prefix}compra* → Acquista UC
-┃◈┃• 🤑 *${prefix}ruba* @ → Ruba a un utente
+┃◈┃• 🤑 *${prefix}ruba* @ 
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
 ┃◈╭✦ SOCIAL & INTERAZIONI ✦╗
-┃◈┃• 💍 *${prefix}sposami* 
+┃◈┃• 💍 *${prefix}sposami*  
 ┃◈┃• 😡 *${prefix}odio* @
 ┃◈┃• 💌 *${prefix}amore* @
+┃◈┃• 💋 *${prefix}ditalino* @
+┃◈┃• 💋 *${prefix}sega* @
 ┃◈┃• 💋 *${prefix}bacia* @
-┃◈┃• 🖕 *${prefix}insulta* @
 ┃◈┃• 💋 *${prefix}scopa* @
+┃◈┃• 💋 *${prefix}stupra* @
+┃◈┃• 🖕 *${prefix}insulta* @
 ┃◈┃• 🔥 *${prefix}zizzania* @
 ┃◈┃• 💍 *${prefix}sposa* @
 ┃◈┃• 💔 *${prefix}divorzia* @
@@ -137,8 +142,21 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 🗣️ *${prefix}rizz* → @
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
+┃◈╭✦ QUANTO È?  ✦╗
+┃◈┃• 🏳‍🌈 *${prefix}gay*
+┃◈┃• 🏳‍🌈 *${prefix}lesbica* @
+┃◈┃• ♿ *${prefix}ritardato/a* @
+┃◈┃• ♿ *${prefix}down* @
+┃◈┃• ♿ *${prefix}disabile* @
+┃◈┃• ♿ *${prefix}mongoloide* @
+┃◈┃• ⚫ *${prefix}negro* @
+┃◈╰━━━━━━━━━━━━┈⊷
+┃◈
 ┃◈╭✦ TEST & PERSONALITÀ ✦╗
 ┃◈┃• 🍺 *${prefix}alcolizzato* 
+┃◈┃• 🌿 *${prefix}drogato*  
+┃◈┃• 🍑 *${prefix}figa* 
+┃◈┃• 🍑 *${prefix}ano*
 ┃◈┃• 🎭 *${prefix}personalita* 
 ┃◈┃• 🔮 *${prefix}zodiaco* 
 ┃◈┃• 🏹 *${prefix}nomeninja* 
@@ -151,8 +169,6 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 🖼️ *${prefix}png* (sticker)
 ┃◈┃• 🤕 *${prefix}bonk* 
 ┃◈┃• 👑 *${prefix}autoadmin* 
-┃◈┃• 🍑 *${prefix}figa* 
-┃◈┃• 🍑 *${prefix}ano* 
 ┃◈┃• 🚫 *${prefix}obbligo* → V o obb?
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
