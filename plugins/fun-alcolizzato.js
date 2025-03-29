@@ -4,7 +4,7 @@ let handler = async (m, { conn, command, text }) => {
 
     // Determina il messaggio in base al livello
     let finalPhrase = width >= 70 
-        ? "🍾 Questo tizio/a potrebbe avere problemi con l'alcol!" 
+        ? "🍾 Amico se hai bisogno di parlare io ci sono.." 
         : width >= 30 
         ? "🥂 Beve in modo responsabile, o quasi..." 
         : "🚰 Totalmente sobrio, niente sbronze per oggi!";

@@ -52,13 +52,12 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃
 ┃◈┃• ⚙️ *${prefix}menuowner*
 ┃◈┃• 🛡️ *${prefix}menuadmin*
-┃◈┃• 🛡️ *${prefix}menuattive*
+┃◈┃• 🚨 *${prefix}menuattive*
 ┃◈┃• 👥 *${prefix}menugruppo*
 ┃◈┃• 👑 *${prefix}proprietario*
 ┃◈┃• 📥 *${prefix}installa*
 ┃◈┃• 📜 *${prefix}infobot*
-┃◈┃• 🤖 *${prefix}ia*
-┃◈┃• 🤖 *${prefix}Alya*
+┃◈┃• ❓ *${prefix}FAQ*
 ┃◈┃• 🚀 *${prefix}ping*
 ┃◈┃
 ┃◈└───────────┈⊷
