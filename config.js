@@ -8,7 +8,7 @@ global.confirmCode = ""
 
 global.owner = [
   ['8619858371809', '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲', true],
-  ['xxxxxxxxxx',],
+  ['393515533859',],
   ['xxxxxxxxxx'],	
   ['xxxxxxxxxx',],
   ['xxxxxxxxxx'],
