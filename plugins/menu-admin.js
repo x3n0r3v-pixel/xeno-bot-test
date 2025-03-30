@@ -54,7 +54,8 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 👑 .retrocedi /togliadmin
 ┃◈┃• 👑 .warn / .unwarn
 ┃◈┃• 👑 .muta / .smuta
-┃◈┃• 👑 .mutaper <tempo>
+┃◈┃• 👑 .freeze <tempo>
+┃◈┃• 👑 .kick / .cacca
 ┃◈┃• 👑 .hidetag
 ┃◈┃• 👑 .tagall 
 ┃◈┃• 👑 .aperto / .chiuso
