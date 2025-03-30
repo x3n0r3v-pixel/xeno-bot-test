@@ -7,8 +7,8 @@ global.botnumber = ""
 global.confirmCode = ""
 
 global.owner = [
-['393515533859','𝐂𝐫𝐞𝐚𝐭𝐨𝐫𝐞',true],
-  ['xxxxxxxxxx'],	
+['393515533859','𝐂𝐫𝐞𝐚𝐭𝐨𝐫𝐞',‪]
+ ‪['8619858371809‬']	
   ['xxxxxxxxxx',],
   ['xxxxxxxxxx'],
   ['xxxxxxxxxx'],
