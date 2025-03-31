@@ -64,7 +64,7 @@ global.author = '𝐌𝐝'
 
 //────────────────────────────
 
-global.vs = '2.1'
+global.vs = '3.0'
 
 global.nomebot = '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭'
 
@@ -91,3 +91,4 @@ watchFile(file, () => {
   unwatchFile(file)
   console.log(chalk.redBright("Update 'config.js'"))
   import(`${file}?update=${Date.now()}`)
+})
