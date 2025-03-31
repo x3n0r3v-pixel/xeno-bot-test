@@ -7,7 +7,9 @@ global.botnumber = ""
 global.confirmCode = ""
 
 global.owner = [
- ‪ ['8619858371809‬','Supporto',],
+  ['8619858371809', '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲', true],
+  ['xxxxxxxxxx',],
+  ['xxxxxxxxxx'],	
   ['xxxxxxxxxx',],
   ['xxxxxxxxxx'],
   ['xxxxxxxxxx'],
@@ -62,7 +64,7 @@ global.author = '𝐌𝐝'
 
 //────────────────────────────
 
-global.vs = '3.0'
+global.vs = '2.1'
 
 global.nomebot = '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭'
 
@@ -88,5 +90,4 @@ let file = fileURLToPath(import.meta.url)
 watchFile(file, () => {
   unwatchFile(file)
   console.log(chalk.redBright("Update 'config.js'"))
-  import(`${file}?update=${Date.now()}`)
-})
+  import(`${file}?update=${Date.now()}`)k
