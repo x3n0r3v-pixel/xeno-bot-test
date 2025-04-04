@@ -64,7 +64,6 @@
 2. **Clona il repository**:
    ```bash
    git clone https://github.com/chatunitycenter/chatunity-bot.git
-   cd chatunity-bot
    ```
 
    ```bash
