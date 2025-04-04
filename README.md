@@ -67,6 +67,9 @@
    cd chatunity-bot
    ```
 
+   ```bash
+   cd chatunity-bot
+   ```
 3. **Installa le dipendenze**:
    ```bash
    yarn install
