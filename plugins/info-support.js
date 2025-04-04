@@ -39,7 +39,7 @@ https://youtube.com/shorts/qek7wWadhtI?si=MrrA3bLWWAsLmpw6
 
 ➤ Se non riesci ad accedere al canale:
   📞 Contatta il supporto:
-  ➟ +86 19858371809
+  ➟ +39 3515533859
 ═════════════════
 💡 *DOMANDE FREQUENTI* 💡
 
