@@ -12,7 +12,7 @@ let handler = async (m, { conn }) => {
     
     const pp = await conn.profilePictureUrl(target, 'image').catch(_ => null) || './src/avatar_contact.png';
     let avatar;
-    pp !== './src/avatar_contact.png' ? avatar = await (await fetch(pp)).buffer() : avatar = await (await fetch('https://telegra.ph/file/8ca14ef9fa43e99d1d196.jpg')).buffer();
+    pp !== './src/avatar_contact.png' ? avatar = await (await fetch(pp)).buffer() : avatar = await (await fetch('https://i.ibb.co/PvKDcRKW/alyaxroshidere-jpeg.jpg')).buffer();
     
     let groupName = m.chat.split`-`[0];
     const groupMetadata = await conn.groupMetadata(m.chat);
