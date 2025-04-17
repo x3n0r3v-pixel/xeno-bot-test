@@ -33,7 +33,7 @@ let handler = async (m, { conn }) => {
             locationMessage: {
                 name: 'Unlimited',
                 jpegThumbnail: await (await fetch('https://telegra.ph/file/22b3e3d2a7b9f346e21b3.png')).buffer(),
-                vcard: 'BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD'
+                vcard: 'BEGIN:VCARD\nVERSION:4.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD'
             }
         },
         participant: '0@s.whatsapp.net'
@@ -58,7 +58,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['ban', 'kick'];
 handler.tags = ['group'];
-handler.command = ./^(cacca|kick|ban)$/i
+handler.command = /^(cacca|kick|ban)$/i
 handler.admin = true;
 handler.group = true;
 handler.botAdmin = true;
