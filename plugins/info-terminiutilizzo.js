@@ -40,7 +40,7 @@ async function fetchThumbnail(url) {
 
 handler.help = ['FAQ'];
 handler.tags = ['info'];
-handler.command = /^(FAQ|regole)$/i;
+handler.command = /^(FAQ|termini)$/i;
 
 export default handler;
 
