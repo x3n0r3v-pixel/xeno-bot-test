@@ -8,5 +8,4 @@ let handler = async function (m, { conn, text, usedPrefix }) {
 handler.help = ['rules']
 handler.tags = ['group']
 handler.command = ['rules', 'regole'] 
-handler.admin = true
 export default handler
