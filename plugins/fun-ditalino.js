@@ -8,8 +8,9 @@ function pickRandom(array) {
 let handler = async (message, { conn, text }) => {
     // Messaggi personalizzati
     let message1 = `🤟🏻 Inizio una serie di ditalino per *${text}*...`;
+    let message2 = "👆🏻 Preparati!";
     let message3 = "✌🏻 Si comincia...";
-    let message4 = "☝🏻 Quasi finito...";
+    let message9 = "🤟🏻 Ci siamo quasi...";
     let message10 = "☝🏻 Sta per schizzare!";
     let message12 = "👋🏻 riparatevi dalla cascata!!";
 
