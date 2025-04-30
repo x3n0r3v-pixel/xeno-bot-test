@@ -31,9 +31,6 @@ let handler = async (message, { conn, text }) => {
     await message.reply(message1, null, messageOptions);
     await message.reply(message2, null, messageOptions);
     await message.reply(message3, null, messageOptions);
-    await message.reply(message4, null, messageOptions);
-    await message.reply(message6, null, messageOptions);
-    await message.reply(message7, null, messageOptions);
     await message.reply(message9, null, messageOptions);
     await message.reply(message10, null, messageOptions);
     await message.reply(message12, null, messageOptions);
