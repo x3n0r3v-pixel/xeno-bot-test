@@ -4,7 +4,7 @@
   <img src="https://i.ibb.co/Xk5Q2vB9/Whats-App-Image-2025-04-16-at-10-39-48.jpg"  style="width: 100%; height: auto; max-width: 400px;">
 </p>
 
-<h1 align="center">© ChatUnity-Bot 3.0🤖</h1>
+<h1 align="center">© ChatUnity-Bot 4.0🤖</h1>
 <p align="center">
   <strong>Un bot avanzato per WhatsApp, ricco di funzionalità e divertimento!</strong>
 </p>
