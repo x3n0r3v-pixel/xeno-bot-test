@@ -12,7 +12,7 @@ let handler = async (m, { conn }) => {
     
     const pp = await conn.profilePictureUrl(target, 'image').catch(_ => null) || './src/avatar_contact.png';
     let avatar;
-    pp !== './src/avatar_contact.png' ? avatar = await (await fetch(pp)).buffer() : avatar = await (await fetch('https://i.ibb.co/PvKDcRKW/alyaxroshidere-jpeg.jpg')).buffer();
+    pp !== './src/avatar_contact.png' ? avatar = await (await fetch(pp)).buffer() : avatar = await (await fetch('https://telegra.ph/file/8ca14ef9fa43e99d1d196.jpg')).buffer();
     
     let groupName = m.chat.split`-`[0];
     const groupMetadata = await conn.groupMetadata(m.chat);
@@ -32,7 +32,7 @@ let handler = async (m, { conn }) => {
         message: {
             locationMessage: {
                 name: 'Unlimited',
-                jpegThumbnail: await (await fetch('https://i.ibb.co/PvKDcRKW/alyaxroshidere-jpeg.jpg')).buffer(),
+                jpegThumbnail: await (await fetch('https://i.ibb.co/Xk5Q2vB9/Whats-App-Image-2025-04-16-at-10-39-48.jpg')).buffer(),
                 vcard: 'BEGIN:VCARD\nVERSION:4.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD'
             }
         },

@@ -605,6 +605,7 @@ let handler = async (_0x534187, {
             }
         }
         _0x2bc059[_0x2eaf59(0x279)] = _0x152cab;
+        break;
     case _0xd70231[_0x2eaf59(0x2b2)]:
         if (_0x534187[_0x2eaf59(0x25b)]) {
             if (!_0xd70231[_0x2eaf59(0x26c)](_0x54956f, _0x4b91af)) {
@@ -636,6 +637,7 @@ let handler = async (_0x534187, {
             }
         }
         _0x2bc059[_0x2eaf59(0x233)] = _0x152cab;
+        break;
     case _0xd70231[_0x2eaf59(0x271)]:
         if (_0x534187[_0x2eaf59(0x25b)]) {
             if (!(_0x54956f || _0x4b91af)) {
@@ -644,6 +646,15 @@ let handler = async (_0x534187, {
             }
         }
         _0x2bc059[_0x2eaf59(0x20c)] = _0x152cab;
+        break;
+    case 'antivirus':
+        if (_0x534187['isGroup']) {
+            if (!(_0x54956f || _0x4b91af)) {
+                global['dfail']('admin', _0x534187, _0x1226e2);
+                throw ![];
+            }
+        }
+        _0x2bc059['antivirus'] = _0x152cab;
         break;
     default:
         let _0x15ff44 = {
@@ -674,7 +685,7 @@ let handler = async (_0x534187, {
             'message': {
                 'locationMessage': {
                     'name': _0xd70231[_0x2eaf59(0x217)],
-                    'jpegThumbnail': await (await _0xd70231['yploR'](fetch, 'https://qu.ax/cSqEs.jpg'))[_0x2eaf59(0x24a)](),
+                    'jpegThumbnail': await (await _0xd70231['yploR'](fetch, 'https://i.ibb.co/HRy5Xvx/IMG-0631.png'))[_0x2eaf59(0x24a)](),
                     'vcard': _0x2eaf59(0x21a)
                 }
             },
@@ -808,7 +819,7 @@ function _0x3748() {
         'antitiktok',
         'dfail',
         'antilinkgp',
-        '𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨',
+        '𝐚𝐧𝐭𝐢𝐥𝐢𝐧𝐤𝐡𝐚𝐫𝐝',
         'chatgpt',
         'IYeTW',
         'WbaRm',
@@ -827,7 +838,7 @@ function _0x3748() {
         'DFnLb',
         'TIqJg',
         'kHQWG',
-        'https://qu.ax/cSqEs.jpg',
+        'https://i.ibb.co/nqJRfF66/IMG-0630.jpg',
         'HwaAQ',
         'CqDUf',
         'data',

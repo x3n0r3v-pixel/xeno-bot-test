@@ -257,7 +257,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈└───────────┈⊷
 ╰━━━━━━━━━━━━━┈·๏
 *•────────────•⟢*
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${botName}
+> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
 *•────────────•⟢*
 `.trim();
 }

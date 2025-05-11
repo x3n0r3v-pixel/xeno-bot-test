@@ -11,7 +11,7 @@ let format = sizeFormatter({
 
 let handler = async (m, { conn, usedPrefix, command }) => {
   let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲`
-  let versioneBot = '3.0' // Specifica la versione del bot
+  let versioneBot = '4.0' // Specifica la versione del bot
   let old = performance.now()
   let neww = performance.now()
   let speed = (neww - old).toFixed(2) // Limita la velocità a 2 decimali
@@ -61,9 +61,12 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃◈┃
 ┃◈┃• 🌐 *Network*: ${networkSpeed}
 ┃◈└───────────┈⊷
+┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
+┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐉𝐉𝐊
+┃◈┃• *𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
 ╰━━━━━━━━━━━━━┈·๏
 *•────────────•⟢*
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${nomeDelBot}
+> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
 *•────────────•⟢*
 `
 
@@ -89,7 +92,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         mediaType: 1,
         renderLargerThumbnail: false,
         previewType: 'thumbnail',
-        thumbnail: await fetchThumbnail('https://i.ibb.co/PvKDcRKW/alyaxroshidere-jpeg.jpg'),
+        thumbnail: await fetchThumbnail('https://i.ibb.co/Xk5Q2vB9/Whats-App-Image-2025-04-16-at-10-39-48.jpg'),
       }
     } catch (error) {
       console.error('Error fetching thumbnail:', error)

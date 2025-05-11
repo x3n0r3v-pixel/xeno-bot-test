@@ -1,8 +1,18 @@
 let handler = async (m, { conn, command, text }) => {
-	
-    if (!text) return m.reply(`🚩 Inserisci un nome accanto al comando.`)
-	
-  let personalita = `
+    if (!text) return conn.sendMessage(m.chat, { 
+        text: `🚩 Inserisci un nome accanto al comando.`,
+        contextInfo: {
+            forwardingScore: 99,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363259442839354@newsletter',
+                serverMessageId: '',
+                newsletterName: 'ChatUnity'
+            }
+        }
+    }, { quoted: m });
+
+    let personalita = `
 ┏━━°❀❬ *PERSONALITÀ* ❭❀°━━┓
 *┃*
 *┃• Nome* : ${text}
@@ -22,17 +32,30 @@ let handler = async (m, { conn, command, text }) => {
     "Pronomi lol/mao","Misterioso come un deodorante","Enigmatica come un profumo",
     "Segreto industriale","Extraterrestre undercover","Frocio fallito",
     "Progamer di pompe","OnlyFans di ricette vegan","Tinder human"])}
-┗━━━━━━━━━━━━━━━━
-`
-conn.reply(m.chat, personalita, m, { mentions: conn.parseMention(personalita) })
-}
+┗━━━━━━━━━━━━━━━
+`;
 
-handler.help = ['personalita *<nome>*', 'personalità *<nome>*']
-handler.tags = ['fun']
-handler.command = /^personalit(a|à)/i
+    await conn.sendMessage(m.chat, { 
+        text: personalita,
+        contextInfo: {
+            forwardingScore: 99,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363259442839354@newsletter',
+                serverMessageId: '',
+                newsletterName: 'ChatUnity'
+            }
+        },
+        mentions: conn.parseMention(personalita)
+    }, { quoted: m });
+};
 
-export default handler 
+handler.help = ['personalita *<nome>*', 'personalità *<nome>*'];
+handler.tags = ['fun'];
+handler.command = /^personalit(a|à)/i;
+
+export default handler;
 
 function pickRandom(list) {
-  return list[Math.floor(Math.random() * list.length)]
+  return list[Math.floor(Math.random() * list.length)];
 }

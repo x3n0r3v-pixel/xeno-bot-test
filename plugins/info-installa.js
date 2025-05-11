@@ -25,7 +25,7 @@ let prova = { "key": {"participants":"0@s.whatsapp.net", "remoteJid": "status@br
 "status": 1,
 "surface" : 1,
     "message": '𝐒𝐂𝐀𝐑𝐈𝐂𝐀 𝐂𝐇𝐀𝐓𝐔𝐍𝐈𝐓𝐘-𝐁𝐎𝐓 💬',
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=15395490858:+1 (539) 549-0858\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD`
+"vcard": `BEGIN:VCARD\nVERSION:4.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=15395490858:+1 (539) 549-0858\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD`
 }}, "participant": "0@s.whatsapp.net"
 }
 let info = `
@@ -35,7 +35,7 @@ let info = `
 
 Segui questi passaggi per installare ChatUnity Bot correttamente su Termux
 
-repository termux https://github.com/chatunitycenter/chatunity-bot
+repository termux https://github.com/chatunitycenter/chatunity-bot-4
 
 video yt tutorial https://youtube.com/shorts/qek7wWadhtI?si=MrrA3bLWWAsLmpw6
 
@@ -67,7 +67,7 @@ Quando richiesto, concedi le autorizzazioni necessarie.
 
 Ora esegui il seguente comando per aggiornare Termux:
 
-apt update -y && yes | apt upgrade && pkg install -y bash wget mpv && wget -O - https://raw.githubusercontent.com/chatunitycenter/chatunity-bot/main/chatunity.sh | bash
+apt update -y && yes | apt upgrade && pkg install -y bash wget mpv && wget -O - https://raw.githubusercontent.com/chatunitycenter/chatunity-bot-4/main/chatunity.sh | bash
 
 『💬』 ══ •⊰✰⊱• ══ 『💬』
 
@@ -84,7 +84,7 @@ contextInfo: { externalAdReply :{ mediaUrl: null, mediaType: 1, description: nul
 title: '𝙸𝙽𝙵𝙾 𝙳𝙴𝙻 𝙱𝙾𝚃',
 body: 'ChatUnity',         
 previewType: 0, thumbnail: fs.readFileSync("./menu/Menu2.jpg"),
-sourceUrl: `https://github.com/chatunitycenter/chatunity-bot`}}})
+sourceUrl: `https://github.com/chatunitycenter/chatunity-bot-4`}}})
 }
 handler.help = ['infobot', 'speed']
 handler.tags = ['info', 'tools']

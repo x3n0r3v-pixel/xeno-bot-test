@@ -21,22 +21,26 @@ const handler = async (m, { conn, usedPrefix, command }) => {
       : 'Nessuno';
 
     const message = `📜 *Lista Amici di ${user.name && user.name.trim() !== '' ? user.name : 'Sconosciuto'}*
-` +
-                    `┌───────────────
-` +
-                    `│ 👤 *Ultimo Amico:* ${friends.length > 0 ? "@" + lastFriendName : 'Nessuno'}
-` +
-                    `│
-` +
-                    `│ 👥 *Lista Completa:*
-` +
-                    `${friends.length > 0 ? friendList : '│   Nessuno'}
-` +
-                    `└───────────────`;
+┌───────────────
+│ 👤 *Ultimo Amico:* ${friends.length > 0 ? "@" + lastFriendName : 'Nessuno'}
+│
+│ 👥 *Lista Completa:*
+${friends.length > 0 ? friendList : '│   Nessuno'}
+└───────────────`;
 
-    await conn.reply(m.chat, message, null, {
-      mentions: friends.map(friend => `${friend.split('@')[0]}@s.whatsapp.net`)
-    });
+    await conn.sendMessage(m.chat, { 
+        text: message,
+        contextInfo: {
+            forwardingScore: 99,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363259442839354@newsletter',
+                serverMessageId: '',
+                newsletterName: 'ChatUnity'
+            }
+        },
+        mentions: friends.map(friend => `${friend.split('@')[0]}@s.whatsapp.net`)
+    }, { quoted: m });
 
   } catch (err) {
     console.error('Error in handler:', err);

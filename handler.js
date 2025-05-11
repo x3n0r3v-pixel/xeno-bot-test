@@ -91,6 +91,7 @@ export async function handler(chatUpdate) {
                 if (!isNumber(chat.blasphemy)) chat.blasphemy = 0
                 if (!('name' in chat)) chat.name = m.name
                 if (!('name' in chat)) chat.name = this.getName(m.chat)
+                if (!('antivirus' in chat)) chat.antivirus = false; // Aggiunto antivirus
             } else
                 global.db.data.chats[m.chat] = {
                     name: this.getName(m.chat),
@@ -131,6 +132,7 @@ export async function handler(chatUpdate) {
                     money: 0, 
                     warn: 0,
                     name: m.name,
+                    antivirus: false, // Aggiunto antivirus
                 }
             let settings = global.db.data.settings[this.user.jid]
             if (typeof settings !== 'object') global.db.data.settings[this.user.jid] = {}
@@ -533,13 +535,7 @@ export async function participantsUpdate({ id, participants, action }) {
                     } 
                 } 
             }
-            break
-        case 'promote':
-        case 'daradmin':
-        case 'promuovi':
-        case 'demote':
-        case 'quitarpoder':
-        case 'retrocedi':
+            
             if (chat.welcome) {
                 let groupMetadata = await this.groupMetadata(id) || (conn.chats[id] || {}).metadata
                 for (let user of participants) {
@@ -550,30 +546,17 @@ export async function participantsUpdate({ id, participants, action }) {
                     } finally {
                         let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭`
                         let apii = await this.getFile(pp)
-                        text = (action === 'promote' ? (chat.sPromote || this.spromote || conn.spromote || '@user ```è ora admin```') :
-                            (chat.sDemote || this.sdemote || conn.sdemote || '@user ```non è più admin```')).replace('@user', '@' + user.split('@')[0])
-                        this.sendMessage(id, { 
-                            text: text, 
-                            contextInfo:{ 
-                                mentionedJid:[user],
-                                forwardingScore: 99,
-                                isForwarded: true, 
-                               forwardedNewsletterMessageInfo: {
-                               newsletterJid: '120363259442839354@newsletter',
-                               serverMessageId: '', newsletterName: `${nomeDelBot}` },
-                               externalAdReply: {
-                                    "title": `${action === 'promote' ? '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐩𝐫𝐨𝐦𝐨𝐳𝐢𝐨𝐧𝐞 👑' : '𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐝𝐢 𝐫𝐞𝐭𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐨𝐧𝐞 🙇🏻‍♂️'}`,
-                                    "previewType": "PHOTO", 
-                                    "thumbnailUrl": ``, 
-                                    "thumbnail": apii.data,
-                                    "mediaType": 1
-                                }
-                            }
-                        }) 
+                      
+                                
+                            
                     } 
                 } 
             }
-            break
+            break;
+        case 'promote':
+        case 'demote':
+            // Disabilita i messaggi automatici per promozioni/demozioni
+            return; // Aggiunto return per evitare l'invio di messaggi
     }
 }
 
@@ -603,7 +586,7 @@ export async function callUpdate(callUpdate) {
     if (nk.status == "offer") {
     let callmsg = await this.reply(nk.from, `ciao @${nk.from.split('@')[0]}, c'è anticall.`, false, { mentions: [nk.from] })
     //let data = global.owner.filter(([id, isCreator]) => id && isCreator)
-    let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:;𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲;;;\nFN:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nORG:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nTITLE:\nitem1.TEL;waid=393515533859:+39 3515533859\nitem1.X-ABLabel:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nEND:VCARD`
+    let vcard = `BEGIN:VCARD\nVERSION:4.0\nN:;𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲;;;\nFN:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nORG:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nTITLE:\nitem1.TEL;waid=393515533859:+39 3515533859\nitem1.X-ABLabel:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲\nEND:VCARD`
     await this.sendMessage(nk.from, { contacts: { displayName: 'Unlimited', contacts: [{ vcard }] }}, {quoted: callmsg})
     await this.updateBlockStatus(nk.from, 'block')
     }
@@ -620,19 +603,7 @@ export async function deleteUpdate(message) {
         if (!msg)
             return
         let chat = global.db.data.chats[msg.chat] || {}
-        if (chat.antielimina)
-            return
-        if (msg.text || msg.caption) {
-            await this.reply(msg.chat, `*∅* 𝐀𝐧𝐭𝐢𝐞𝐥𝐢𝐦𝐢𝐧𝐚:\n\n> 𝐔𝐭𝐞𝐧𝐭𝐞: @${participant.split`@`[0]}\n> 𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐄𝐥𝐢𝐦𝐢𝐧𝐚𝐭𝐨: ${msg.text || msg.caption}`
-            .trim(), msg, {
-                mentions: [participant]
-            })
-        } else {
-            await this.reply(msg.chat, `*∅* 𝐀𝐧𝐭𝐢𝐞𝐥𝐢𝐦𝐢𝐧𝐚:\n\n> 𝐔𝐭𝐞𝐧𝐭𝐞: @${participant.split`@`[0]}\n> 𝐌𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨 𝐄𝐥𝐢𝐦𝐢𝐧𝐚𝐭𝐨:`, msg, {
-                mentions: [participant]
-            })
-            await this.copyNForward(msg.chat, msg).catch(e => console.log(e, msg))
-        }
+        // Removed antielimina functionality
     } catch (e) {
         console.error(e)
     }

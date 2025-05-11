@@ -10,13 +10,8 @@ let handler = async (m, { conn, usedPrefix }) => {
     if (!(who in global.db.data.users)) throw '🚩 Utente non trovato nel database'
     if (!user.limit) user.limit = 0
 
-    // Immagine del wallet
     let imgUrl = 'https://i.ibb.co/4RSNsdx9/Sponge-Bob-friendship-wallet-meme-9.png'
-    let img = await (await fetch(imgUrl)).buffer().catch(_ => null)
-    
-    if (!img) throw '❌ Errore nel caricamento dell\'immagine'
 
-    // Testo formattato
     let txt = `
 ╭─「 💰 PORTAFOGLIO 」─
 │
@@ -29,19 +24,20 @@ Usa *${usedPrefix}buy* per acquistare oggetti
     `.trim()
 
     await conn.sendMessage(m.chat, {
-        image: img,
-        caption: txt,
+        text: txt,
         mentions: [who],
         contextInfo: {
             externalAdReply: {
                 title: `Portafoglio di ${name}`,
                 body: `Saldo: ${user.limit} UC`,
-                thumbnail: img,
-                mediaType: 1
+                thumbnailUrl: imgUrl,
+                mediaType: 1,
+                renderLargerThumbnail: true,
+                sourceUrl: imgUrl
             }
         }
     })
-    
+
     m.react('💶')
 }
 

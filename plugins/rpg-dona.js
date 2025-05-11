@@ -37,7 +37,7 @@ Totale addebitato: *${-costo}* 💶 Unitycoins`)
 
 handler.help = ['daiUnitycoins *@user <quantità>*']
 handler.tags = ['rpg']
-handler.command = ['daiUnitycoins', 'bonifico', 'trasferisci','dona']
+handler.command = ['daiUnitycoins', 'bonifico', 'trasferisci','donauc']
 handler.register = true 
 
 export default handler

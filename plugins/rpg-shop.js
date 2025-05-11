@@ -30,7 +30,7 @@ let handler = async (m, { conn, command, args }) => {
 
 handler.help = ['compra [quantità]', 'compraall']
 handler.tags = ['rpg']
-handler.command = ['compra', 'compraall', 'buy'] 
+handler.command = ['compra', 'compraunitycoins', 'buy'] 
 handler.register = true 
 
 export default handler

@@ -1,27 +1,14 @@
-// By HaroldMendoza "LevelUp"
+
 
 const botName = "ChatUnityBot"; // Definizione del nome del bot
 
 let handler = async (m, { conn, text }) => {
-    // Controlla se è stata taggata una persona
     if (!m.mentionedJid || m.mentionedJid.length === 0) {
         return m.reply("Tagga qualcuno da rizzare"); // Messaggio se nessuno è stato taggato
     }
 
     let chiHaUsato = `@${m.sender.split('@')[0]}`;
     let chiTaggare = `@${m.mentionedJid[0].split('@')[0]}`;
-
-    const messageOptions = {
-        contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
-                serverMessageId: '',
-                newsletterName: `ChatUnity` // Utilizzo della variabile botName
-            },
-        }
-    };
 
     m.reply(
         `
@@ -32,7 +19,15 @@ let handler = async (m, { conn, text }) => {
         null,
         {
             mentions: m.mentionedJid,
-            ...messageOptions
+            contextInfo: {
+                forwardingScore: 99,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363259442839354@newsletter',
+                    serverMessageId: '',
+                    newsletterName: 'ChatUnity'
+                }
+            }
         }
     );
 };
@@ -48,7 +43,7 @@ function pickRandom(list) {
 
 global.piropo = [
     "Se il tuo corpo fosse una prigione e le tue labbra catene, che bel posto per scontare la mia condanna.",
-    "Tante Unitycoins nello spazio e nessuna brilla come te.",
+    "Tante Stelle nello spazio e nessuna brilla come te.",
     "Mi piace il caffè, ma preferisco averti-tè.",
     "Non sei Google, ma hai tutto quello che cerco.",
     "Ti regalo questo fiore, anche se nessuno sarà mai bello come te.",

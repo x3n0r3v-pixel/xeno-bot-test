@@ -35,7 +35,7 @@ let handler = async (m, { conn, args, usedPrefix, command, DevMode }) => {
     if (args.length < 1) {
         return conn.reply(
             m.chat,
-            `🚩 Inserisci la quantità di 💶 Unitycoins che vuoi scommettere contro *ChatUnity-bot*.\n\nEsempio:\n> *${usedPrefix + command}* 100`,
+            `🚩 Inserisci la quantità di 💶 Unitycoins che vuoi scommettere contro *chatunity-bot-4*.\n\nEsempio:\n> *${usedPrefix + command}* 100`,
             m,
             rcanal
         );
@@ -46,7 +46,7 @@ let handler = async (m, { conn, args, usedPrefix, command, DevMode }) => {
         if (Aku > Kamu) {
             conn.reply(
                 m.chat,
-                `🌵 Vediamo che numeri avete!\n\n➠ *ChatUnity-bot*: ${Aku}\n➠ *${username}*: ${Kamu}\n\n> ${username}, *HAI PERSO* ${formatNumber(count)} 💶 Unitycoins.`,
+                `🌵 Vediamo che numeri avete!\n\n➠ *chatunity-bot-4*: ${Aku}\n➠ *${username}*: ${Kamu}\n\n> ${username}, *HAI PERSO* ${formatNumber(count)} 💶 Unitycoins.`,
                 m,
                 rcanal
             );
@@ -54,7 +54,7 @@ let handler = async (m, { conn, args, usedPrefix, command, DevMode }) => {
             user.limit += count * 2;
             conn.reply(
                 m.chat,
-                `🌵 Vediamo che numeri avete!\n\n➠ *ChatUnity-bot*: ${Aku}\n➠ *${username}*: ${Kamu}\n\n> ${username}, *HAI VINTO* ${formatNumber(count * 2)} 💶 Unitycoins.`,
+                `🌵 Vediamo che numeri avete!\n\n➠ *chatunity-bot-4*: ${Aku}\n➠ *${username}*: ${Kamu}\n\n> ${username}, *HAI VINTO* ${formatNumber(count * 2)} 💶 Unitycoins.`,
                 m,
                 rcanal
             );
@@ -62,7 +62,7 @@ let handler = async (m, { conn, args, usedPrefix, command, DevMode }) => {
             user.limit += count * 1;
             conn.reply(
                 m.chat,
-                `🌵 Vediamo che numeri avete!\n\n➠ *ChatUnity-bot*: ${Aku}\n➠ *${username}*: ${Kamu}\n\n> ${username}, ottieni ${formatNumber(count * 1)} 💶 Unitycoins.`,
+                `🌵 Vediamo che numeri avete!\n\n➠ *chatunity-bot-4*: ${Aku}\n➠ *${username}*: ${Kamu}\n\n> ${username}, ottieni ${formatNumber(count * 1)} 💶 Unitycoins.`,
                 m,
                 rcanal
             );

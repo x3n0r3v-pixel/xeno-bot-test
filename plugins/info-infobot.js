@@ -68,7 +68,7 @@ let handler = async (m, { conn, usedPrefix }) => {
    let timestamp = speed()
    let latensi = speed() - timestamp
 
-   let textbot = 'Usa il comnando .termini per visualizzare la nostra politica'; // Define textbot with a default value
+   let textbot = 'Usa il comnando .faq per visualizzare la nostra politica'; // Define textbot with a default value
 
    let txt = '`*⭒─ׄ─ׅ─ׄ─⭒ 𝐈𝐍𝐅𝐎-𝐁𝐎𝐓 ⭒─ׄ─ׅ─ׄ─⭒*`\n\n'
        txt += `╭── ︿︿︿︿︿ *⭒   ⭒   ⭒   ⭒   ⭒   ⭒*\n`

@@ -1,10 +1,36 @@
 import { performance } from 'perf_hooks';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 // Definizione di __dirname per i moduli ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const cleanDirectories = () => {
+    const tmpPath = path.join(__dirname, '../tmp');
+    const sessionPath = path.join(__dirname, '../Sessioni');
+
+    [tmpPath, sessionPath].forEach((dir) => {
+        if (fs.existsSync(dir)) {
+            fs.readdirSync(dir).forEach((file) => {
+                const filePath = path.join(dir, file);
+                try {
+                    fs.unlinkSync(filePath);
+                    console.log(`File eliminato: ${filePath}`);
+                } catch (err) {
+                    console.error(`Errore durante l'eliminazione di ${filePath}:`, err);
+                }
+            });
+            console.log(`Cartella pulita: ${dir}`);
+        } else {
+            console.log(`Cartella non trovata: ${dir}`);
+        }
+    });
+};
+
+// Esegui la pulizia all'avvio
+cleanDirectories();
 
 const handler = async (message, { conn, usedPrefix }) => {
     const userCount = Object.keys(global.db.data.users).length;
@@ -13,7 +39,7 @@ const handler = async (message, { conn, usedPrefix }) => {
     const menuText = generateMenuText(usedPrefix, botName, userCount);
 
     // Percorso dell'immagine
-    const imagePath = path.join(__dirname, '../menu/menu.gruppo.jpeg');
+    const imagePath = path.join(__dirname, '../menu/chatunitybot.jpeg');
 
     const messageOptions = {
         contextInfo: {
@@ -57,126 +83,108 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
 ┃◈╭─✦ MUSICA & AUDIO ✦═╗
-┃◈┃• 🎵 *${prefix}play* (canzone)
-┃◈┃• 🎥 *${prefix}video* (canzone) 
-┃◈┃• 🔊 *${prefix}ytmp4* (in arrivo)
-┃◈┃• 🎶 *${prefix}shazam* (audio) 
-┃◈┃• 🔊 *${prefix}tomp3* (video)
+┃◈┃• 🎵 *${prefix}play* (scarica audio)
+┃◈┃• 🎥 *${prefix}play2* (scarica video)
+┃◈┃• 🎶 *${prefix}shazam* 
+┃◈┃• 🔊 *${prefix}tomp3* 
+┃◈┃• 🎤 *${prefix}lyrics* (artista-titolo)
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
 ┃◈╭✦ INFORMAZIONI & UTILITÀ ✦╗
-┃◈┃• 🤖 *${prefix}ia*
-┃◈┃• 🤖 *${prefix}Alya*
+┃◈┃• 🤖 *${prefix}ia* (AI)
+┃◈┃• 🤖 *${prefix}gemini* (AI)
+┃◈┃• 🤖 *${prefix}chatgpt* (AI)
 ┃◈┃• 🌍 *${prefix}meteo* (città)
 ┃◈┃• 🕒 *${prefix}orario* (città)
 ┃◈┃• 🌐 *${prefix}traduci* (testo)
 ┃◈┃• 📊 *${prefix}contaparole* (testo)
-┃◈┃• 🆔 *${prefix}id* (gruppo)
+┃◈┃• 🆔 *${prefix}id* (info gruppo)
 ┃◈┃• 💻 *${prefix}gitclone* (repo)
-┃◈┃• ℹ️ *${prefix}info* [@]
-┃◈┃• 📸 *${prefix}setig* [@]
-┃◈┃• 📝 *${prefix}msg* [@]
-┃◈┃• ❓ *${prefix}script* 
+┃◈┃• ℹ️ *${prefix}info* [@utente]
 ┃◈┃• 📜 *${prefix}regole* (regole gruppo)
-┃◈┃• 📜 *${prefix}dashboard* 
-┃◈┃• 🔍 *${prefix}cercaporno*
-┃◈┃• 🎼 *${prefix}fyadd* 
 ┃◈┃• 📚 *${prefix}wikipedia* (argomento)
+┃◈┃• 🔍 *${prefix}checkscam* (check sito)
+┃◈┃• 🖥️ *${prefix}sistema* (info server)
+┃◈┃• ❓ *${prefix}supporto* (assistenza)
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
-┃◈╭✦ IMMAGINI & MODIFICA ✦╗
-┃◈┃• 📷 *${prefix}hd* (foto)
-┃◈┃• 🖼️ *${prefix}rimuovisfondo* (foto)
-┃◈┃• 🔍 *${prefix}rivela* (foto)
-┃◈┃• 🖼️ *${prefix}toimg* (sticker)
-┃◈┃• 📖 *${prefix}leggi* (foto)
-┃◈┃• 🌀 *${prefix}blur* (foto)
-┃◈┃• 🖼️ *${prefix}pinterest* (in arrivo)
-┃◈┃• 🎴 *${prefix}hornycard* [@utente]
-┃◈┃• 🧠 *${prefix}stupido/a* @
+┃◈╭✦ XP & ECONOMIA ✦╗
+┃◈┃• 💰 *${prefix}portafoglio* (saldo)
+┃◈┃• 🏦 *${prefix}banca* (saldo bancario)
+┃◈┃• 💸 *${prefix}daily* (ricompensa giornaliera)
+┃◈┃• 🏆 *${prefix}classifica* (top utenti)
+┃◈┃• 💳 *${prefix}donauc* (quantità) @utente
+┃◈┃• 🛒 *${prefix}compra* (acquista UC)
+┃◈┃• 🤑 *${prefix}ruba* @utente
+┃◈┃• 📤 *${prefix}ritira* (UC dalla banca)
+┃◈┃• ⛏️ *${prefix}mina* (guadagna XP)
+┃◈┃• 📊 *${prefix}xp* 
+┃◈┃• ♻️ *${prefix}donaxp* @utente
+┃◈┃• 🎯 *${prefix}rubaxp* @utente
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
-┃◈╭─✦ GANG SYSTEM ✦═╗
-┃◈┃• 🥷🏻 *${prefix}creagang* 
-┃◈┃• 🔪 *${prefix}infogang*  
-┃◈┃• ⛓ *${prefix}abbandonagang* 
-┃◈┃• 🩸 *${prefix}invitogang* @
-┃◈┃• 🎧 *${prefix}caccialogang* @
+┃◈╭✦ AMMINISTRAZIONE ✦╗
+┃◈┃• 👑 *${prefix}autoadmin*
+┃◈┃• 📸 *${prefix}setig* [@utente]
+┃◈┃• 📝 *${prefix}msg* [@utente]
+┃◈┃• 📜 *${prefix}dashboard* 
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
-┃◈╭─✦ GIOCHI & CASINÒ ✦╗
+┃◈╭✦ GIOCHI & INTRATTENIMENTO ✦╗
 ┃◈┃• 🎮 *${prefix}tris* 
-┃◈┃• 🎲 *${prefix}dado* 
+┃◈┃• 🎲 *${prefix}dado*
 ┃◈┃• 🎰 *${prefix}slot* 
 ┃◈┃• 🃏 *${prefix}casinò* 
-┃◈┃• 💰 *${prefix}scommessa* (quantità)
+┃◈┃• 💰 *${prefix}scommessa* 
 ┃◈┃• 🔫 *${prefix}roulette* 
-┃◈┃• 🪙 *${prefix}moneta* 
-┃◈┃• 🧮 *${prefix}mate* 
-┃◈┃• 📈 *${prefix}scf* 
+┃◈┃• 🪙 *${prefix}moneta* (testa o croce)
+┃◈┃• 🧮 *${prefix}mate* (problema mate)
+┃◈┃• 📈 *${prefix}scf* (sasso carta forbici)
+┃◈┃• 🐾 *${prefix}pokedex* (info Pokémon)
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
-┃◈╭✦ ECONOMIA & CLASSIFICHE ✦╗
-┃◈┃• 💳 *${prefix}portafoglio* 
-┃◈┃• 💸 *${prefix}daily* → Ricompensa
-┃◈┃• 🏆 *${prefix}classifica* UC 
-┃◈┃• 💳 *${prefix}dona* → (tot) @
-┃◈┃• 🛒 *${prefix}compra* → Acquista UC
-┃◈┃• 🤑 *${prefix}ruba* @ 
+┃◈╭✦ INTERAZIONI SOCIALI ✦╗
+┃◈┃• 💍 *${prefix}sposami* (proposta)
+┃◈┃• 💔 *${prefix}divorzia* (fine relazione)
+┃◈┃• 💌 *${prefix}amore* @utente (affinità)
+┃◈┃• 💋 *${prefix}bacia* @utente (affinità)
+┃◈┃• 😡 *${prefix}odio* @utente
+┃◈┃• 🗣️ *${prefix}rizz* @utente (fascino)
+┃◈┃• 🤫 *${prefix}segreto* @utente
+┃◈┃• ☠️ *${prefix}minaccia* @utente
+┃◈┃• 🔥 *${prefix}zizzania* @utente (crea litigi)
+┃◈┃• 🚫 *${prefix}obbligo* (obb o v)
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
-┃◈╭✦ SOCIAL & INTERAZIONI ✦╗
-┃◈┃• 💍 *${prefix}sposami*  
-┃◈┃• 😡 *${prefix}odio* @
-┃◈┃• 💌 *${prefix}amore* @
-┃◈┃• 💋 *${prefix}ditalino* @
-┃◈┃• 💋 *${prefix}sega* @
-┃◈┃• 💋 *${prefix}bacia* @
-┃◈┃• 💋 *${prefix}scopa* @
-┃◈┃• 🖕 *${prefix}insulta* @
-┃◈┃• 🔥 *${prefix}zizzania* @
-┃◈┃• 💍 *${prefix}sposa* @
-┃◈┃• 💔 *${prefix}divorzia* @
-┃◈┃• 👥 *${prefix}amicizia/listamici* @
-┃◈┃• 🗣️ *${prefix}rizz* → @
-┃◈╰━━━━━━━━━━━━┈⊷
-┃◈
-┃◈╭✦ QUANTO È?  ✦╗
-┃◈┃• 🏳‍🌈 *${prefix}gay*
+┃◈╭✦ TEST PERSONALITÀ ✦╗
+┃◈┃• 🏳‍🌈 *${prefix}gay* @
 ┃◈┃• 🏳‍🌈 *${prefix}lesbica* @
-┃◈┃• ♿ *${prefix}ritardato/a* @
-┃◈┃• ♿ *${prefix}down* @
-┃◈┃• ♿ *${prefix}disabile* @
-┃◈┃• ♿ *${prefix}mongoloide* @
-┃◈┃• ⚫ *${prefix}negro* @
-┃◈╰━━━━━━━━━━━━┈⊷
-┃◈
-┃◈╭✦ TEST & PERSONALITÀ ✦╗
 ┃◈┃• 🍺 *${prefix}alcolizzato* 
 ┃◈┃• 🌿 *${prefix}drogato*  
-┃◈┃• 🍑 *${prefix}figa* 
-┃◈┃• 🍑 *${prefix}ano*
 ┃◈┃• 🎭 *${prefix}personalita* 
 ┃◈┃• 🔮 *${prefix}zodiaco* 
-┃◈┃• 🏹 *${prefix}nomeninja* 
 ┃◈┃• 😈 *${prefix}infame* 
 ┃◈┃• 🙏 *${prefix}topbestemmie* 
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈
 ┃◈╭✦ STICKERS & MEDIA ✦╗
-┃◈┃• 🛠️ *${prefix}sticker* (foto)
-┃◈┃• 🖼️ *${prefix}png* (sticker)
-┃◈┃• 🤕 *${prefix}bonk* 
-┃◈┃• 👑 *${prefix}autoadmin* 
-┃◈┃• 🚫 *${prefix}obbligo* → V o obb?
+┃◈┃• 🛠️ *${prefix}sticker* (foto a sticker)
+┃◈┃• 🖼️ *${prefix}png* (sticker a foto)
+┃◈┃• 📷 *${prefix}hd* (migliora qualità foto)
+┃◈┃• 🖼️ *${prefix}rimuovisfondo* (foto)
+┃◈┃• 🔍 *${prefix}rivela* (foto nascosta)
+┃◈┃• 🖼️ *${prefix}toimg* (da sticker)
+┃◈┃• 📖 *${prefix}leggi* (foto)
+┃◈┃• 🌀 *${prefix}blur* (sfoca immagine)
+┃◈┃• 🤕 *${prefix}bonk* (meme)
 ┃◈╰━━━━━━━━━━━━┈⊷
 ┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
-┃◈┃• *𝑫𝑬𝑽𝑬𝑳𝑶𝑷𝑬𝑹:* ChatUnity
+┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐉𝐉𝐊
 ┃◈┃• *𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
 ┃◈└──────────┈⊷
 ╰━━━━━━━━━━━━━┈⊷
 *•────────────•⟢*
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${botName}
+> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
 *•────────────•⟢*
   `;
 }

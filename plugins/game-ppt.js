@@ -17,7 +17,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let opzioni = ['pietra', 'carta', 'forbici']
     let botChoice = opzioni[Math.floor(Math.random() * opzioni.length)]
 
-    if (!opzioni.includes(text)) return conn.reply(m.chat, '[ ✰ ] Scegli un\'opzione valida ( *pietra/carta/forbici* ) per iniziare il gioco.\n\n`» Esempio:`\n' + `> *${usedPrefix + command}* pietra`, m)
+    if (!opzioni.includes(text)) return conn.sendMessage(m.chat, { 
+        text: '[ ✰ ] Scegli un\'opzione valida ( *pietra/carta/forbici* ) per iniziare il gioco.\n\n`» Esempio:`\n' + `> *${usedPrefix + command}* pietra`,
+        contextInfo: {
+            forwardingScore: 99,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363259442839354@newsletter',
+                serverMessageId: '',
+                newsletterName: 'ChatUnity'
+            }
+        }
+    }, { quoted: m });
 
     let risultato = ''
     let puntiOttenuti = 0
@@ -38,7 +49,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 
     user.limit += puntiOttenuti
-    conn.reply(m.chat, `${risultato}\n\nLa mia scelta: *${botChoice.toUpperCase()}*`, m)
+    await conn.sendMessage(m.chat, { 
+        text: `${risultato}\n\nLa mia scelta: *${botChoice.toUpperCase()}*`,
+        contextInfo: {
+            forwardingScore: 99,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363259442839354@newsletter',
+                serverMessageId: '',
+                newsletterName: 'ChatUnity'
+            }
+        }
+    }, { quoted: m });
 }
 
 handler.help = ['scf']

@@ -6,8 +6,21 @@ let handler = async (m, { conn, isPrems }) => {
   
   // Controllo cooldown
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < cooldownTime * 1000) {
-    let remainingTime = formatTime(Math.ceil((cooldowns[m.sender] + cooldownTime * 1000 - Date.now()) / 1000))
-    return conn.reply(m.chat, `⏳ Aspetta *${remainingTime}* prima di lavorare di nuovo.`, m)
+    let remainingTime = formatTime(Math.ceil((cooldowns[m.sender] + cooldownTime * 1000 - Date.now()) / 1000));
+    let message = `⏳ Aspetta *${remainingTime}* prima di lavorare di nuovo.`;
+    await conn.sendMessage(m.chat, { 
+        text: message,
+        contextInfo: {
+            forwardingScore: 99,
+            isForwarded: true,
+            forwardedNewsletterMessageInfo: {
+                newsletterJid: '120363259442839354@newsletter',
+                serverMessageId: '',
+                newsletterName: 'ChatUnity'
+            }
+        }
+    }, { quoted: m });
+    return;
   }
 
   // Genera ricompensa casuale
@@ -16,7 +29,19 @@ let handler = async (m, { conn, isPrems }) => {
   
   // Assegna XP e invia messaggio
   user.exp += reward
-  await conn.reply(m.chat, `💼 ${pickRandom(jobs)} *${formatNumber(reward)}* ( *${reward}* ) XP 💫`, m)
+  let rewardMessage = `💼 ${pickRandom(jobs)} *${formatNumber(reward)}* ( *${reward}* ) XP 💫`;
+  await conn.sendMessage(m.chat, { 
+      text: rewardMessage,
+      contextInfo: {
+          forwardingScore: 99,
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+              newsletterJid: '120363259442839354@newsletter',
+              serverMessageId: '',
+              newsletterName: 'ChatUnity'
+          }
+      }
+  }, { quoted: m });
 }
 
 // Funzioni di utilità

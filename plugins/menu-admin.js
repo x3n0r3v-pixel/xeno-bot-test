@@ -20,7 +20,7 @@ const handler = async (message, { conn, usedPrefix }) => {
     };
 
     // Invia la foto con il menu
-    const imagePath = './menu/menuadmin.jpeg';
+    const imagePath = './menu/chatunitybot.jpeg';
     await conn.sendMessage(message.chat, { image: { url: imagePath }, caption: menuText, ...messageOptions }, { quoted: message });
 };
 
@@ -54,8 +54,12 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 👑 *retrocedi /togliadmin*  
 ┃◈┃• 👑 *warn / unwarn*  
 ┃◈┃• 👑 *muta / smuta*  
-┃◈┃• 👑 *freeze <tempo>*  
+┃◈┃• 👑 *setdescrizione* 
+┃◈┃• 👑 *setorario* 
+┃◈┃• 👑 *setnome*  
+┃◈┃• 👑 *hidetag*  
 ┃◈┃• 👑 *kick / cacca*  
+┃◈┃• 👑 *admins*  
 ┃◈┃• 👑 *hidetag*  
 ┃◈┃• 👑 *tagall*  
 ┃◈┃• 👑 *aperto / chiuso*  
@@ -72,7 +76,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈└───────────┈⊷  
 ╰━━━━━━━━━━━━━┈·๏  
 *•────────────•⟢*  
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${botName}  
+> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲  
 *•────────────•⟢*  
 `.trim();
 }

@@ -47,7 +47,7 @@ if (text) room.name = text
 let prova = { "key": {"participants":"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo"
 }, "message": { 
 "groupInviteMessage": { caption: '𝐒𝐓𝐀𝐍𝐙𝐀 𝐂𝐑𝐄𝐀𝐓𝐀 ✓',
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD`
+"vcard": `BEGIN:VCARD\nVERSION:4.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD`
 }}, "participant": "0@s.whatsapp.net"
 }
 conn.reply(m.chat, `══════ •⊰✧⊱• ══════

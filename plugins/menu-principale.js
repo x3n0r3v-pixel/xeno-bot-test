@@ -46,24 +46,34 @@ export default handler;
 
 function generateMenuText(prefix, botName, userCount) {
     return `
-╭╭━〔 *💬 𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻 💬* 〕━┈⊷
-┃◈╭─────────────·๏
-┃◈┃• *𝑪𝑶𝑴𝑨𝑵𝑫𝑰 𝑮𝑬𝑵𝑬𝑹𝑨𝑳𝑰*
-┃◈┃
+
+╭〔 *💬 𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻 💬* 〕┈⊷
+┃◈╭───────────·๏
 ┃◈┃• ⚙️ *${prefix}menuowner*
 ┃◈┃• 🛡️ *${prefix}menuadmin*
-┃◈┃• 🚨 *${prefix}menuattive*
+┃◈┃• 🚨 *${prefix}menusicurezza*
 ┃◈┃• 👥 *${prefix}menugruppo*
-┃◈┃• 👑 *${prefix}proprietario*
+┃◈└───────────┈⊷
+┃◈╭───────────·๏
+┃◈┃• *𝑪𝑶𝑴𝑨𝑵𝑫𝑰 𝑮𝑬𝑵𝑬𝑹𝑨𝑳𝑰*
+┃◈┃
+┃◈┃• 👑 *${prefix}creatore*
 ┃◈┃• 📥 *${prefix}installa*
 ┃◈┃• 📜 *${prefix}infobot*
+┃◈┃• 📖 *${prefix}guida*
+┃◈┃• ⚙ *${prefix}sistema*
 ┃◈┃• ❓ *${prefix}FAQ*
 ┃◈┃• 🚀 *${prefix}ping*
+┃◈┃• 📝 *${prefix}segnala* (comando)
+┃◈┃• 💡 *${prefix}consiglia* (comando)
 ┃◈┃
 ┃◈└───────────┈⊷
+┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
+┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐉𝐉𝐊
+┃◈┃• *𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
 ╰━━━━━━━━━━━━━┈·๏
 *•────────────•⟢*
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ ${botName}
+> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
 *•────────────•⟢*
 `.trim();
 }

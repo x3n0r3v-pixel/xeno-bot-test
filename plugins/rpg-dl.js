@@ -16,19 +16,19 @@ let handler = async (m, { conn, args, participants }) => {
     let len = args[0] && args[0].length > 0 ? Math.min(10, Math.max(parseInt(args[0]), 5)) : Math.min(5, sortedExp.length)
     
     let text = `
-  ╭───═[ *Top ${len} Unitycoins 💶* ]═────⋆
-  │╭───────────────···
+  ╭─═[ *Top ${len} Unitycoins 💶* ]═⋆
+  │╭─────────···
   ✩│ La tua posizione: *${usersLim.indexOf(m.sender) + 1}* su *${usersLim.length}*
   ✩│ ${sortedLim.slice(0, len).map(({ jid, limit }, i) => `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} *${limit} 💶*`).join`\n✩│ `}
-  │╰────────────────···
-  ╰───────────═┅═──────────
+  │╰─────────···
+  ╰────═┅═────
   
-  ╭───═[ *TOP ${len} XP 💫* ]═────⋆
-  │╭───────────────···
+  ╭─═[ *TOP ${len} XP 💫* ]═⋆
+  │╭────────────···
   ✩│ La tua posizione: *${usersExp.indexOf(m.sender) + 1}* su *${usersExp.length}*
   ✩│ ${sortedExp.slice(0, len).map(({ jid, exp }, i) => `${i + 1}. ${participants.some(p => jid === p.jid) ? `(${conn.getName(jid)}) wa.me/` : '@'}${jid.split`@`[0]} *${exp} 💫*`).join`\n✩│ `}
-  │╰────────────────···
-  ╰───────────═┅═──────────
+  │╰────────────···
+  ╰─────═┅═─────
   `.trim()
   
     await conn.sendMessage(m.chat, { 

@@ -39,4 +39,5 @@ import { generateWAMessageFromContent } from '@whiskeysockets/baileys'
  handler.command = /^(hidetag|tag)$/i 
  handler.group = true 
  handler.admin = true 
+ handler.botAdmin = true 
  export default handler
