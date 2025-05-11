@@ -92,6 +92,7 @@ export async function handler(chatUpdate) {
                 if (!('name' in chat)) chat.name = m.name
                 if (!('name' in chat)) chat.name = this.getName(m.chat)
                 if (!('antivirus' in chat)) chat.antivirus = false; // Aggiunto antivirus
+                if (!('antispamcomandi' in chat)) chat.antispamcomandi = true; // Attivo di default
             } else
                 global.db.data.chats[m.chat] = {
                     name: this.getName(m.chat),

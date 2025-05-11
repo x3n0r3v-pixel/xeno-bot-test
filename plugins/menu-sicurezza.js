@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 
 let handler = async (m, { conn, usedPrefix }) => {
   const chat = global.db.data.chats[m.chat];
+  const isOwner = global.owner.map(([number]) => number + '@s.whatsapp.net').includes(m.sender);
 
   // Funzioni sincronizzate con l'handler
   const functions = {
@@ -37,7 +38,8 @@ let handler = async (m, { conn, usedPrefix }) => {
     "AntiInstagram": chat.antiinsta,
     "AntiTikTok": chat.antitiktok,
     "AntiPakistani": chat.antiArab,
-    "Antivirus": chat.antivirus // Aggiunto antivirus
+    "Antivirus": chat.antivirus, // Aggiunto antivirus
+    "AntispamComandi": chat.antispamcomandi // Aggiunto AntispamComandi
   };
 
   let statusList = Object.entries(functions)
@@ -52,8 +54,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 ${statusList.split('\n').map(line => `┃◈┃• ${line}`).join('\n')}
 ┃◈┃
 ┃◈┃• *ℹ 𝐂𝐎𝐌𝐄 𝐒𝐈 𝐔𝐒𝐀*
-┃◈┃• *🟢 attiva [funzione]*
-┃◈┃• *🔴 disattiva [funzione]*
+┃◈┃• *🟢 attiva [funzione]* ${isOwner ? '' : '(solo owner)'}
+┃◈┃• *🔴 disattiva [funzione]* ${isOwner ? '' : '(solo owner)'}
 ┃◈┃
 ┃◈└───────────┈⊷
 ┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
