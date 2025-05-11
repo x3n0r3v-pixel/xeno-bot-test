@@ -33,7 +33,7 @@
 ---
 
 
-## 🚀 **Installazione Automatica (Termux)**
+## 🚀 **Installazione (Termux)**
 
 [![blog](https://img.shields.io/badge/Tutorial-Installazione-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/shorts/qek7wWadhtI?feature=share)
 
@@ -44,44 +44,6 @@
    ```bash
    apt update -y && yes | apt upgrade && pkg install -y bash wget mpv && wget -O - https://raw.githubusercontent.com/chatunitycenter/chatunity-bot/main/chatunity.sh | bash
    ```
----
-
-## 🛠 **Installazione Manuale (Termux)**
-
-<details>
-  <summary><b>Clicca qui per vedere i passaggi</b></summary>
-
-1. **Configura Termux**:
-   ```bash
-   termux-setup-storage
-   ```
-   
-   ```bash
-   apt update
-   pkg install -y git nodejs ffmpeg imagemagick yarn
-   ```
-
-2. **Clona il repository**:
-   ```bash
-   git clone https://github.com/chatunitycenter/chatunity-bot.git
-   ```
-
-   ```bash
-   cd chatunity-bot
-   ```
-3. **Installa le dipendenze**:
-   ```bash
-   yarn install
-   npm install
-   ```
-
-4. **Avvia il bot**:
-   ```bash
-   yarn start
-   ```
-
-</details>
-
 ---
 
 ## 🔄 **Riavvia il bot (Termux)**
