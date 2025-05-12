@@ -54,8 +54,8 @@ let handler = async (m, { conn, usedPrefix }) => {
 ${statusList.split('\n').map(line => `┃◈┃• ${line}`).join('\n')}
 ┃◈┃
 ┃◈┃• *ℹ 𝐂𝐎𝐌𝐄 𝐒𝐈 𝐔𝐒𝐀*
-┃◈┃• *🟢 attiva [funzione]* ${isOwner ? '' : '(solo owner)'}
-┃◈┃• *🔴 disattiva [funzione]* ${isOwner ? '' : '(solo owner)'}
+┃◈┃• *🟢 attiva [funzione]* 
+┃◈┃• *🔴 disattiva [funzione]*
 ┃◈┃
 ┃◈└───────────┈⊷
 ┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
