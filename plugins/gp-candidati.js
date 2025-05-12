@@ -20,7 +20,7 @@ const handler = async (message, { conn, usedPrefix }) => {
     };
 
     // Invia la foto con il menu
-    const imagePath = './menu/chatunitybot.jpeg';
+    const imagePath = './termini.jpeg';
     await conn.sendMessage(message.chat, { image: { url: imagePath }, caption: menuText, ...messageOptions }, { quoted: message });
 };
 
@@ -38,42 +38,28 @@ async function fetchThumbnail(url) {
     }
 }
 
-handler.help = ['menu'];
-handler.tags = ['menu'];
-handler.command = /^(menu|comandi)$/i;
+handler.help = ['FAQ'];
+handler.tags = ['info'];
+handler.command = /^(candidati)$/i;
 
 export default handler;
 
 function generateMenuText(prefix, botName, userCount) {
     return `
+🚀 𝐕𝐮𝐨𝐢 𝐞𝐧𝐭𝐫𝐚𝐫𝐞 𝐚 𝐟𝐚𝐫 𝐩𝐚𝐫𝐭𝐞 𝐝𝐞𝐥𝐥𝐨 𝐬𝐭𝐚𝐟𝐟 𝐝𝐢 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲, fare esperienza e essere riconosciuto come staffer?🚀
 
-╭〔 *💬 𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻 💬* 〕┈⊷
-┃◈╭───────────·๏
-┃◈┃• ⚙️ *${prefix}menuowner*
-┃◈┃• 🛡️ *${prefix}menuadmin*
-┃◈┃• 🚨 *${prefix}menusicurezza*
-┃◈┃• 👥 *${prefix}menugruppo*
-┃◈└───────────┈⊷
-┃◈╭───────────·๏
-┃◈┃• *𝑪𝑶𝑴𝑨𝑵𝑫𝑰 𝑮𝑬𝑵𝑬𝑹𝑨𝑳𝑰*
-┃◈┃
-┃◈┃• 👑 *${prefix}staff*
-┃◈┃• 📜 *${prefix}candidati*
-┃◈┃• 📥 *${prefix}installa*
-┃◈┃• 📖 *${prefix}guida*
-┃◈┃• ⚙ *${prefix}sistema*
-┃◈┃• ❓ *${prefix}FAQ*
-┃◈┃• 🚀 *${prefix}ping*
-┃◈┃• 📝 *${prefix}segnala* (comando)
-┃◈┃• 💡 *${prefix}consiglia* (comando)
-┃◈┃
-┃◈└───────────┈⊷
-┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
-┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐉𝐉𝐊
-┃◈┃• *𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
-╰━━━━━━━━━━━━━┈·๏
-*•────────────•⟢*
-> © ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
-*•────────────•⟢*
+Questo è il tuo momento! 𝐂𝐨𝐦𝐩𝐢𝐥𝐚 𝐢𝐥 𝐦𝐨𝐝𝐮𝐥𝐨 𝐪𝐮𝐢 𝐬𝐨𝐭𝐭𝐨 (𝐫𝐢𝐦𝐚𝐫𝐫𝐚̀ 𝐚𝐧𝐨𝐧𝐢𝐦𝐨) per candidarti e mostrare le tue competenze.
+
+🔥 𝐂𝐨𝐬𝐚 𝐭𝐢 𝐚𝐬𝐩𝐞𝐭𝐭𝐚:
+
+•	𝐑𝐢𝐜𝐨𝐧𝐨𝐬𝐜𝐞𝐧𝐳𝐚 𝐧𝐞𝐥 𝐛𝐨𝐭 𝐜𝐨𝐦𝐞 𝐜𝐨𝐥𝐥𝐚𝐛𝐨𝐫𝐚𝐭𝐨𝐫𝐞
+•	𝐅𝐚𝐫𝐞 𝐞𝐬𝐩𝐞𝐫𝐢𝐞𝐧𝐳𝐚 diretta nel mondo dei bot e della gestione comunitaria
+•	𝐀𝐜𝐜𝐞𝐬𝐬𝐨 𝐞𝐬𝐜𝐥𝐮𝐬𝐢𝐯𝐨 ai Bot Beta
+•	𝐂𝐨𝐥𝐥𝐚𝐛𝐨𝐫𝐚𝐳𝐢𝐨𝐧𝐞 𝐝𝐢𝐫𝐞𝐭𝐭𝐚 con il team di ChatUnity
+
+Non perdere questa occasione, 𝐜𝐚𝐧𝐝𝐢𝐝𝐚𝐭𝐢 𝐬𝐮𝐛𝐢𝐭𝐨  e dimostra di avere quello che serve!
+
+> 📋 𝐌𝐨𝐝𝐮𝐥𝐨 𝐝𝐢 𝐜𝐚𝐧𝐝𝐢𝐭𝐚𝐭𝐮𝐫𝐚:
+https://docs.google.com/forms/d/e/1FAIpQLSd4no8yx-QuRf7xFyIcLYHLSNkF2cRaHvsO_prmlIwdKqBC4Q/viewform?usp=dialog
 `.trim();
 }
