@@ -48,21 +48,6 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
         messages: [`@${tag} è ${percentage}% ${cmd}!`]
     };
 
-    let randomMessage = response.messages[Math.floor(Math.random() * response.messages.length)];
-    
-    await conn.sendMessage(m.chat, {
-        text: `${response.emoji} ${randomMessage}`,
-        mentions: [target],
-        contextInfo: {
-            forwardingScore: 99,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
-                serverMessageId: '',
-                newsletterName: 'ChatUnity'
-            }
-        }
-    }, { quoted: m });
 };
 
 handler.help = ['gay', 'lesbica', 'puttana', 'prostituta', 'prostituto']
