@@ -84,7 +84,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈  
 ┃◈╭─✦ *MUSICA & AUDIO* ✦═╗  
 ┃◈┃• 🎵 *.play* (canzone)  
-┃◈┃• 🎥 *.video* (canzone)  
+┃◈┃• 🎥 *.play2* (canzone)  
 ┃◈┃• 🔊 *.ytmp4* (in arrivo)  
 ┃◈┃• 🎶 *.shazam* (audio)  
 ┃◈┃• 🔊 *.tomp3* (video)  
