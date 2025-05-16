@@ -109,13 +109,10 @@
 
 1. Installa **PM2**:
    ```bash
-   npm i -g pm2
+npm i -g pm2 && pm2 start index.js && pm2 save && pm2 logs 
    ```
 
-2. Avvia il bot:
-   ```bash
-   pm2 start index.js && pm2 save && pm2 logs
-   ```
+
 
 </details>
 
