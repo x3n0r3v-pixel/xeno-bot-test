@@ -109,7 +109,7 @@ echo -e "\e[35m
 if command -v convert >/dev/null 2>&1; then
 echo -e "\033[01;33mImagemagick era già installato in precedenza.\nImagemagick was already installed previously.\033[0m"
 else
-if pkg install imagemagick -y 2>&1 >/dev/null | grep -E -i -q '(command not found|unable to locate package|E: Could not get lock|debconf: delaying package configuration|Package not found|Failed to fetch|404 Not Found|Hash sum mismatch|503 Service Unavailable|504 Gateway Timeout|408 Request Timeout|Connection timed out|Temporary failure resolving)'; then
+if apt install imagemagick -y 2>&1 >/dev/null | grep -E -i -q '(command not found|unable to locate package|E: Could not get lock|debconf: delaying package configuration|Package not found|Failed to fetch|404 Not Found|Hash sum mismatch|503 Service Unavailable|504 Gateway Timeout|408 Request Timeout|Connection timed out|Temporary failure resolving)'; then
 error=$(apt install imagemagick -y 2>&1 >/dev/null)
 echo -e "\033[0;31mErrore: $error\033[0m" 
 echo -e "\033[0;34mImpossibile installare ImageMagick. Verifica la tua connessione a Internet e riprova. Se l'errore persiste, installalo manualmente!!\nIf the error continues, install manually!!\033[0m" 
