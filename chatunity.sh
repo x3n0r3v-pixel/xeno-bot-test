@@ -25,7 +25,7 @@ echo -e "\e[36m
 if command -v git >/dev/null 2>&1; then
 echo -e "\033[01;33mGit era già installato precedentemente.\nGit was already installed previously.\033[0m"
 else
-if pkg install git -y 2>&1 >/dev/null | grep -E -i -q '(command not found|unable to locate package|E: Could not get lock|debconf: delaying package configuration|Package not found|Failed to fetch|404 Not Found|Hash sum mismatch|503 Service Unavailable|504 Gateway Timeout|408 Request Timeout|Connection timed out|Temporary failure resolving)'; then
+if apt install git -y 2>&1 >/dev/null | grep -E -i -q '(command not found|unable to locate package|E: Could not get lock|debconf: delaying package configuration|Package not found|Failed to fetch|404 Not Found|Hash sum mismatch|503 Service Unavailable|504 Gateway Timeout|408 Request Timeout|Connection timed out|Temporary failure resolving)'; then
 error=$(pkg install git -y 2>&1 >/dev/null)
 echo -e "\033[0;31mErrore: $error\033[0m" 
 echo -e "\033[0;34mNon è stato possibile installare Git. Verifica la tua connessione a Internet e riprova. Se l'errore persiste, installa manualmente!!\nIf the error continues, install manually!!\033[0m" 
@@ -81,7 +81,7 @@ echo -e "\e[36m
 if command -v ffmpeg >/dev/null 2>&1; then
 echo -e "\033[01;33mFfmpeg era già installato precedentemente.\nFfmpeg was already installed previously.\033[0m"
 else
-if pkg install ffmpeg -y 2>&1 >/dev/null | grep -E -i -q '(command not found|unable to locate package|E: Could not get lock|debconf: delaying package configuration|Package not found|Failed to fetch|404 Not Found|Hash sum mismatch|503 Service Unavailable|504 Gateway Timeout|408 Request Timeout|Connection timed out|Temporary failure resolving)'; then
+if apt install ffmpeg -y 2>&1 >/dev/null | grep -E -i -q '(command not found|unable to locate package|E: Could not get lock|debconf: delaying package configuration|Package not found|Failed to fetch|404 Not Found|Hash sum mismatch|503 Service Unavailable|504 Gateway Timeout|408 Request Timeout|Connection timed out|Temporary failure resolving)'; then
 error=$(pkg install ffmpeg -y 2>&1 >/dev/null)
 echo -e "\033[0;31mErrore: $error\033[0m" 
 echo -e "\033[0;34mNon è stato possibile installare FFmpeg. Verifica la tua connessione a Internet e riprova. Se l'errore persiste, installa manualmente!!\nIf the error continues, install manually!!\033[0m" 
@@ -110,7 +110,7 @@ if command -v convert >/dev/null 2>&1; then
 echo -e "\033[01;33mImagemagick era già installato in precedenza.\nImagemagick was already installed previously.\033[0m"
 else
 if pkg install imagemagick -y 2>&1 >/dev/null | grep -E -i -q '(command not found|unable to locate package|E: Could not get lock|debconf: delaying package configuration|Package not found|Failed to fetch|404 Not Found|Hash sum mismatch|503 Service Unavailable|504 Gateway Timeout|408 Request Timeout|Connection timed out|Temporary failure resolving)'; then
-error=$(pkg install imagemagick -y 2>&1 >/dev/null)
+error=$(apt install imagemagick -y 2>&1 >/dev/null)
 echo -e "\033[0;31mErrore: $error\033[0m" 
 echo -e "\033[0;34mImpossibile installare ImageMagick. Verifica la tua connessione a Internet e riprova. Se l'errore persiste, installalo manualmente!!\nIf the error continues, install manually!!\033[0m" 
 exit 1
