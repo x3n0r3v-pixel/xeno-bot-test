@@ -54,101 +54,6 @@ const ddownr = {
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    // Gestione bottoni AUDIO/VIDEO PRIMA di tutto il resto
-    if (command === 'ytmp3') {
-      const url = text.trim();
-      if (!url) throw new Error('Nessun URL fornito');
-      await conn.sendMessage(m.chat, { 
-        text: '╭━━〔 ⏳ 〕━━┈⊷\n┃◈ *Sto elaborando l\'audio...*\n┃◈ Attendere prego...\n╰━━━━━━━━━━┈·๏',
-        contextInfo: {
-          forwardingScore: 99,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363259442839354@newsletter',
-            serverMessageId: '',
-            newsletterName: 'ChatUnity'
-          }
-        }
-      }, { quoted: m });
-      const api = await ddownr.download(url, 'mp3');
-      await conn.sendMessage(m.chat, { 
-        audio: { url: api.downloadUrl }, 
-        mimetype: "audio/mpeg",
-        contextInfo: {
-          forwardingScore: 99,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363259442839354@newsletter',
-            serverMessageId: '',
-            newsletterName: 'ChatUnity'
-          }
-        }
-      }, { quoted: m });
-      return;
-    }
-    if (command === 'ytmp4') {
-      const url = text.trim();
-      if (!url) throw new Error('Nessun URL fornito');
-      await conn.sendMessage(m.chat, { 
-        text: '╭━━〔 ⏳ 〕━━┈⊷\n┃◈ *Sto elaborando il video...*\n┃◈ Attendere prego...\n╰━━━━━━━━━━┈·๏',
-        contextInfo: {
-          forwardingScore: 99,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363259442839354@newsletter',
-            serverMessageId: '',
-            newsletterName: 'ChatUnity'
-          }
-        }
-      }, { quoted: m });
-      let sources = [
-        `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
-        `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-        `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-        `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-      ];
-
-      const results = await Promise.allSettled(sources.map(src => fetch(src).then(res => res.json())));
-      
-      for (const result of results) {
-        if (result.status === "fulfilled") {
-          const { data, result: resResult, downloads } = result.value;
-          const downloadUrl = data?.dl || resResult?.download?.url || downloads?.url || data?.download?.url;
-          if (downloadUrl) {
-            return await conn.sendMessage(m.chat, {
-              video: { url: downloadUrl },
-              fileName: `video.mp4`,
-              mimetype: 'video/mp4',
-              caption: '✅ *Download completato!*',
-              contextInfo: {
-                forwardingScore: 99,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                  newsletterJid: '120363259442839354@newsletter',
-                  serverMessageId: '',
-                  newsletterName: 'ChatUnity'
-                }
-              }
-            }, { quoted: m });
-          }
-        }
-      }
-
-      await conn.sendMessage(m.chat, { 
-        text: '╭━━〔 ❗ 〕━━┈⊷\n┃◈ *Nessun link valido trovato*\n╰━━━━━━━━━━┈·๏',
-        contextInfo: {
-          forwardingScore: 99,
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-            newsletterJid: '120363259442839354@newsletter',
-            serverMessageId: '',
-            newsletterName: 'ChatUnity'
-          }
-        }
-      }, { quoted: m });
-      return;
-    }
-
     if (!text.trim()) {
       await conn.sendMessage(m.chat, { 
         text: `╭━━〔 ❗ 〕━━┈⊷\n┃◈ *Inserisci un titolo o un link*\n╰━━━━━━━━━━┈·๏`,
@@ -213,20 +118,13 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃◈┃• *Pubblicato:* ${ago}
 ┃◈┃• *Link:* ${url}
 ┃◈└───────┈⊷
+┃◈┃• *Sto inviando ${command === 'play' ? 'l\'audio' : 'il video'}..*
 ╰━━━━━━━━━┈·๏`;
 
     const thumb = (await conn.getFile(thumbnail))?.data;
 
     await conn.sendMessage(m.chat, {
-      image: { url: thumbnail },
-      caption: infoMessage,
-      footer: 'Seleziona il formato desiderato',
-      buttons: [
-        { buttonId: `#ytmp3 ${url}`, buttonText: { displayText: "🎵 AUDIO" }, type: 1 },
-        { buttonId: `#ytmp4 ${url}`, buttonText: { displayText: "🎬 VIDEO" }, type: 1 }
-      ],
-      viewOnce: true,
-      headerType: 4,
+      text: infoMessage,
       contextInfo: {
         forwardingScore: 99,
         isForwarded: true,
@@ -245,8 +143,70 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
     }, { quoted: m });
 
-    // ...existing code per ricerca, controllo durata e invio info/bottoni...
+    if (command === 'play') {
+      const api = await ddownr.download(url, 'mp3');
+      await conn.sendMessage(m.chat, { 
+        audio: { url: api.downloadUrl }, 
+        mimetype: "audio/mpeg",
+        contextInfo: {
+          forwardingScore: 99,
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363259442839354@newsletter',
+            serverMessageId: '',
+            newsletterName: 'ChatUnity'
+          }
+        }
+      }, { quoted: m });
 
+    } else if (command === 'play2' || command === 'ytmp4') {
+      let sources = [
+        `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+        `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
+        `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
+        `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
+      ];
+
+      const results = await Promise.allSettled(sources.map(src => fetch(src).then(res => res.json())));
+      
+      for (const result of results) {
+        if (result.status === "fulfilled") {
+          const { data, result: resResult, downloads } = result.value;
+          const downloadUrl = data?.dl || resResult?.download?.url || downloads?.url || data?.download?.url;
+          if (downloadUrl) {
+            return await conn.sendMessage(m.chat, {
+              video: { url: downloadUrl },
+              fileName: `${title}.mp4`,
+              mimetype: 'video/mp4',
+              caption: '✅ *Download completato!*',
+              thumbnail: thumb,
+              contextInfo: {
+                forwardingScore: 99,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                  newsletterJid: '120363259442839354@newsletter',
+                  serverMessageId: '',
+                  newsletterName: 'ChatUnity'
+                }
+              }
+            }, { quoted: m });
+          }
+        }
+      }
+
+      await conn.sendMessage(m.chat, { 
+        text: '╭━━〔 ❗ 〕━━┈⊷\n┃◈ *Nessun link valido trovato*\n╰━━━━━━━━━━┈·๏',
+        contextInfo: {
+          forwardingScore: 99,
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+            newsletterJid: '120363259442839354@newsletter',
+            serverMessageId: '',
+            newsletterName: 'ChatUnity'
+          }
+        }
+      }, { quoted: m });
+    }
   } catch (error) {
     await conn.sendMessage(m.chat, { 
       text: error.message.startsWith('╭━━') ? error.message : `╭━━〔 ❗ 〕━━┈⊷\n┃◈ *Errore:* ${error.message}\n╰━━━━━━━━━━┈·๏`,
@@ -263,7 +223,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = handler.help = ['play', 'ytmp3', 'ytmp4'];
+handler.command = handler.help = ['play', 'ytmp4', 'play2'];
 handler.tags = ['downloader'];
 
 export default handler;
