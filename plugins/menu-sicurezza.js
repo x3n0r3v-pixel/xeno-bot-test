@@ -11,9 +11,22 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let handler = async (m, { conn, usedPrefix }) => {
+let handler = async (m, { conn, usedPrefix, command }) => {
   const chat = global.db.data.chats[m.chat];
   const isOwner = global.owner.map(([number]) => number + '@s.whatsapp.net').includes(m.sender);
+
+  if (command === 'menu') {
+    return await (await import('./menu-principale.js')).default(m, { conn, usedPrefix });
+  }
+  if (command === 'menuadmin') {
+    return await (await import('./menu-admin.js')).default(m, { conn, usedPrefix });
+  }
+  if (command === 'menuowner') {
+    return await (await import('./menu-owner.js')).default(m, { conn, usedPrefix });
+  }
+  if (command === 'menugruppo') {
+    return await (await import('./menu-gruppo.js')).default(m, { conn, usedPrefix });
+  }
 
   // Funzioni sincronizzate con l'handler
   const functions = {
@@ -70,19 +83,24 @@ ${statusList.split('\n').map(line => `┃◈┃• ${line}`).join('\n')}
   // Percorso dell'immagine
   const imagePath = path.join(__dirname, '../menu/chatunitybot.jpeg');
 
-  // Invia il menu con l'immagine
+  // Invia il menu con l'immagine e i bottoni
   await conn.sendMessage(m.chat, {
     image: { url: imagePath },
     caption: menuText,
-    contextInfo: {
-      forwardingScore: 1,
-      isForwarded: true
-    }
+    footer: 'Scegli un menu:',
+    buttons: [
+      { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "🏠 Menu Principale" }, type: 1 },
+      { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: "🛡️ Menu Admin" }, type: 1 },
+      { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: "👑 Menu Owner" }, type: 1 },
+      { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: "👥 Menu Gruppo" }, type: 1 }
+    ],
+    viewOnce: true,
+    headerType: 4
   });
 };
 
-handler.help = ["menuasicurezza"];
+handler.help = ["menusicurezza", "menu", "menuadmin", "menuowner", "menugruppo"];
 handler.tags = ["menu"];
-handler.command = /^(menusicurezza)$/i;
+handler.command = /^(menusicurezza|menu|menuadmin|menuowner|menugruppo)$/i;
 
 export default handler;

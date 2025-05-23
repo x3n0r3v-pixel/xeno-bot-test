@@ -32,32 +32,42 @@ const cleanDirectories = () => {
 // Esegui la pulizia all'avvio
 cleanDirectories();
 
-const handler = async (message, { conn, usedPrefix }) => {
+const handler = async (message, { conn, usedPrefix, command }) => {
     const userCount = Object.keys(global.db.data.users).length;
     const botName = global.db.data.nomedelbot || 'ChatUnity';
 
+    if (command === 'menu') {
+        return await (await import('./menu-principale.js')).default(message, { conn, usedPrefix });
+    }
+    if (command === 'menuadmin') {
+        return await (await import('./menu-admin.js')).default(message, { conn, usedPrefix });
+    }
+    if (command === 'menuowner') {
+        return await (await import('./menu-owner.js')).default(message, { conn, usedPrefix });
+    }
+    if (command === 'menusicurezza') {
+        return await (await import('./menu-sicurezza.js')).default(message, { conn, usedPrefix });
+    }
+
     const menuText = generateMenuText(usedPrefix, botName, userCount);
 
-    // Percorso dell'immagine
     const imagePath = path.join(__dirname, '../menu/chatunitybot.jpeg');
 
-    const messageOptions = {
-        contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
-                serverMessageId: '',
-                newsletterName: `${botName}`
-            },
-        }
-    };
-
-    // Invia l'immagine con il menu
     await conn.sendMessage(
         message.chat,
-        { image: { url: imagePath }, caption: menuText, ...messageOptions },
-        { quoted: message }
+        {
+            image: { url: imagePath },
+            caption: menuText,
+            footer: 'Scegli un menu:',
+            buttons: [
+                { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "🏠 Menu Principale" }, type: 1 },
+                { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: "🛡️ Menu Admin" }, type: 1 },
+                { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: "👑 Menu Owner" }, type: 1 },
+                { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: "🚨 Menu Sicurezza" }, type: 1 }
+            ],
+            viewOnce: true,
+            headerType: 4
+        }
     );
 };
 
@@ -69,9 +79,9 @@ async function fetchProfilePictureUrl(conn, sender) {
     }
 }
 
-handler.help = ['menugruppo'];
+handler.help = ['menugruppo', 'menu', 'menuadmin', 'menuowner', 'menusicurezza'];
 handler.tags = ['menugruppo'];
-handler.command = /^(gruppo|menugruppo)$/i;
+handler.command = /^(gruppo|menugruppo|menu|menuadmin|menuowner|menusicurezza)$/i;
 
 export default handler;
 
@@ -216,5 +226,5 @@ function generateMenuText(prefix, botName, userCount) {
 *•────────────•⟢*
 > © ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲
 *•────────────•⟢*
-  `;
+  `
 }
