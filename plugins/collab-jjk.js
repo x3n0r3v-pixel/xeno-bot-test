@@ -4,7 +4,7 @@ const fs = require("fs");
 
 cmd({
   pattern: "fluxai",
-  alias: ["flux", "immagine"],
+  alias: ["flux", "img"],
   react: "🚀",
   desc: "Generate an image using AI.",
   category: "main",
