@@ -6,7 +6,7 @@ const handler = async (message, { conn, usedPrefix }) => {
     const botName = global.db.data.nomedelbot || 'ChatUnity';
 
     const menuText = generateMenuText(usedPrefix, botName, userCount);
-    
+
     const messageOptions = {
         contextInfo: {
             forwardingScore: 1,
@@ -19,9 +19,22 @@ const handler = async (message, { conn, usedPrefix }) => {
         }
     };
 
-    // Invia la foto con il menu
-    const imagePath = './menu/chatunitybot.jpeg';
-    await conn.sendMessage(message.chat, { image: { url: imagePath }, caption: menuText, ...messageOptions }, { quoted: message });
+    // Invia la foto con il menu e i bottoni
+    const imagePath = './menu/chatunitybot.mp4';
+    await conn.sendMessage(message.chat, {
+        image: { url: imagePath },
+        caption: menuText,
+        footer: 'Scegli un menu:',
+        buttons: [
+            { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: "🛡️ Menu Admin" }, type: 1 },
+            { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: "👑 Menu Owner" }, type: 1 },
+            { buttonId: `${usedPrefix}menugruppo`, buttonText: { displayText: "👥 Menu Gruppo" }, type: 1 },
+            { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: "🚨 Menu Sicurezza" }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4,
+        ...messageOptions
+    }, { quoted: message });
 };
 
 async function fetchThumbnail(url) {
@@ -77,3 +90,4 @@ function generateMenuText(prefix, botName, userCount) {
 *•────────────•⟢*
 `.trim();
 }
+
