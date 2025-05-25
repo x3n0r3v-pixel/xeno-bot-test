@@ -46,7 +46,7 @@ async function callLuminaiAPI(query, username) {
     const response = await axios.post("https://luminai.my.id", {
       content: query,
       user: username,
-      prompt: `Rispondi sempre in italiano.`,
+      prompt: `Rispondi sempre in italiano a meno che non ti faccio una domanda in un'altra lingua`,
       webSearchMode: false
     });
     return response.data.result;
