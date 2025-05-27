@@ -1,7 +1,7 @@
 let handler = async (m, { conn }) => {
     let vcardCreator = `BEGIN:VCARD\nVERSION:4.0\nN:;Creatore;;\nFN:Creatore\nORG:ChatUnity\nTITLE:\nitem1.TEL;waid=393515533859:393515533859\nitem1.X-ABLabel:Creatore\nEND:VCARD`;
     let vcardFinancier = `BEGIN:VCARD\nVERSION:4.0\nN:;Finanziatore;;\nFN:Finanziatore\nORG:ChatUnity\nTITLE:\nitem1.TEL;waid=393803482529:393803482529\nitem1.X-ABLabel:Finanziatore\nEND:VCARD`;
-    let vcardSocialMediaManager = `BEGIN:VCARD\nVERSION:4.0\nN:;SocialMediaManager;;\nFN:Social Media Manager\nORG:ChatUnity\nTITLE:\nitem1.TEL;waid=393515533859:393515533859\nitem1.X-ABLabel:Social Media Manager\nEND:VCARD`;
+    let vcardSocialMediaManager = `BEGIN:VCARD\nVERSION:4.0\nN:;Social Media Manager;;\nFN:Social Media Manager\nORG:ChatUnity\nTITLE:\nitem1.TEL;waid=63907651687:+63 907 651 687\nitem1.X-ABLabel:Social Media Manager\nEND:VCARD`;
 
     await conn.sendMessage(m.chat, { 
         contacts: { 
