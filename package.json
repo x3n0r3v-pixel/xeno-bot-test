@@ -36,7 +36,7 @@
   "@sasmeee/igdl": "^1.0.0",
   "@shineiichijo/marika": "^2.0.6",
   "@vitalets/google-translate-api": "^8.0.0",
-"@whiskeysockets/baileys": "github:Davjde333/Baileys",
+  "@whiskeysockets/baileys": "github:Davjde333/Baileys",
   "@xct007/frieren-scraper": "^0.0.2",
   "@EdderBot02/ytdlf": "github:EdderBot02/ytdlf",
   "@nechlophomeriaa/spotifydl": "^1.0.11",
