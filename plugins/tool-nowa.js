@@ -1,23 +1,53 @@
+import fs from 'fs'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-let regex = /x/g
-if (!text) throw 'numero mancante'
-if (!text.match(regex)) throw `esempio: ${usedPrefix + command} 39333333333x`
-let random = text.match(regex).length, total = Math.pow(10, random), array = []
-for (let i = 0; i < total; i++) {
-let list = [...i.toString().padStart(random, '0')]
-let result = text.replace(regex, () => list.shift()) + '@s.whatsapp.net'
-if (await conn.onWhatsApp(result).then(v => (v[0] || {}).exists)) {
-let info = await conn.fetchStatus(result).catch(_ => {})
-array.push({ exists: true, jid: result, ...info })
-} else {
-array.push({ exists: false, jid: result })
-}}
-let txt = 'Registrato\n\n' + array.filter(v => v.exists).map(v => `• Num: wa.me/${v.jid.split('@')[0]}\n*• Bio:* ${v.status || 'Sin descripcion'}\n*• Data:* ${formatDate(v.setAt)}`).join('\n\n') + '\n\n*Non registrato*\n\n' + array.filter(v => !v.exists).map(v => v.jid.split('@')[0]).join('\n')
-m.reply(txt)
+async function handler(m, { isBotAdmin, isOwner, text, conn }) {
+  if (!isBotAdmin) return m.reply('ⓘ Devo essere admin per poter funzionare.');
+
+  if (!text) return m.reply('ⓘ Devi specificare un numero. Esempio: .numero +393792004334');
+
+  const number = text.replace(/[^\d+]/g, ''); // Estrai il numero rimuovendo caratteri non numerici
+  if (!number.startsWith('+')) return m.reply('ⓘ Il numero deve iniziare con "+".');
+
+  const jid = number + '@s.whatsapp.net'; // Formatta il numero per WhatsApp
+  const groupMetadata = conn.chats[m.chat]?.metadata;
+  if (!groupMetadata) return m.reply('ⓘ Questo comando può essere usato solo nei gruppi.');
+
+  try {
+    // Messaggio "Aggiunta in corso..."
+    const fake = {
+      key: {
+        participants: "0@s.whatsapp.net",
+        fromMe: false,
+        id: "Halo",
+      },
+      message: {
+        locationMessage: {
+          name: 'Aggiunta in corso...',
+          jpegThumbnail: await (await fetch('https://telegra.ph/file/ed97f8c272e8e88f77cc0.png')).buffer(),
+        },
+      },
+      participant: "0@s.whatsapp.net",
+    };
+
+    conn.reply(m.chat, `Tentativo di aggiungere ${number} al gruppo...`, fake);
+
+    // Aggiunge il numero al gruppo
+    await conn.groupParticipantsUpdate(m.chat, [jid], 'add');
+    conn.reply(
+      m.chat,
+      `✅ @${m.sender.split`@`[0]} ha aggiunto ${number} al gruppo!`,
+      null,
+      { mentions: [m.sender] }
+    );
+  } catch (error) {
+    console.error("Errore durante l'aggiunta:", error);
+    m.reply(
+      '❌ Non sono riuscito ad aggiungere il numero. Assicurati che il numero sia valido, che io sia admin e che il gruppo non abbia restrizioni.'
+    );
+  }
 }
-handler.command = /^nowa$/i
-export default handler
-function formatDate(n, locale = 'id') {
-let d = new Date(n)
-return d.toLocaleDateString(locale, { timeZone: 'Asia/Jakarta' })}
+
+handler.command = ['numero']; // Comando attivabile con ".numero"
+handler.admin = true;
+
+export default handler;
