@@ -13,7 +13,7 @@ export async function before(msg, { isAdmin, isBotAdmin }) {
 
   if (isAdmin && chatData.antiLink && msg.text.includes("https://chat.whatsapp.com")) return;
 
-  if (chatData.antiLink && foundLink && !isAdmin) {
+if (chatData.antiLink && foundLink && !isAdmin && !msg.fromMe) {
     if (isBotAdmin) {
       const groupLink = "https://chat.whatsapp.com/" + (await this.groupInviteCode(msg.chat));
       if (msg.text.includes(groupLink)) return true;
