@@ -141,9 +141,9 @@ Un ringraziamento speciale a queste fantastiche persone che hanno contribuito al
 <div align="center">
 
 <!-- Inserisci i collaboratori qui -->
-<a href="URL_PROFILO_1"><img src="AVATAR_URL_1" width="100px;" alt="Nome Collaboratore 1" title="Nome Collaboratore 1"/></a>
-<a href="URL_PROFILO_2"><img src="AVATAR_URL_2" width="100px;" alt="Nome Collaboratore 2" title="Nome Collaboratore 2"/></a>
-<a href="URL_PROFILO_3"><img src="AVATAR_URL_3" width="100px;" alt="Nome Collaboratore 3" title="Nome Collaboratore 3"/></a>
+<a href="https://github.com/chatunitycenter/chatunity-bot/graphs/contributors">
+<img src="https://contrib.rocks/image?repo=chatunitycenter/chatunity-bot" /> 
+</a>
 
 </div>
 
