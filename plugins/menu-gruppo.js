@@ -106,6 +106,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 🖼️ *.pinterest* (in arrivo)  
 ┃◈┃• 🎴 *.hornycard* [@utente]  
 ┃◈┃• 🧠 *.stupido/a* @  
+┃◈┃• 🌀 *.emojimix*  
 ┃◈╰━━━━━━━━━━━━┈⊷  
 ┃◈  
 ┃◈╭─✦ *GANG SYSTEM* ✦═╗  
