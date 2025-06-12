@@ -50,8 +50,8 @@ var handler = async (m, { text, usedPrefix, command, conn }) => {
 
 handler.command = [
   "fluxai", "flux", "immagine",
-  "stablediffusion", "sdiffusion", "imagine2",
-  "stabilityai", "stability", "imagine3"
+  "stablediffusion", "sdiffusion", "immagine2",
+  "stabilityai", "stability", "immagine3"
 ];
 
 export default handler;
