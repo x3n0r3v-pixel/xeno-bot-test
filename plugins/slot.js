@@ -12,12 +12,22 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         let ms = cooldowns[m.sender] + 5 * 60 * 1000 - Date.now();
         let min = Math.floor(ms / 60000);
         let sec = Math.floor((ms % 60000) / 1000);
-        return conn.sendMessage(m.chat, {
-            text: `⏳ Devi aspettare ${min}m ${sec}s prima di poter rigiocare dopo una vincita!`,
+        let tempoRimanente = `${min}m ${sec}s`
+
+        await conn.sendMessage(
+          m.chat,
+          {
+            text: `⏳ Devi aspettare ${tempoRimanente} prima di poter rigiocare dopo una vincita!`,
+            footer: 'Torna più tardi o scegli un altro comando:',
             buttons: [
-                { buttonId: `${usedPrefix + command} ${apuesta || 10}`, buttonText: { displayText: "🎰 Spin" }, type: 1 }
-            ]
-        }, { quoted: m });
+              { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "🏠 Menu Principale" }, type: 1 }
+            ],
+            viewOnce: true,
+            headerType: 4
+          },
+          { quoted: m }
+        );
+        return;
     }
 
     let emojis = ["🪙", "🎰", "💎"];
@@ -56,8 +66,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         cooldowns[m.sender] = Date.now();
     }
 
-    return await conn.sendMessage(m.chat, {
-        text: `
+    let risultatoSlot = `
        🎰 ┃ 𝐒𝐋𝐎𝐓
      ──────────
        ${x[0]} : ${y[0]} : ${z[0]}
@@ -65,11 +74,22 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
        ${x[2]} : ${y[2]} : ${z[2]}
      ──────────
         
-${end}`,
+${end}`
+
+    await conn.sendMessage(
+      m.chat,
+      {
+        text: risultatoSlot, // o caption se usi video/foto
+        footer: 'Vuoi giocare ancora?',
         buttons: [
-            { buttonId: `${usedPrefix + command} ${apuesta || 10}`, buttonText: { displayText: "🎰 Spin" }, type: 1 }
-        ]
-    }, { quoted: m });
+          { buttonId: `${usedPrefix}slot`, buttonText: { displayText: "🎰 Gioca ancora" }, type: 1 },
+          { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "🏠 Menu Principale" }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4
+      },
+      { quoted: m }
+    );
 }
 handler.help = ['slot <apuesta>']
 handler.tags = ['game']

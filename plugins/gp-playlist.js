@@ -102,20 +102,28 @@ const handler = async (m, { conn, text, args, command, usedPrefix }) => {
     message += `${BOT_THEME.FRAME.BOTTOM}\n\n` +
                `${BOT_THEME.EMOJIS.HEART} ${BOT_THEME.FRAME.SIGNATURE}`;
 
-    const buttons = songs.slice(0, 5).map((song, i) => (
-      { buttonId: `${usedPrefix}play ${song.title}`, buttonText: { displayText: `${i + 1}🎵 ${song.title.slice(0, 20)}` }, type: 1 }
-    ));
+    const buttons = [
+      ...songs.slice(0, 5).map((song, i) => (
+        { buttonId: `${usedPrefix}play ${song.title}`, buttonText: { displayText: `${i + 1}🎵 ${song.title.slice(0, 20)}` }, type: 1 }
+      )),
+      { buttonId: `${usedPrefix}salva`, buttonText: { displayText: `${BOT_THEME.EMOJIS.SAVE} Salva nuovo` }, type: 1 }
+    ];
 
     if (!userName) {
       buttons.push(
         { buttonId: `${usedPrefix}elimina`, buttonText: { displayText: `${BOT_THEME.EMOJIS.DELETE} Elimina` }, type: 1 }
       );
     }
+    buttons.push(
+      { buttonId: `${usedPrefix}menu`, buttonText: { displayText: `${BOT_THEME.EMOJIS.BACK} Indietro` }, type: 1 }
+    );
 
     return conn.sendMessage(m.chat, {
       text: message,
       buttons: buttons,
-      footer: 'Seleziona un brano da riprodurre'
+      footer: 'Seleziona un brano da riprodurre',
+      viewOnce: true,
+      headerType: 4
     }, { quoted: m });
   }
 
@@ -162,8 +170,11 @@ const handler = async (m, { conn, text, args, command, usedPrefix }) => {
               `${BOT_THEME.EMOJIS.HEART} ${BOT_THEME.FRAME.SIGNATURE}`,
         buttons: [
           { buttonId: `${usedPrefix}playlist`, buttonText: { displayText: `${BOT_THEME.EMOJIS.PLAYLIST} Vedi Playlist` }, type: 1 },
-          { buttonId: `${usedPrefix}play ${song.title}`, buttonText: { displayText: `${BOT_THEME.EMOJIS.MUSIC} Riproduci` }, type: 1 }
-        ]
+          { buttonId: `${usedPrefix}play ${song.title}`, buttonText: { displayText: `${BOT_THEME.EMOJIS.MUSIC} Riproduci` }, type: 1 },
+          { buttonId: `${usedPrefix}elimina`, buttonText: { displayText: `${BOT_THEME.EMOJIS.DELETE} Elimina` }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4
       }, { quoted: m });
     }
 
@@ -203,8 +214,13 @@ const handler = async (m, { conn, text, args, command, usedPrefix }) => {
 
       return conn.sendMessage(m.chat, {
         text: message,
-        buttons: buttons,
-        footer: 'Seleziona un brano da riprodurre'
+        buttons: [
+          ...buttons,
+          { buttonId: `${usedPrefix}menu`, buttonText: { displayText: `${BOT_THEME.EMOJIS.BACK} Indietro` }, type: 1 },
+          { buttonId: `${usedPrefix}salva`, buttonText: { displayText: `${BOT_THEME.EMOJIS.SAVE} Salva nuovo` }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4
       }, { quoted: m });
     }
 
@@ -236,7 +252,9 @@ const handler = async (m, { conn, text, args, command, usedPrefix }) => {
 
         return conn.sendMessage(m.chat, { 
           text: message,
-          buttons: buttons
+          buttons: buttons,
+          viewOnce: true,
+          headerType: 4
         }, { quoted: m });
       }
 
@@ -256,8 +274,11 @@ const handler = async (m, { conn, text, args, command, usedPrefix }) => {
               `${BOT_THEME.EMOJIS.HEART} ${BOT_THEME.FRAME.SIGNATURE}`,
         buttons: [
           { buttonId: `${usedPrefix}playlist`, buttonText: { displayText: `${BOT_THEME.EMOJIS.PLAYLIST} Vedi Playlist` }, type: 1 },
-          { buttonId: `${usedPrefix}salva ${deletedSong.title}`, buttonText: { displayText: `${BOT_THEME.EMOJIS.SAVE} Ripristina` }, type: 1 }
-        ]
+          { buttonId: `${usedPrefix}salva ${deletedSong.title}`, buttonText: { displayText: `${BOT_THEME.EMOJIS.SAVE} Ripristina` }, type: 1 },
+          { buttonId: `${usedPrefix}salva`, buttonText: { displayText: `${BOT_THEME.EMOJIS.SAVE} Salva nuovo` }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4
       }, { quoted: m });
     }
 

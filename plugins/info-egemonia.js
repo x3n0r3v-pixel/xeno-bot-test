@@ -7,16 +7,23 @@ const botsInfo = {
   "onix-bot": "🤖 *Onix-Bot*\nOgni risposta, un tocco di classe. L'eleganza si fa notare"
 };
 
-const handler = async (m, { conn, args }) => {
+const handler = async (m, { conn, args, usedPrefix }) => {
+  // Risposta specifica per ogni bot
   if (args && args[0] && botsInfo[args[0].toLowerCase()]) {
-    // Mostra info specifiche del bot selezionato
-    return await conn.sendMessage(m.chat, {
-      text: botsInfo[args[0].toLowerCase()],
-      footer: 'Torna indietro con .egemonia',
-      buttons: [
-        { buttonId: '.egemonia', buttonText: { displayText: "🔙 Torna a Egemonia" }, type: 1 }
-      ]
-    }, { quoted: m });
+    await conn.sendMessage(
+      m.chat,
+      {
+        text: botsInfo[args[0].toLowerCase()],
+        footer: 'Torna indietro con .egemonia',
+        buttons: [
+          { buttonId: `${usedPrefix}egemonia`, buttonText: { displayText: "🔙 Torna a Egemonia" }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4
+      },
+      { quoted: m }
+    );
+    return;
   }
 
   const text = `
@@ -37,18 +44,24 @@ const handler = async (m, { conn, args }) => {
 *Scopri di più su ogni bot cliccando sui bottoni qui sotto!*
 `.trim();
 
-  await conn.sendMessage(m.chat, {
-    text,
-    footer: 'Powered by ChatUnity Egemonia',
-    buttons: [
-      { buttonId: '.egemonia 333bot', buttonText: { displayText: "🤖 333bot" }, type: 1 },
-      { buttonId: '.egemonia bixby-bot', buttonText: { displayText: "🤖 Bixby-Bot" }, type: 1 },
-      { buttonId: '.egemonia origin-bot', buttonText: { displayText: "🤖 Origin-Bot" }, type: 1 },
-      { buttonId: '.egemonia universal-bot', buttonText: { displayText: "🤖 Universal-Bot" }, type: 1 },
-      { buttonId: '.egemonia turbo-bot', buttonText: { displayText: "🤖 Turbo-Bot" }, type: 1 },
-      { buttonId: '.egemonia onix-bot', buttonText: { displayText: "🤖 Onix-Bot" }, type: 1 }
-    ]
-  }, { quoted: m });
+  await conn.sendMessage(
+    m.chat,
+    {
+      text,
+      footer: 'Powered by ChatUnity Egemonia',
+      buttons: [
+        { buttonId: `${usedPrefix}egemonia 333bot`, buttonText: { displayText: "🤖 333bot" }, type: 1 },
+        { buttonId: `${usedPrefix}egemonia bixby-bot`, buttonText: { displayText: "🤖 Bixby-Bot" }, type: 1 },
+        { buttonId: `${usedPrefix}egemonia origin-bot`, buttonText: { displayText: "🤖 Origin-Bot" }, type: 1 },
+        { buttonId: `${usedPrefix}egemonia universal-bot`, buttonText: { displayText: "🤖 Universal-Bot" }, type: 1 },
+        { buttonId: `${usedPrefix}egemonia turbo-bot`, buttonText: { displayText: "🤖 Turbo-Bot" }, type: 1 },
+        { buttonId: `${usedPrefix}egemonia onix-bot`, buttonText: { displayText: "🤖 Onix-Bot" }, type: 1 }
+      ],
+      viewOnce: true,
+      headerType: 4
+    },
+    { quoted: m }
+  );
 };
 
 handler.help = ['egemonia'];

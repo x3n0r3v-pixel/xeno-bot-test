@@ -127,23 +127,21 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
 ┃◈└───────┈⊷
 ╰━━━━━━━━━┈·๏`;
 
-    await conn.sendMessage(m.chat, {
-      text: infoMessage,
-      footer: 'Seleziona un formato:',
-      buttons: [
-        { 
-          buttonId: `${usedPrefix}play audio ${text}`, 
-          buttonText: { displayText: "🎵 Audio" }, 
-          type: 1 
-        },
-        { 
-          buttonId: `${usedPrefix}play video ${text}`, 
-          buttonText: { displayText: "🎬 Video" }, 
-          type: 1 
-        }
-      ],
-      headerType: 1
-    }, { quoted: m });
+    await conn.sendMessage(
+      m.chat,
+      {
+        text: infoMessage,
+        footer: 'Seleziona un formato:',
+        buttons: [
+          { buttonId: `${usedPrefix}play audio ${text}`, buttonText: { displayText: "🎵 Audio" }, type: 1 },
+          { buttonId: `${usedPrefix}play video ${text}`, buttonText: { displayText: "🎬 Video" }, type: 1 },
+          { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 Salva in Playlist" }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4
+      },
+      { quoted: m }
+    );
 
   } catch (error) {
     console.error('Errore:', error);
@@ -158,3 +156,6 @@ handler.tags = ['downloader'];
 handler.command = /^(play|ytmp4|play2)$/i;
 
 export default handler;
+
+
+

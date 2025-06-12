@@ -42,9 +42,11 @@ const handleSposa = async (m, user, users, text, usedPrefix, conn) => {
         text: testo,
         mentions: [mention, m.sender],
         buttons: [
-            { buttonId: "si", buttonText: { displayText: "💍 Si" }, type: 1 },
-            { buttonId: "no", buttonText: { displayText: "❌ No" }, type: 1 }
-        ]
+            { buttonId: "Si", buttonText: { displayText: "💍 Si" }, type: 1 },
+            { buttonId: "No", buttonText: { displayText: "❌ No" }, type: 1 }
+        ],
+        viewOnce: true,
+        headerType: 4
     }, { quoted: m });
 
     let timeoutCallback = () => {
@@ -117,7 +119,7 @@ const handleDivorzia = (m, user, users) => {
     let testo = `𝐭𝐮 𝐞 @${user.coniuge.split('@')[0]} 𝐬𝐢𝐞𝐭𝐞 𝐨𝐫𝐚 𝐝𝐢𝐯𝐨𝐫𝐳𝐢𝐚𝐭𝐢.\n\n𝐭𝐚𝐧𝐭𝐨 𝐞𝐫𝐚𝐯𝐚𝐭𝐞 𝐮𝐧𝐚 𝐜𝐨𝐩𝐩𝐢𝐚 𝐨𝐫𝐫𝐢𝐛𝐢𝐥𝐞`;
     m.reply(testo, null, { mentions: [user.coniuge] });
 };
-handler.command = ['sposa', 'divorzia'];
-handler.group = true;
 
+handler.group = true;
+handler.command = ['sposa', 'divorzia'];
 export default handler;

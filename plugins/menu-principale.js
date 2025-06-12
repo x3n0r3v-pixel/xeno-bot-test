@@ -10,15 +10,15 @@ const __dirname = path.dirname(__filename);
 const handler = async (message, { conn, usedPrefix, command }) => {
     const userCount = Object.keys(global.db.data.users).length;
     const botName = global.db.data.nomedelbot || 'ChatUnity';
+    const vs = global.db.data.versione || '1.0.0'; // Fix variabile versione
 
-    const menuText = generateMenuText(usedPrefix, botName, userCount);
+    const menuText = generateMenuText(usedPrefix, botName, userCount, vs);
 
-    const videoPath = path.join(__dirname, '../menu/edit1.mp4'); // Cambia il nome se necessario
+    // Invia solo testo e bottoni, senza video
     await conn.sendMessage(
         message.chat,
         {
-            video: { url: videoPath },
-            caption: menuText,
+            text: menuText,
             footer: 'Scegli un menu:',
             buttons: [
                 { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: "🛡️ Menu Admin" }, type: 1 },
@@ -39,7 +39,7 @@ handler.command = /^(menu|comandi)$/i;
 
 export default handler;
 
-function generateMenuText(prefix, botName, userCount) {
+function generateMenuText(prefix, botName, userCount, vs) {
     return `
 
 ╭〔 *💬 𝑴𝑬𝑵𝑼 𝑫𝑬𝑳 𝑩𝑶𝑻 💬* 〕┈⊷

@@ -1,7 +1,15 @@
 let cooldowns = {}
 
 let handler = async (m, { conn, text, command, usedPrefix }) => {
-  let users = global.db.data.users
+  let users = global.db.data.users;
+  if (!users[m.sender]) {
+      users[m.sender] = {
+          // aggiungi qui tutte le proprietà di default che usi, ad esempio:
+          limit: 10,
+          // ...altre proprietà...
+      };
+  }
+
   let senderId = m.sender
   let senderName = conn.getName(senderId)
   
