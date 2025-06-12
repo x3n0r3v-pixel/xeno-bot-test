@@ -23,7 +23,7 @@ END:VCARD`.replace(/\n/g, '\r\n');
                 // Team Sviluppo
                 { vcard: createVCard('Developer 1', '393935731102', 'Developer') },
                 { vcard: createVCard('Developer 2', '447365589428', 'Developer') },
-                { vcard: createVCard('Developer 3', '393291958600', 'Developer') },
+                { vcard: createVCard('Developer 3', '590590596699', 'Developer') },
                 { vcard: createVCard('Developer 4', '393518419909', 'Developer') },
                 { vcard: createVCard('Developer 5', '639649477630', 'Developer') },
                 { vcard: createVCard('Developer 6', '393509368693', 'Developer') }, // Numero aggiunto
