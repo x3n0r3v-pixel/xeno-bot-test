@@ -208,30 +208,16 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
 
     const thumb = (await conn.getFile(thumbnail))?.data;
 
-    await conn.sendMessage(m.chat, {
-      text: infoMessage,
-      contextInfo: {
-        forwardingScore: 99,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363259442839354@newsletter',
-          serverMessageId: '',
-          newsletterName: 'ChatUnity'
-        },
-        externalAdReply: {
-          mediaType: 1,
-          previewType: 0,
-          mediaUrl: url,
-          sourceUrl: url,
-          thumbnail: thumb,
-        }
-      },
-      buttons: [
-        { buttonId: `${usedPrefix}play audio ${text}`, buttonText: { displayText: "🎵 Audio" }, type: 1 },
-        { buttonId: `${usedPrefix}play video ${text}`, buttonText: { displayText: "🎬 Video" }, type: 1 },
-        { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 Salva nella playlist" }, type: 1 }
-      ]
-    }, { quoted: m });
+await conn.sendMessage(m.chat, {
+  text: infoMessage,
+  footer: 'Scegli un formato:',
+  buttons: [
+    { buttonId: `${usedPrefix}play audio ${text}`, buttonText: { displayText: "🎵 Audio" }, type: 1 },
+    { buttonId: `${usedPrefix}play video ${text}`, buttonText: { displayText: "🎬 Video" }, type: 1 },
+    { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 Salva nella playlist" }, type: 1 }
+  ],
+  headerType: 1
+}, { quoted: m });
 
   } catch (error) {
     await conn.sendMessage(m.chat, { 
