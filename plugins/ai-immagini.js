@@ -19,12 +19,12 @@ var handler = async (m, { text, usedPrefix, command, conn }) => {
         break;
       case "stablediffusion":
       case "sdiffusion":
-      case "imagine2":
+      case "immagine2":
         apiUrl = `https://api.siputzx.my.id/api/ai/stable-diffusion?prompt=${encodeURIComponent(text)}`;
         break;
       case "stabilityai":
       case "stability":
-      case "imagine3":
+      case "immagine3":
         apiUrl = `https://api.siputzx.my.id/api/ai/stabilityai?prompt=${encodeURIComponent(text)}`;
         break;
       default:
@@ -49,7 +49,7 @@ var handler = async (m, { text, usedPrefix, command, conn }) => {
 };
 
 handler.command = [
-  "fluxai", "flux", "imagine",
+  "fluxai", "flux", "immagine",
   "stablediffusion", "sdiffusion", "imagine2",
   "stabilityai", "stability", "imagine3"
 ];
