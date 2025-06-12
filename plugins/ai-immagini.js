@@ -14,7 +14,7 @@ var handler = async (m, { text, usedPrefix, command, conn }) => {
     switch (command) {
       case "fluxai":
       case "flux":
-      case "imagine":
+      case "immagine":
         apiUrl = `https://api.siputzx.my.id/api/ai/flux?prompt=${encodeURIComponent(text)}`;
         break;
       case "stablediffusion":
