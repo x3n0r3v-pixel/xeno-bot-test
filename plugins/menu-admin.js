@@ -81,6 +81,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 👑 *regole/setregole*  
 ┃◈┃• 👑 *quarantena*  
 ┃◈┃• 👑 *ds*  
+┃◈┃• 👑 *listawarn*  
 ┃◈┃  
 ┃◈└───────────┈⊷  
 ╰━━━━━━━━━━━━━┈·๏  

@@ -88,7 +88,8 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 📚 *.wikipedia* (argomento)
 ┃◈┃• 🔍 *.checkscam* (check sito)
 ┃◈┃• 📜 *.dashboard*  
-┃◈┃• 🔍 *.cercaporno*  
+┃◈┃• 🔍 *.phsearch*  
+┃◈┃• 🔍 *.cercaimmagine* 
 ┃◈┃• 🎼 *.fyadd*  
 ┃◈┃• ❓ *.script*  
 ┃◈╰━━━━━━━━━━━━┈⊷  
