@@ -208,31 +208,15 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
 
     const thumb = (await conn.getFile(thumbnail))?.data;
 
-await conn.sendMessage(m.chat, {
-  text: infoMessage,
-  footer: 'Scegli un formato:',
-  buttons: [
-    { buttonId: `${usedPrefix}play audio ${text}`, buttonText: { displayText: "🎵 Audio" }, type: 1 },
-    { buttonId: `${usedPrefix}play video ${text}`, buttonText: { displayText: "🎬 Video" }, type: 1 },
-    { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 Salva nella playlist" }, type: 1 }
-  ],
-  headerType: 1
-}, { quoted: m });
-
-  } catch (error) {
-    await conn.sendMessage(m.chat, { 
-      text: error.message.startsWith('╭━━') ? error.message : `╭━━〔 ❗ 〕━━┈⊷\n┃◈ *Errore:* ${error.message}\n╰━━━━━━━━━━┈·๏`,
-      contextInfo: {
-        forwardingScore: 99,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363259442839354@newsletter',
-          serverMessageId: '',
-          newsletterName: 'ChatUnity'
-        }
-      }
-    }, { quoted: m });
-  }
+const simpleTest = async (m, { conn, usedPrefix }) => {
+  await conn.sendMessage(m.chat, {
+    text: 'Test bottoni semplici',
+    buttons: [
+      { buttonId: `${usedPrefix}test1`, buttonText: { displayText: "Bottone 1" }, type: 1 },
+      { buttonId: `${usedPrefix}test2`, buttonText: { displayText: "Bottone 2" }, type: 1 }
+    ],
+    headerType: 1
+  }, { quoted: m });
 };
 
 handler.command = handler.help = ['play', 'ytmp4', 'play2'];
