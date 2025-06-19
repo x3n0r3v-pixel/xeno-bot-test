@@ -13,8 +13,7 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
   if (!args[0]) {
     const text = `📨 Richieste in sospeso: ${pending.length}\n\nScegli un'opzione per gestirle:`;
     return await conn.sendMessage(m.chat, {
-      video: { url: 'https://telegra.ph/file/69cc8e60a7eb821f4f823.mp4' },
-      caption: text,
+      text,
       footer: 'Gestione richieste gruppo',
       buttons: [
         { buttonId: `${usedPrefix}${command} accetta`, buttonText: { displayText: "✅ Accetta tutte" }, type: 1 },
@@ -22,8 +21,8 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
         { buttonId: `${usedPrefix}${command} accetta39`, buttonText: { displayText: "🇮🇹 Accetta solo +39" }, type: 1 },
         { buttonId: `${usedPrefix}${command} gestisci`, buttonText: { displayText: "📥 Gestisci richieste" }, type: 1 }
       ],
-      viewOnce: true,
-      headerType: 4
+      headerType: 1, // Solo testo
+      viewOnce: true
     }, { quoted: m });
   }
 
