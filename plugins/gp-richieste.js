@@ -5,6 +5,33 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
   if (!isBotAdmin) return m.reply("❌ Devo essere admin per accettare le richieste.");
   if (!isAdmin) return m.reply("❌ Solo gli admin del gruppo possono usare questo comando.");
 
+  // ✅ GESTIONE RISPOSTA NUMERICA DOPO 'gestisci'
+  if (richiestaInAttesa[m.sender]) {
+    const numero = parseInt(m.text.trim());
+    if (isNaN(numero) || numero <= 0) {
+      delete richiestaInAttesa[m.sender];
+      return m.reply("❌ Per favore, rispondi con un numero valido.");
+    }
+
+    const { groupId } = richiestaInAttesa[m.sender];
+    delete richiestaInAttesa[m.sender];
+
+    const richieste = await conn.groupRequestParticipantsList(groupId);
+    const daAccettare = richieste.slice(0, numero);
+    let accettati = 0;
+
+    for (let p of daAccettare) {
+      try {
+        await conn.groupRequestParticipantsUpdate(groupId, [p.jid], 'approve');
+        accettati++;
+      } catch (e) {
+        console.log(`[ERRORE] Non sono riuscito ad accettare ${p.jid}:`, e);
+      }
+    }
+
+    return m.reply(`✅ Hai accettato ${accettati} richieste.`);
+  }
+
   const groupId = m.chat;
   const pending = await conn.groupRequestParticipantsList(groupId);
 
@@ -21,7 +48,7 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
         { buttonId: `${usedPrefix}${command} accetta39`, buttonText: { displayText: "🇮🇹 Accetta solo +39" }, type: 1 },
         { buttonId: `${usedPrefix}${command} gestisci`, buttonText: { displayText: "📥 Gestisci richieste" }, type: 1 }
       ],
-      headerType: 1, // Solo testo
+      headerType: 1,
       viewOnce: true
     }, { quoted: m });
   }
@@ -79,32 +106,6 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
   if (args[0] === 'gestisci') {
     richiestaInAttesa[m.sender] = { groupId };
     return m.reply("✏️ Quante richieste vuoi accettare? Rispondi con un numero.");
-  }
-
-  if (richiestaInAttesa[m.sender]) {
-    const numero = parseInt(m.text.trim());
-    if (isNaN(numero) || numero <= 0) {
-      delete richiestaInAttesa[m.sender];
-      return m.reply("❌ Per favore, rispondi con un numero valido.");
-    }
-
-    const { groupId } = richiestaInAttesa[m.sender];
-    delete richiestaInAttesa[m.sender];
-
-    const richieste = await conn.groupRequestParticipantsList(groupId);
-    const daAccettare = richieste.slice(0, numero);
-    let accettati = 0;
-
-    for (let p of daAccettare) {
-      try {
-        await conn.groupRequestParticipantsUpdate(groupId, [p.jid], 'approve');
-        accettati++;
-      } catch (e) {
-        console.log(`[ERRORE] Non sono riuscito ad accettare ${p.jid}:`, e);
-      }
-    }
-
-    return m.reply(`✅ Hai accettato ${accettati} richieste.`);
   }
 };
 
