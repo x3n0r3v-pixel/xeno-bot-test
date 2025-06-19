@@ -2,51 +2,44 @@ let richiestaInAttesa = {};
 
 let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }) => {
   if (!m.isGroup) return;
-  
-  const groupId = m.chat;
 
-  // 👉 GESTIONE RISPOSTA NUMERICA se in attesa
+  // 1️⃣ Controllo se l'utente ha risposto con un numero dopo "gestisci"
   if (richiestaInAttesa[m.sender]) {
     const numero = parseInt(m.text.trim());
-    if (isNaN(numero) || numero <= 0) {
-      delete richiestaInAttesa[m.sender];
-      return m.reply("❌ Per favore, rispondi con un numero valido.");
-    }
-
     delete richiestaInAttesa[m.sender];
-    const richieste = await conn.groupRequestParticipantsList(groupId);
-    const daAccettare = richieste.slice(0, numero);
+    if (isNaN(numero) || numero <= 0) {
+      return m.reply("❌ Numero non valido. Usa un numero > 0.");
+    }
+    const groupId = m.chat;
+    const pending = await conn.groupRequestParticipantsList(groupId);
+    const daAccettare = pending.slice(0, numero);
     let accettati = 0;
-
     for (let p of daAccettare) {
       try {
         await conn.groupRequestParticipantsUpdate(groupId, [p.jid], 'approve');
         accettati++;
-      } catch (e) {
-        console.log(`[ERRORE] Non sono riuscito ad accettare ${p.jid}:`, e);
-      }
+      } catch {}
     }
-
-    return m.reply(`✅ Hai accettato ${accettati} richieste.`);
+    return m.reply(`✅ Accettate ${accettati} richieste.`);
   }
 
-  // 👉 CONTROLLI ACCESSO
-  if (!isBotAdmin) return m.reply("❌ Devo essere admin per accettare le richieste.");
-  if (!isAdmin) return m.reply("❌ Solo gli admin del gruppo possono usare questo comando.");
+  // 2️⃣ Comando iniziale
+  if (!isBotAdmin) return m.reply("❌ Devo essere admin per gestire richieste.");
+  if (!isAdmin) return m.reply("❌ Solo admin del gruppo possono usare questo command.");
 
+  const groupId = m.chat;
   const pending = await conn.groupRequestParticipantsList(groupId);
-  if (!pending.length) return m.reply("✅ Non ci sono richieste da accettare.");
+  if (!pending.length) return m.reply("✅ Non ci sono richieste in sospeso.");
 
-  // 👉 GESTIONE COMANDI
   if (!args[0]) {
-    const text = `📨 Richieste in sospeso: ${pending.length}\n\nScegli un'opzione per gestirle:`;
-    return await conn.sendMessage(m.chat, {
+    const text = `📨 Richieste in sospeso: ${pending.length}\nSeleziona un'opzione:`;
+    return conn.sendMessage(m.chat, {
       text,
       footer: 'Gestione richieste gruppo',
       buttons: [
         { buttonId: `${usedPrefix}${command} accetta`, buttonText: { displayText: "✅ Accetta tutte" }, type: 1 },
         { buttonId: `${usedPrefix}${command} rifiuta`, buttonText: { displayText: "❌ Rifiuta tutte" }, type: 1 },
-        { buttonId: `${usedPrefix}${command} accetta39`, buttonText: { displayText: "🇮🇹 Accetta solo +39" }, type: 1 },
+        { buttonId: `${usedPrefix}${command} accetta39`, buttonText: { displayText: "🇮🇹 Accetta +39" }, type: 1 },
         { buttonId: `${usedPrefix}${command} gestisci`, buttonText: { displayText: "📥 Gestisci richieste" }, type: 1 }
       ],
       headerType: 1,
@@ -55,24 +48,16 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
   }
 
   if (args[0] === 'accetta') {
-    let numero = parseInt(args[1]);
+    const numero = parseInt(args[1]);
+    const lista = isNaN(numero) || numero <= 0 ? pending : pending.slice(0, numero);
     let accettati = 0;
-
-    let daAccettare = pending;
-    if (!isNaN(numero) && numero > 0) {
-      daAccettare = pending.slice(0, numero);
-    }
-
-    for (let p of daAccettare) {
+    for (let p of lista) {
       try {
         await conn.groupRequestParticipantsUpdate(groupId, [p.jid], 'approve');
         accettati++;
-      } catch (e) {
-        console.log(`[ERRORE] Non sono riuscito ad accettare ${p.jid}:`, e);
-      }
+      } catch {}
     }
-
-    return m.reply(`✅ Accettate ${accettati} richieste con successo.`);
+    return m.reply(`✅ Accettate ${accettati} richieste.`);
   }
 
   if (args[0] === 'rifiuta') {
@@ -81,40 +66,37 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
       try {
         await conn.groupRequestParticipantsUpdate(groupId, [p.jid], 'reject');
         rifiutati++;
-      } catch (e) {
-        console.log(`[ERRORE] Non sono riuscito a rifiutare ${p.jid}:`, e);
-      }
+      } catch {}
     }
-    return m.reply(`❌ Rifiutate ${rifiutati} richieste con successo.`);
+    return m.reply(`❌ Rifiutate ${rifiutati} richieste.`);
   }
 
   if (args[0] === 'accetta39') {
     let accettati = 0;
     for (let p of pending) {
-      const name = p?.name || p?.notify || '';
+      const name = p.name || p.notify || '';
       if (/\+39/.test(name)) {
         try {
           await conn.groupRequestParticipantsUpdate(groupId, [p.jid], 'approve');
           accettati++;
-        } catch (e) {
-          console.log(`[ERRORE] Non sono riuscito ad accettare ${p.jid}:`, e);
-        }
+        } catch {}
       }
     }
-    return m.reply(`✅ Accettate ${accettati} richieste con '+39' nel nome.`);
+    return m.reply(`✅ Accettate ${accettati} con +39.`);
   }
 
   if (args[0] === 'gestisci') {
     richiestaInAttesa[m.sender] = true;
-    return m.reply("✏️ Quante richieste vuoi accettare? Rispondi con un numero.");
+    return m.reply("✏️ Quante richieste vuoi accettare? Invia un numero (es. 2)");
   }
 };
 
 handler.command = ['richieste'];
 handler.tags = ['gruppo'];
-handler.help = ['richieste - gestisci tutte le richieste in sospeso'];
+handler.help = ['richieste'];
 handler.group = true;
 handler.admin = true;
 handler.botAdmin = true;
+handler.limit = false;
 
 export default handler;
