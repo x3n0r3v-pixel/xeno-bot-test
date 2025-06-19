@@ -1,36 +1,38 @@
-let richiestaInAttesa = {}; // Salvataggio temporaneo per ogni chat
+let richiestaInAttesa = {}; // Salvataggio temporaneo per ogni utente
 
-let handler = async (m, { conn, isAdmin, isBotAdmin, participants, groupMetadata, args, usedPrefix, command }) => {
-  if (!m.isGroup) return m.reply("Questo comando si usa solo nei gruppi.");
-  if (!isBotAdmin) return m.reply("Devo essere admin per accettare le richieste.");
-  if (!isAdmin) return m.reply("Solo gli admin del gruppo possono usare questo comando.");
+let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }) => {
+  if (!m.isGroup) return m.reply("❌ Questo comando si usa solo nei gruppi.");
+  if (!isBotAdmin) return m.reply("❌ Devo essere admin per accettare le richieste.");
+  if (!isAdmin) return m.reply("❌ Solo gli admin del gruppo possono usare questo comando.");
 
   const groupId = m.chat;
   const pending = await conn.groupRequestParticipantsList(groupId);
 
-  if (!pending.length) return m.reply("Non ci sono richieste da accettare.");
+  if (!pending.length) return m.reply("✅ Non ci sono richieste da accettare.");
 
-  // Nessun argomento = mostra i bottoni
+  // Nessun argomento: mostra i bottoni
   if (!args[0]) {
-    let text = `Richieste in sospeso: ${pending.length}\n\nScegli un'opzione:`;
+    let text = `📨 Richieste in sospeso: ${pending.length}\n\nScegli un'opzione per gestirle:`;
+
     return await conn.sendMessage(m.chat, {
-      text,
+      caption: text,
+      footer: 'Gestione richieste gruppo',
       buttons: [
         { buttonId: `${usedPrefix}${command} accetta`, buttonText: { displayText: "✅ Accetta tutte" }, type: 1 },
         { buttonId: `${usedPrefix}${command} rifiuta`, buttonText: { displayText: "❌ Rifiuta tutte" }, type: 1 },
-        { buttonId: `${usedPrefix}${command} accetta39`, buttonText: { displayText: "✅ Accetta solo +39" }, type: 1 },
+        { buttonId: `${usedPrefix}${command} accetta39`, buttonText: { displayText: "🇮🇹 Accetta solo +39" }, type: 1 },
         { buttonId: `${usedPrefix}${command} gestisci`, buttonText: { displayText: "📥 Gestisci richieste" }, type: 1 }
       ],
-      footer: 'Gestione richieste gruppo'
+      headerType: 1
     }, { quoted: m });
   }
 
-  // ACCETTA TUTTI
+  // ACCETTA TUTTI o ACCETTA <numero>
   if (args[0] === 'accetta') {
     let numeroDaAccettare = parseInt(args[1]);
     let accettati = 0;
-    let daAccettare = pending;
 
+    let daAccettare = pending;
     if (!isNaN(numeroDaAccettare) && numeroDaAccettare > 0) {
       daAccettare = pending.slice(0, numeroDaAccettare);
     }
@@ -78,13 +80,13 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, participants, groupMetadata
     return m.reply(`✅ Accettate ${accettati} richieste con '+39' nel nome.`);
   }
 
-  // GESTISCI - chiede all'utente quante richieste accettare
+  // GESTISCI: chiede all'utente quante accettare
   if (args[0] === 'gestisci') {
     richiestaInAttesa[m.sender] = { groupId };
-    return m.reply("📌 Quante richieste vuoi accettare? Rispondi con un numero.");
+    return m.reply("✏️ Quante richieste vuoi accettare? Rispondi con un numero.");
   }
 
-  // Se l'utente ha precedentemente cliccato su "gestisci" e sta rispondendo con un numero
+  // Risposta dell'utente dopo "gestisci"
   if (richiestaInAttesa[m.sender]) {
     const numero = parseInt(m.text.trim());
     if (isNaN(numero) || numero <= 0) {
