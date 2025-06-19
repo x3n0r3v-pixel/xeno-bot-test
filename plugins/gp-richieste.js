@@ -1,4 +1,4 @@
-let richiestaInAttesa = {}; // Salvataggio temporaneo per ogni utente
+let richiestaInAttesa = {}; // Per tracciare la risposta dell'admin
 
 let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }) => {
   if (!m.isGroup) return m.reply("❌ Questo comando si usa solo nei gruppi.");
@@ -10,12 +10,12 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
 
   if (!pending.length) return m.reply("✅ Non ci sono richieste da accettare.");
 
-  // Nessun argomento: mostra i bottoni
+  // Se non ci sono argomenti, mostra i bottoni
   if (!args[0]) {
     let text = `📨 Richieste in sospeso: ${pending.length}\n\nScegli un'opzione per gestirle:`;
 
     return await conn.sendMessage(m.chat, {
-      caption: text,
+      text: text,
       footer: 'Gestione richieste gruppo',
       buttons: [
         { buttonId: `${usedPrefix}${command} accetta`, buttonText: { displayText: "✅ Accetta tutte" }, type: 1 },
@@ -27,14 +27,14 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
     }, { quoted: m });
   }
 
-  // ACCETTA TUTTI o ACCETTA <numero>
+  // ACCETTA TUTTI o un numero
   if (args[0] === 'accetta') {
-    let numeroDaAccettare = parseInt(args[1]);
+    let numero = parseInt(args[1]);
     let accettati = 0;
 
     let daAccettare = pending;
-    if (!isNaN(numeroDaAccettare) && numeroDaAccettare > 0) {
-      daAccettare = pending.slice(0, numeroDaAccettare);
+    if (!isNaN(numero) && numero > 0) {
+      daAccettare = pending.slice(0, numero);
     }
 
     for (let p of daAccettare) {
@@ -80,13 +80,13 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
     return m.reply(`✅ Accettate ${accettati} richieste con '+39' nel nome.`);
   }
 
-  // GESTISCI: chiede all'utente quante accettare
+  // GESTISCI → chiedi all'admin quante accettare
   if (args[0] === 'gestisci') {
     richiestaInAttesa[m.sender] = { groupId };
     return m.reply("✏️ Quante richieste vuoi accettare? Rispondi con un numero.");
   }
 
-  // Risposta dell'utente dopo "gestisci"
+  // Se l’admin ha risposto dopo .richieste gestisci
   if (richiestaInAttesa[m.sender]) {
     const numero = parseInt(m.text.trim());
     if (isNaN(numero) || numero <= 0) {
