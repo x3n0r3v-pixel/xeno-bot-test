@@ -1,4 +1,4 @@
-let richiestaInAttesa = {}; // Per tracciare la risposta dell'admin
+let richiestaInAttesa = {};
 
 let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }) => {
   if (!m.isGroup) return m.reply("❌ Questo comando si usa solo nei gruppi.");
@@ -10,12 +10,11 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
 
   if (!pending.length) return m.reply("✅ Non ci sono richieste da accettare.");
 
-  // Se non ci sono argomenti, mostra i bottoni
   if (!args[0]) {
-    let text = `📨 Richieste in sospeso: ${pending.length}\n\nScegli un'opzione per gestirle:`;
-
+    const text = `📨 Richieste in sospeso: ${pending.length}\n\nScegli un'opzione per gestirle:`;
     return await conn.sendMessage(m.chat, {
-      text: text,
+      video: { url: 'https://telegra.ph/file/69cc8e60a7eb821f4f823.mp4' },
+      caption: text,
       footer: 'Gestione richieste gruppo',
       buttons: [
         { buttonId: `${usedPrefix}${command} accetta`, buttonText: { displayText: "✅ Accetta tutte" }, type: 1 },
@@ -23,11 +22,11 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
         { buttonId: `${usedPrefix}${command} accetta39`, buttonText: { displayText: "🇮🇹 Accetta solo +39" }, type: 1 },
         { buttonId: `${usedPrefix}${command} gestisci`, buttonText: { displayText: "📥 Gestisci richieste" }, type: 1 }
       ],
-      headerType: 1
+      viewOnce: true,
+      headerType: 4
     }, { quoted: m });
   }
 
-  // ACCETTA TUTTI o un numero
   if (args[0] === 'accetta') {
     let numero = parseInt(args[1]);
     let accettati = 0;
@@ -49,7 +48,6 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
     return m.reply(`✅ Accettate ${accettati} richieste con successo.`);
   }
 
-  // RIFIUTA TUTTI
   if (args[0] === 'rifiuta') {
     let rifiutati = 0;
     for (let p of pending) {
@@ -63,7 +61,6 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
     return m.reply(`❌ Rifiutate ${rifiutati} richieste con successo.`);
   }
 
-  // ACCETTA SOLO +39
   if (args[0] === 'accetta39') {
     let accettati = 0;
     for (let p of pending) {
@@ -80,13 +77,11 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
     return m.reply(`✅ Accettate ${accettati} richieste con '+39' nel nome.`);
   }
 
-  // GESTISCI → chiedi all'admin quante accettare
   if (args[0] === 'gestisci') {
     richiestaInAttesa[m.sender] = { groupId };
     return m.reply("✏️ Quante richieste vuoi accettare? Rispondi con un numero.");
   }
 
-  // Se l’admin ha risposto dopo .richieste gestisci
   if (richiestaInAttesa[m.sender]) {
     const numero = parseInt(m.text.trim());
     if (isNaN(numero) || numero <= 0) {
