@@ -1,11 +1,11 @@
 let richiestaInAttesa = {};
 
 let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }) => {
-  if (!m.isGroup) return m.reply("❌ Questo comando si usa solo nei gruppi.");
-  if (!isBotAdmin) return m.reply("❌ Devo essere admin per accettare le richieste.");
-  if (!isAdmin) return m.reply("❌ Solo gli admin del gruppo possono usare questo comando.");
+  if (!m.isGroup) return;
+  
+  const groupId = m.chat;
 
-  // ✅ GESTIONE RISPOSTA NUMERICA DOPO 'gestisci'
+  // 👉 GESTIONE RISPOSTA NUMERICA se in attesa
   if (richiestaInAttesa[m.sender]) {
     const numero = parseInt(m.text.trim());
     if (isNaN(numero) || numero <= 0) {
@@ -13,9 +13,7 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
       return m.reply("❌ Per favore, rispondi con un numero valido.");
     }
 
-    const { groupId } = richiestaInAttesa[m.sender];
     delete richiestaInAttesa[m.sender];
-
     const richieste = await conn.groupRequestParticipantsList(groupId);
     const daAccettare = richieste.slice(0, numero);
     let accettati = 0;
@@ -32,11 +30,14 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
     return m.reply(`✅ Hai accettato ${accettati} richieste.`);
   }
 
-  const groupId = m.chat;
-  const pending = await conn.groupRequestParticipantsList(groupId);
+  // 👉 CONTROLLI ACCESSO
+  if (!isBotAdmin) return m.reply("❌ Devo essere admin per accettare le richieste.");
+  if (!isAdmin) return m.reply("❌ Solo gli admin del gruppo possono usare questo comando.");
 
+  const pending = await conn.groupRequestParticipantsList(groupId);
   if (!pending.length) return m.reply("✅ Non ci sono richieste da accettare.");
 
+  // 👉 GESTIONE COMANDI
   if (!args[0]) {
     const text = `📨 Richieste in sospeso: ${pending.length}\n\nScegli un'opzione per gestirle:`;
     return await conn.sendMessage(m.chat, {
@@ -104,7 +105,7 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
   }
 
   if (args[0] === 'gestisci') {
-    richiestaInAttesa[m.sender] = { groupId };
+    richiestaInAttesa[m.sender] = true;
     return m.reply("✏️ Quante richieste vuoi accettare? Rispondi con un numero.");
   }
 };
