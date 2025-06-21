@@ -7,7 +7,7 @@ let handler = async (m, { conn, isPrems }) => {
   // Controllo cooldown
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < cooldownTime * 1000) {
     let remainingTime = formatTime(Math.ceil((cooldowns[m.sender] + cooldownTime * 1000 - Date.now()) / 1000));
-    let message = `⏳ 𝚊𝚜𝚙𝚎𝚝𝚝𝚊 *${remainingTime}* 𝚙𝚛𝚒𝚖𝚊 𝚍𝚒 𝚕𝚊𝚟𝚘𝚛𝚊𝚛𝚎 𝚊𝚗𝚌𝚘𝚛𝚊
+    let message = `⏳ 𝚊𝚜𝚙𝚎𝚝𝚝𝚊 *${remainingTime}* 𝚙𝚛𝚒𝚖𝚊 𝚍𝚒 𝚕𝚊𝚟𝚘𝚛𝚊𝚛𝚎 𝚏𝚊𝚝𝚊 𝚊𝚗𝚌𝚘𝚛𝚊`
     await conn.sendMessage(m.chat, { 
         text: message,
         contextInfo: {

@@ -24,6 +24,10 @@ try {
 }
 } else return m.reply(`*Ridpondi a un'immagine o link che sia \`(jpg, jpeg o png)\` per rimuovere lo sfondo*`)
 
+if (!json || !json.result || !json.result.urls) {
+    return m.reply(`*Errore: risposta non valida dal servizio removebg*`)
+}
+
 //await mensajesEditados(conn, m)
 //await conn.sendMessage(m.chat, { text: waitttttt, edit: key })
 await conn.sendMessage(m.chat, { image: { url: json.result.urls }, caption: null }, { quoted: m })

@@ -2,7 +2,7 @@ let cooldowns = {}
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     let punti = 300
-    let tempoAttesa = 5 * 1000
+    let tempoAttesa = 2 * 60 * 1000 // 2 minuti
     let user = global.db.data.users[m.sender]
  
     if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tempoAttesa) {

@@ -5,7 +5,8 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
 
   // 1️⃣ Controllo se l'utente ha risposto con un numero dopo "gestisci"
   if (richiestaInAttesa[m.sender]) {
-    const numero = parseInt(m.text.trim());
+    const numeroRaw = m.text || m.body || (m.message?.conversation) || '';
+    const numero = parseInt(numeroRaw.trim());
     delete richiestaInAttesa[m.sender];
     if (isNaN(numero) || numero <= 0) {
       return m.reply("❌ Numero non valido. Usa un numero > 0.");

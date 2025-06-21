@@ -15,11 +15,13 @@ let format = sizeFormatter({
 let handler = async (m, { conn, usedPrefix }) => {
    let uniqueUsers = new Map()
 
-   global.conns.forEach((conn) => {
-     if (conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED) {
-       uniqueUsers.set(conn.user.jid, conn)
-     }
-   })
+   if (Array.isArray(global.conns)) {
+     global.conns.forEach((conn) => {
+       if (conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED) {
+         uniqueUsers.set(conn.user.jid, conn)
+       }
+     })
+   }
    let users = [...uniqueUsers.values()]
    let totalUsers = users.length
    let totalreg = Object.keys(global.db.data.users).length
@@ -100,7 +102,7 @@ await conn.sendFile(m.chat, img, 'thumbnail.jpg', txt, m, null, rcanal)
 }
 handler.help = ['info']
 handler.tags = ['main']
-handler.command = ['info', 'infobot']
+handler.command = ['infobot']
 
 export default handler
 

@@ -9,7 +9,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 
     if (!(who in global.db.data.users)) throw '🚩 𝐢𝐥 𝐛𝐭𝐨 𝐧𝐨𝐧 𝐞 𝐬𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨 𝐧𝐞𝐥 𝐝𝐚𝐭𝐚𝐛𝐚𝐬𝐞'
 
-    // Inizializzazione se non esistono
+
     if (!user.limit) user.limit = 0
     if (!user.bank) user.bank = 0
 
@@ -24,9 +24,6 @@ let handler = async (m, { conn, usedPrefix }) => {
 │ 🏛️ 𝐛𝐚𝐧𝐤: ${formatNumber(userbank)} 💳
 │
 ╰───────✦───────
-
-𝐮𝐬𝐚 𝐪𝐮𝐞𝐬𝐭𝐨 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐩𝐞𝐫 𝐜𝐨𝐦𝐩𝐫𝐚𝐫𝐞
-𝐮𝐧 𝐩𝐨' 𝐝𝐢 𝐫𝐨𝐛𝐚 → *${usedPrefix}buy*
     `.trim()
 
     await conn.sendMessage(m.chat, {
@@ -38,8 +35,7 @@ let handler = async (m, { conn, usedPrefix }) => {
                 body: `𝐬𝐚𝐥𝐝𝐨: ${user.limit} 𝑼𝑪`,
                 thumbnailUrl: imgUrl,
                 mediaType: 1,
-                renderLargerThumbnail: true,
-                sourceUrl: imgUrl
+                renderLargerThumbnail: true
             }
         }
     })
