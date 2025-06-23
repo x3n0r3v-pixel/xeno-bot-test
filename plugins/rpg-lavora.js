@@ -102,7 +102,7 @@ const jobs = [
 
 handler.help = ['lavora']
 handler.tags = ['rpg']
-handler.command = ['lavora', 'work', 'w']
+handler.command = ['lavora', 'lavoro', 'w']
 
 // Esporta il modulo utilizzando la sintassi ES Module
 export default handler
