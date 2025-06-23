@@ -52,10 +52,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     "AntiTikTok": chat.antitiktok,
     "AntiPakistani": chat.antiArab,
     "Antivirus": chat.antivirus,
-    "AntispamComandi": chat.antispamcomandi,
-    "SoloMaggiorenni": chat.solomaggiorenni,
     "Antibot": chat.antibot,
-    "Antinuke": chat.antinuke
   };
 
   let statusList = Object.entries(functions)
