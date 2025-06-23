@@ -39,7 +39,6 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     "Benvenuto": chat.welcome,
     "Detect": chat.detect,
     "Risposte": chat.risposte,
-    "Bestemmiometro": chat.bestemmiometro,
     "Antibestemmie": chat.antibestemmie,
     "GPT": chat.gpt,
     "JadiBot": chat.jadibot,
