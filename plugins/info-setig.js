@@ -1,53 +1,54 @@
-const handler = async (message, { conn, usedPrefix }) => {
-    const sender = message.sender;
-    const userData = global.db.data.users[sender];
+const handler = async (m, { conn, usedPrefix }) => {
+  const sender = m.sender;
+  const userData = global.db.data.users[sender];
 
-    // Se l'utente non esiste nel database
-    if (!userData) {
-        return conn.reply(message.chat, 'Errore: Utente specificato non trovato.', message);
+  if (!userData) {
+    return conn.reply(m.chat, 'Errore: Utente specificato non trovato.', m);
+  }
+
+  // Comando per eliminare Instagram
+  if (/^(\D|_)?eliminaig/i.test(m.text)) {
+    if (!userData.instagram) {
+      return conn.reply(
+        m.chat,
+        `ⓘ Assicurati di configurare il tuo nome utente Instagram con ${usedPrefix}setig prima di continuare.`,
+        null,
+        { quoted: m }
+      );
     }
 
-    // Comando per rimuovere il nome Instagram
-    if (/^(\D|_)eliminaig/i.test(message.text)) {
-        if (!userData.nomeinsta) {
-            return conn.reply(message.chat,
-                `ⓘ Assicurati di configurare il tuo nome utente Instagram con ${usedPrefix}setig prima di continuare`,
-                null,
-                { quoted: message }
-            );
-        }
+    userData.instagram = undefined;
+    return conn.reply(
+      m.chat,
+      'ⓘ Nome Instagram eliminato con successo dal tuo profilo utente.',
+      null,
+      { quoted: m }
+    );
+  }
 
-        userData.nomeinsta = undefined;
-        return conn.reply(message.chat,
-            'ⓘ Nome Instagram eliminato con successo dal tuo profilo utente',
-            null,
-            { quoted: message }
-        );
+  // Comando per impostare Instagram
+  if (/^(\D|_)?setig/i.test(m.text)) {
+    const parts = m.text.trim().split(' ');
+    const instaName = parts[1];
+
+    if (!instaName) {
+      return conn.reply(
+        m.chat,
+        'ⓘ Usa .setig <nomeutente> per impostare Instagram oppure .eliminaig per rimuoverlo.',
+        null,
+        { quoted: m }
+      );
     }
 
-    // Comando per impostare il nome Instagram
-    if (/^(\D|_)setig/i.test(message.text)) {
-        const parts = message.text.split(' ');
-        const instaName = parts[1];
-
-        if (!instaName) {
-            return conn.reply(message.chat,
-                'ⓘ Usa .setig (nomeutente) per impostare Instagram oppure .eliminaig per rimuoverlo',
-                null,
-                { quoted: message }
-            );
-        }
-
-        userData.nomeinsta = instaName;
-        return conn.reply(message.chat,
-            `ⓘ Hai impostato con successo il tuo nome Instagram come ${instaName}`,
-            null,
-            { quoted: message }
-        );
-    }
+    userData.instagram = instaName.toLowerCase();
+    return conn.reply(
+      m.chat,
+      `ⓘ Hai impostato con successo il tuo nome Instagram come *${userData.instagram}*`,
+      null,
+      { quoted: m }
+    );
+  }
 };
 
-// Regex per attivare il comando
 handler.command = /^(setig|eliminaig)$/i;
-
 export default handler;
