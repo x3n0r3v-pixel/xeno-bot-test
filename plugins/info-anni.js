@@ -5,7 +5,7 @@ const setetaHandler = async (m, { conn, command, text }) => {
     // Controllo input valido
     const eta = parseInt(text);
     if (!eta || isNaN(eta) || eta < 10 || eta > 80) {
-      return conn.reply(m.chat, `𝐈𝐧𝐬𝐞𝐫𝐢𝐬𝐜𝐢 𝐮𝐧'𝐞𝐭𝐚̀ 𝐯𝐚𝐥𝐢𝐝𝐚.\n> 𝐋'𝐞𝐭𝐚̀ 𝐯𝐚𝐥𝐢𝐝𝐚 𝐞̀ 𝐝𝐚 10 𝐚 80 𝐚𝐧𝐧𝐢.`, m);
+      return conn.reply(m.chat, `𝐔𝐭𝐢𝐥𝐢𝐳𝐳𝐚 .𝐬𝐞𝐭𝐚𝐧𝐧𝐢 𝐨 .𝐞𝐥𝐢𝐦𝐢𝐧𝐚𝐚𝐧𝐧𝐢\n> 𝐈𝐧𝐬𝐞𝐫𝐢𝐬𝐜𝐢 𝐮𝐧'𝐞𝐭𝐚̀ 𝐯𝐚𝐥𝐢𝐝𝐚.\n> 𝐋'𝐞𝐭𝐚̀ 𝐯𝐚𝐥𝐢𝐝𝐚 𝐞̀ 𝐝𝐚 10 𝐚 80 𝐚𝐧𝐧𝐢.`, m);
     }
 
     // Salvataggio nel database
