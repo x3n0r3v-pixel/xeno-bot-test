@@ -48,9 +48,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     "BanGruppo": chat.isBanned,
     "Antiporno": chat.antiporno,
     "AntiCall": chat.antiCall,
-    "AntiInstagram": chat.antiinsta,
+    "Antiinsta": chat.antiinsta,
     "AntiTikTok": chat.antitiktok,
-    "AntiPakistani": chat.antiArab,
+    "Antiarab": chat.antiArab,
     "Antivirus": chat.antivirus,
     "Antibot": chat.antibot,
   };
