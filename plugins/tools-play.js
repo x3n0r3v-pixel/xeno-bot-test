@@ -186,9 +186,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
 
 handler.help = ['play <testo/url>'];
 handler.tags = ['downloader'];
-handler.command = /^(play|ytmp4|play2)$/i;
+handler.command = ['play', 'ytmp4', 'play2']; // accetta anche "play" come comando base
 
 export default handler;
-
-
 
