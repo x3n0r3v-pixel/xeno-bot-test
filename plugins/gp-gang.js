@@ -74,7 +74,7 @@ const handleGangInvite = async (m, user, users, text, usedPrefix, conn) => {
         timeout: null
     };
     
-    let inviteMsg = `🔫 *𝗜𝗡𝗩𝗜𝗧𝗢 𝗗𝗜 𝗚𝗔𝗡𝗚* 🔫\n\n@${m.sender.split('@')[0]} 𝘁𝗶 𝘀𝘁𝗮 𝗶𝗻𝘃𝗶𝘁𝗮𝗻𝗱𝗼 𝗮 𝗳𝗮𝗿𝗲 𝗽𝗮𝗿𝘁𝗲 𝗱𝗲𝗹𝗹𝗮 𝗴𝗮𝗻𝗴:\n\n*${gangInfo.emoji} ${gangInfo.name} ${gangInfo.emoji}*\n\n💀 𝗥𝗶𝘀𝗽𝗼𝗻𝗱𝗶 "𝗮𝗰𝗰𝗲𝘁𝘁𝗮" 𝗽𝗲𝗿 𝗲𝗻𝘁𝗿𝗮𝗿𝗲 𝗼 "𝗿𝗶𝗳𝗶𝘂𝘁𝗮" 𝗽𝗲𝗿 𝗿𝗶𝗳𝗶𝘂𝘁𝗮𝗿𝗲.\n⏳ 𝗛𝗮𝗶 𝟲𝟬 𝘀𝗲𝗰𝗼𝗻𝗱𝗶 𝗽𝗲𝗿 𝗱𝗲𝗰𝗶𝗱𝗲𝗿𝗲!`;
+    let inviteMsg = `🔫 *𝗜𝗡𝗩𝗜𝗧𝗢 𝗗𝗜 𝗚𝗔𝗡𝗚* 🔫\n\n@${m.sender.split('@')[0]} 𝘁𝗶 𝘀𝘁𝗮 𝗶𝗻𝘃𝗶𝘁𝗮𝗻𝗱𝗼 𝗮 𝗳𝗮𝗿𝗲 𝗽𝗮𝗿𝘁𝗲 𝗱𝗲𝗹𝗹𝗮 𝗴𝗮𝗻𝗴:\n\n*${gangInfo.emoji} ${gangInfo.name} ${gangInfo.emoji}*\n\n💀 𝗥𝗶𝘀𝗽𝗼𝗻𝗱𝗶 "𝗮𝗰𝗰𝗲𝘁𝗮" 𝗽𝗲𝗿 𝗲𝗻𝘁𝗿𝗮𝗿𝗲 𝗼 "𝗿𝗶𝗳𝗶𝘂𝘁𝗮" 𝗽𝗲𝗿 𝗿𝗶𝗳𝗶𝘂𝘁𝗮𝗿𝗲.\n⏳ 𝗛𝗮𝗶 𝟲𝟬 𝘀𝗲𝗰𝗼𝗻𝗱𝗶 𝗽𝗲𝗿 𝗱𝗲𝗰𝗶𝗱𝗲𝗿𝗲!`;
     await conn.sendMessage(m.chat, { 
         text: inviteMsg, 
         mentions: [mention, m.sender] 
@@ -131,7 +131,11 @@ const handleLeaveGang = (m, user, users) => {
     
     const gangId = user.gang.id;
     const gangInfo = gangData[gangId];
-    
+    if (!gangInfo) {
+        user.gang = null;
+        throw '❌ La gang non esiste più o è stata sciolta.';
+    }
+
     if (user.gang.role === 'leader') {
         // Se il leader lascia, la gang viene sciolta
         gangInfo.members.forEach(member => {
@@ -152,12 +156,16 @@ const handleKickFromGang = (m, user, users) => {
     if (!user.gang) throw '🚫 𝗡𝗼𝗻 𝗳𝗮𝗶 𝗽𝗮𝗿𝘁𝗲 𝗱𝗶 𝗻𝗲𝘀𝘀𝘂𝗻𝗮 𝗴𝗮𝗻𝗴!';
     if (user.gang.role !== 'leader') throw '🔪 𝗦𝗼𝗹𝗼 𝗶𝗹 𝗰𝗮𝗽𝗼 𝗽𝘂𝗼̀ 𝗰𝗮𝗰𝗰𝗶𝗮𝗿𝗲 𝗾𝘂𝗮𝗹𝗰𝗰𝘂𝗻𝗼!';
     
-    let mention = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : null;
+    let mention = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : null;
     if (!mention) throw '🔫 𝗧𝗮𝗴𝗴𝗮 𝗶𝗹 𝗺𝗲𝗺𝗯𝗿𝗼 𝗱𝗮 𝗰𝗮𝗰𝗰𝗶𝗮𝗿𝗲!';
     if (mention === m.sender) throw '🤡 𝗡𝗼𝗻 𝗽𝘂𝗼𝗶 𝗰𝗮𝗰𝗰𝗶𝗮𝗿𝗲 𝘁𝗲 𝘀𝘁𝗲𝘀𝘀𝗼!';
     
     const gangId = user.gang.id;
     const gangInfo = gangData[gangId];
+    if (!gangInfo) {
+        user.gang = null;
+        throw '❌ La gang non esiste più o è stata sciolta.';
+    }
     
     if (!gangInfo.members.includes(mention)) throw '🚷 𝗤𝘂𝗲𝘀𝘁𝗼 𝗴𝗮𝗻𝗴𝘀𝘁𝗲𝗿 𝗻𝗼𝗻 𝗳𝗮 𝗽𝗮𝗿𝘁𝗲 𝗱𝗲𝗹𝗹𝗮 𝘁𝘂𝗮 𝗴𝗮𝗻𝗴!';
     
@@ -173,6 +181,10 @@ const handleGangInfo = (m, user, users) => {
     
     const gangId = user.gang.id;
     const gangInfo = gangData[gangId];
+    if (!gangInfo) {
+        user.gang = null;
+        throw '❌ La gang non esiste più o è stata sciolta.';
+    }
     
     let membersList = gangInfo.members.map(member => {
         let role = member === gangInfo.leader ? '👑 Capo' : '💀 Soldato';
