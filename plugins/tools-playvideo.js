@@ -60,7 +60,7 @@ const ddownr = {
   }
 };
 
-const downloadFromSource = async (source, url, title, thumb, m, conn) => {
+export async function downloadFromSource(source, url, title, thumb, m, conn) {
   try {
     const res = await fetch(source);
     let json;
