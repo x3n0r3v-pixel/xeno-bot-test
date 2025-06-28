@@ -4,7 +4,7 @@ import axios from "axios";
 
 const formatAudio = ['mp3', 'm4a', 'webm', 'acc', 'flac', 'opus', 'ogg', 'wav'];
 const formatVideo = ['360', '480', '720', '1080'];
-const MAX_DURATION = 300; // 5 minuti in secondi
+const MAX_DURATION = 600; // 5 minuti in secondi
 
 const ddownr = {
   download: async (url, format) => {
@@ -260,6 +260,7 @@ handler.command = handler.help = ['play', 'playaudio', 'playvideo', 'ytmp4', 'pl
 handler.tags = ['downloader'];
 
 export default handler;
+
 
 
 
