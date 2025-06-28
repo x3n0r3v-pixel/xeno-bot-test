@@ -59,7 +59,7 @@ global.author = '𝐌𝐝'
 
 //────────────────────────────
 
-global.vs = '5.1'
+global.vs = '5.2'
 
 global.nomebot = '𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲-𝐁𝐨𝐭'
 
