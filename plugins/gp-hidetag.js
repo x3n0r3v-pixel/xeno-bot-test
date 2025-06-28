@@ -5,7 +5,26 @@ import { generateWAMessageFromContent } from '@whiskeysockets/baileys'
  let users = participants.map(u => conn.decodeJid(u.id)) 
  let q = m.quoted ? m.quoted : m || m.text || m.sender 
  let c = m.quoted ? await m.getQuotedObj() : m.msg || m.text || m.sender 
- let msg = conn.cMod(m.chat, generateWAMessageFromContent(m.chat, { [m.quoted ? q.mtype : 'extendedTextMessage']: m.quoted ? c.message[q.mtype] : { text: '' || c }}, {}), text || q.text, conn.user.jid, { mentions: users }) 
+ let tagger = m.sender ? '@' + (m.sender.split('@')[0]) : ''
+ let tagText
+ if (m.quoted && m.quoted.text) {
+    tagText = `${m.quoted.text}\n\ntag by ${tagger}`
+ } else if (typeof (text || q.text) === 'string' && (text || q.text).trim()) {
+    tagText = `${text || q.text}\n\ntag by ${tagger}`
+ } else {
+    tagText = `.hidetag\n\ntag by ${tagger}`
+ }
+ let msg = conn.cMod(
+    m.chat,
+    generateWAMessageFromContent(
+        m.chat,
+        { [m.quoted ? q.mtype : 'extendedTextMessage']: m.quoted ? c.message[q.mtype] : { text: tagText } },
+        {}
+    ),
+    tagText,
+    conn.user.jid,
+    { mentions: users }
+ )
  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id }) 
   
  } catch {   
