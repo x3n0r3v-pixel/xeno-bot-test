@@ -15,8 +15,9 @@ let handler = async (m, { conn, participants, command, text, args, usedPrefix })
 };
 
 const handleSposa = async (m, user, users, text, usedPrefix, conn) => {
-    let mention = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : null;
-    if (!mention) throw `𝐓𝐚𝐠𝐠𝐚 𝐥𝐚 𝐩𝐞𝐫𝐬𝐨𝐧𝐚 𝐚 𝐜𝐮𝐢 𝐯𝐮𝐨𝐢 𝐢𝐧𝐯𝐢𝐚𝐫𝐞 𝐥𝐚 𝐩𝐫𝐨𝐩𝐨𝐬𝐭𝐚 𝐝𝐢 𝐦𝐚𝐭𝐫𝐢𝐦𝐨𝐧𝐢𝐨!\n𝐄𝐬𝐞𝐦𝐩𝐢𝐨: ${usedPrefix}sposa @tag`;
+    let mention = (m.mentionedJid && m.mentionedJid[0]) ? m.mentionedJid[0] : (m.quoted ? m.quoted.sender : null);
+    if (!mention || typeof mention !== 'string' || !mention.endsWith('@s.whatsapp.net')) 
+        throw `𝐓𝐚𝐠𝐠𝐚 𝐥𝐚 𝐩𝐞𝐫𝐬𝐨𝐧𝐚 𝐚 𝐜𝐮𝐢 𝐯𝐮𝐨𝐢 𝐢𝐧𝐯𝐢𝐚𝐫𝐞 𝐥𝐚 𝐩𝐫𝐨𝐩𝐨𝐬𝐭𝐚 𝐝𝐢 𝐦𝐚𝐭𝐫𝐢𝐦𝐨𝐧𝐢𝐨!\n𝐄𝐬𝐞𝐦𝐩𝐢𝐨: ${usedPrefix}sposa @tag`;
 
     if (mention === m.sender) throw '𝐍𝐨𝐧 𝐩𝐮𝐨𝐢 𝐬𝐩𝐨𝐬𝐚𝐫𝐭𝐢 𝐝𝐚 𝐬𝐨𝐥𝐨!';
     let destinatario = users[mention];
@@ -81,8 +82,14 @@ handler.before = async (m) => {
         let fromUser = proposals[m.sender].from;
         let toUser = m.sender;
 
+        // Controlla che entrambi gli utenti esistano nel database
         let senderUser = global.db.data.users[fromUser];
         let receiverUser = global.db.data.users[toUser];
+        if (!senderUser || !receiverUser) {
+            delete proposals[fromUser];
+            delete proposals[toUser];
+            return m.reply('❌ Uno degli utenti non è più presente nel database.');
+        }
 
         senderUser.sposato = true;
         senderUser.coniuge = toUser;
