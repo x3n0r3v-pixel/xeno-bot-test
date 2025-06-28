@@ -118,13 +118,20 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 ┃◈┃• *Pubblicato:* ${ago}
 ┃◈┃• *Link:* ${url}
 ┃◈└───────┈⊷
-┃◈┃• *Sto inviando ${command === 'play' ? 'l\'audio' : 'il video'}..*
 ╰━━━━━━━━━┈·๏`;
 
     const thumb = (await conn.getFile(thumbnail))?.data;
 
     await conn.sendMessage(m.chat, {
       text: infoMessage,
+      footer: 'Scegli un formato:',
+      buttons: [
+        { buttonId: `${usedPrefix}play ${title}`, buttonText: { displayText: "🎵 Scarica Audio" }, type: 1 },
+        { buttonId: `${usedPrefix}ytmp4 ${title}`, buttonText: { displayText: "🎬 Scarica Video" }, type: 1 },
+        { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 Salva in Playlist" }, type: 1 }
+      ],
+      viewOnce: true,
+      headerType: 4,
       contextInfo: {
         forwardingScore: 99,
         isForwarded: true,
@@ -227,3 +234,6 @@ handler.command = handler.help = ['play', 'ytmp4', 'play2'];
 handler.tags = ['downloader'];
 
 export default handler;
+
+
+
