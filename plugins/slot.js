@@ -51,8 +51,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     let end;
     if (win || (estratti[0] === estratti[1] && estratti[1] === estratti[2])) {
-        end = `𝐡𝐚𝐢 𝐯𝐢𝐧𝐭𝐨 🎉 🎁`
+        end = `𝐡𝐚𝐢 𝐯𝐢𝐧𝐭𝐨 🎉 🎁\nComplimenti, hai vinto 500 unitycoins!`
         users.exp += apuesta + apuesta
+        users.limit = (users.limit || 0) + 500 // aggiungi 500 unitycoins
         win = true;
     } else if (estratti[0] === estratti[1] || estratti[0] === estratti[2] || estratti[1] === estratti[2]) {
         end = `𝐜𝐨𝐧𝐭𝐢𝐧𝐮𝐚 𝐚 𝐭𝐞𝐧𝐭𝐚𝐫𝐞 . . .`
