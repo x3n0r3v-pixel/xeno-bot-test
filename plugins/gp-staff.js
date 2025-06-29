@@ -29,7 +29,7 @@ END:VCARD`.replace(/\n/g, '\r\n');
                 { vcard: createVCard('Developer 4', '393518419909', 'Developer') },
                 { vcard: createVCard('Developer 5', '639649477630', 'Developer') },
                 { vcard: createVCard('Developer 6', '393509368693', 'Developer') },
-                { vcard: createVCard('Developer 7', '393201448716', 'Developer') } // Nuovo numero aggiunto
+                { vcard: createVCard('Developer 7', '393201448716', 'Developer') } 
             ]
         }
     }, { quoted: m });
