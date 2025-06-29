@@ -1,12 +1,24 @@
-const botName = "ChatUnityBot"; // Definizione del nome del bot
+const botName = "ChatUnityBot"; // Nome del bot
 
 let handler = async (m, { conn, text }) => {
-    if (!m.mentionedJid || m.mentionedJid.length === 0) {
-        return m.reply("Tagga qualcuno da rizzare"); // Messaggio se nessuno è stato taggato
+    // Destinatario finale da taggare
+    let destinatario;
+
+    // Se è una risposta a un messaggio
+    if (m.quoted && m.quoted.sender) {
+        destinatario = m.quoted.sender;
+    } 
+    // Se ci sono utenti menzionati
+    else if (m.mentionedJid && m.mentionedJid.length > 0) {
+        destinatario = m.mentionedJid[0];
+    } 
+    // Nessun destinatario trovato
+    else {
+        return m.reply("Tagga qualcuno o rispondi a un messaggio per rizzarlo.");
     }
 
     let chiHaUsato = `@${m.sender.split('@')[0]}`;
-    let chiTaggare = `@${m.mentionedJid[0].split('@')[0]}`;
+    let chiTaggare = `@${destinatario.split('@')[0]}`;
 
     m.reply(
         `
@@ -20,7 +32,7 @@ ${chiHaUsato} ha rizzato ${chiTaggare}!
         `,
         null,
         {
-            mentions: m.mentionedJid
+            mentions: [destinatario] // Solo il destinatario viene taggato
         }
     );
 };
