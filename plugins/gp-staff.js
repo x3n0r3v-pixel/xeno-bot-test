@@ -1,5 +1,7 @@
+//creazione di chatunity
+
 let handler = async (m, { conn }) => {
-    // Funzione per generare vCard perfettamente formattate
+
     const createVCard = (name, number, role) => {
         return `BEGIN:VCARD
 VERSION:3.0
@@ -14,7 +16,7 @@ END:VCARD`.replace(/\n/g, '\r\n');
         contacts: { 
             displayName: '👥 ChatUnity Staff', 
             contacts: [
-                // Team Principale
+           
                 { vcard: createVCard('Creatore', '393515533859', 'Founder') },
                 { vcard: createVCard('Finanziatore', '393803482529', 'Financer') },
                 { vcard: createVCard('Social Manager', '639076516872', 'Social Media') },
@@ -26,13 +28,13 @@ END:VCARD`.replace(/\n/g, '\r\n');
                 { vcard: createVCard('Developer 3', '590590596699', 'Developer') },
                 { vcard: createVCard('Developer 4', '393518419909', 'Developer') },
                 { vcard: createVCard('Developer 5', '639649477630', 'Developer') },
-                { vcard: createVCard('Developer 6', '393509368693', 'Developer') }, // Numero aggiunto
+                { vcard: createVCard('Developer 6', '393509368693', 'Developer') },
+                { vcard: createVCard('Developer 7', '393201448716', 'Developer') } // Nuovo numero aggiunto
             ]
         }
     }, { quoted: m });
 };
 
-// Comandi e metadati
 handler.help = ['staff'];
 handler.tags = ['info'];
 handler.command = ['staff', 'team'];
