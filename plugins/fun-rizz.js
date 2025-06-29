@@ -1,5 +1,3 @@
-
-
 const botName = "ChatUnityBot"; // Definizione del nome del bot
 
 let handler = async (m, { conn, text }) => {
@@ -12,22 +10,17 @@ let handler = async (m, { conn, text }) => {
 
     m.reply(
         `
-    *┏━_͜͡-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡_͜͡━┓*\n
-    ❥ *"${pickRandom(global.piropo)}"*\n\n${chiHaUsato} ha rizzato ${chiTaggare}!\n\n\t
-    \n*┗━_͜͡-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡-͜͡-͜͡-͜͡_͜͡━┛*
-    `,
+*┏━_͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡━┓*
+
+❥ *"${pickRandom(global.piropo)}"*
+
+${chiHaUsato} ha rizzato ${chiTaggare}!
+
+*┗━_͜͡-͜͡-͜͡-͜͡⚘-͜͡-͜͡-͜͡━┛*
+        `,
         null,
         {
-            mentions: m.mentionedJid,
-            contextInfo: {
-                forwardingScore: 99,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363259442839354@newsletter',
-                    serverMessageId: '',
-                    newsletterName: 'ChatUnity'
-                }
-            }
+            mentions: m.mentionedJid
         }
     );
 };
