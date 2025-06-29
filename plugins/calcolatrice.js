@@ -12,7 +12,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     let target = tag + '@s.whatsapp.net';
     let name = await conn.getName(target);
     let percentage = Math.floor(Math.random() * 100) + 1;
-    
+
     // Personalizziamo le risposte per ogni comando
     let responses = {
         'gay': {
@@ -56,7 +56,7 @@ let handler = async (m, { conn, command, text, usedPrefix }) => {
     };
 
     let randomMessage = response.messages[Math.floor(Math.random() * response.messages.length)];
-    
+
     await conn.sendMessage(m.chat, {
         text: `${response.emoji} ${randomMessage}`,
         mentions: [target]
