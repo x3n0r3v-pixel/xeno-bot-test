@@ -2,22 +2,23 @@ import { performance } from 'perf_hooks'
 
 let handler = async (m, { conn, text }) => {
   let nomeDelBot = global.db.data.nomedelbot || `𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲`
-  
-  const messageOptions = {
-    contextInfo: {
-      forwardingScore: 999,
-      isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363259442839354@newsletter',
-        serverMessageId: '',
-        newsletterName: `${nomeDelBot}`
-      }
-    }
+
+  // Identifica il destinatario: risposto o menzionato
+  let destinatario;
+  if (m.quoted && m.quoted.sender) {
+    destinatario = m.quoted.sender;
+  } else if (m.mentionedJid && m.mentionedJid.length > 0) {
+    destinatario = m.mentionedJid[0];
+  } else {
+    return m.reply("Tagga qualcuno o rispondi a un messaggio per segarlo 😏");
   }
 
+  let nomeDestinatario = `@${destinatario.split('@')[0]}`
+
+  // Messaggio iniziale
   let { key } = await conn.sendMessage(m.chat, { 
-    text: "Ora sego",
-    ...messageOptions
+    text: `Ora sego ${nomeDestinatario}...`,
+    mentions: [destinatario]
   }, { quoted: m })
 
   const array = [
@@ -28,16 +29,16 @@ let handler = async (m, { conn, text }) => {
     await conn.sendMessage(m.chat, { 
       text: `${item}`, 
       edit: key,
-      ...messageOptions
+      mentions: [destinatario]
     }, { quoted: m })
     await new Promise(resolve => setTimeout(resolve, 20))
   }
 
+  // Messaggio finale
   return conn.sendMessage(m.chat, { 
-    text: `Oh ${text} ha sborrato!😋💦`.trim(),
+    text: `Oh ${nomeDestinatario} ha sborrato! 😋💦`,
     edit: key,
-    mentions: [m.sender],
-    ...messageOptions
+    mentions: [destinatario]
   }, { quoted: m })
 }
 
