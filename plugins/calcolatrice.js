@@ -1,5 +1,11 @@
 let handler = async (m, { conn, command, text, usedPrefix }) => {
-    if (!text) return conn.reply(m.chat, `⚠️ Devi menzionare qualcuno! Esempio: ${usedPrefix + command} @utente`, m);
+    if (!text) {
+    if (m.quoted && m.quoted.sender) {
+        text = '@' + m.quoted.sender.split('@')[0];
+    } else {
+        return conn.reply(m.chat, `⚠️ Devi menzionare qualcuno o rispondere a un messaggio! Esempio: ${usedPrefix + command} @utente`, m);
+    }
+}
 
     let tag = text.replace(/[@]/g, '');
     let target = tag + '@s.whatsapp.net';
