@@ -17,12 +17,12 @@ const handler = async (m, { conn, usedPrefix, command }) => {
     const lastFriend = friends[friends.length - 1];
     const lastFriendName = lastFriend ? lastFriend.split('@')[0] : 'Nessuno';
     const friendList = friends.length > 0 
-      ? friends.map((friend, index) => `${index + 1}. @${friend.split('@')[0]}`).join('\n') 
+      ? friends.map((friend, index) => `${index + 1}. ${friend.split('@')[0]}`).join('\n') 
       : 'Nessuno';
 
     const message = `📜 *Lista Amici di ${user.name && user.name.trim() !== '' ? user.name : 'Sconosciuto'}*
 ┌───────────────
-│ 👤 *Ultimo Amico:* ${friends.length > 0 ? "@" + lastFriendName : 'Nessuno'}
+│ 👤 *Ultimo Amico:* ${lastFriendName}
 │
 │ 👥 *Lista Completa:*
 ${friends.length > 0 ? friendList : '│   Nessuno'}
@@ -32,14 +32,8 @@ ${friends.length > 0 ? friendList : '│   Nessuno'}
         text: message,
         contextInfo: {
             forwardingScore: 99,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-                newsletterJid: '120363259442839354@newsletter',
-                serverMessageId: '',
-                newsletterName: 'ChatUnity'
-            }
-        },
-        mentions: friends.map(friend => `${friend.split('@')[0]}@s.whatsapp.net`)
+            isForwarded: true
+        }
     }, { quoted: m });
 
   } catch (err) {
