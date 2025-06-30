@@ -712,7 +712,7 @@ let handler = async (_0x534187, {
             'message': {
                 'locationMessage': {
                     'name': _0xd70231[_0x2eaf59(0x217)],
-                    'jpegThumbnail': await (await _0xd70231['yploR'](fetch, 'https://i.ibb.co/HRy5Xvx/IMG-0631.png'))[_0x2eaf59(0x24a)](),
+                    'jpegThumbnail': await (await _0xd70231['yploR'](fetch, 'https://telegra.ph/file/de558c2aa7fc80d32b8c3.png'))[_0x2eaf59(0x24a)](),
                     'vcard': _0x2eaf59(0x21a)
                 }
             },
