@@ -15,25 +15,26 @@ const handler = async (m, { conn, usedPrefix, command }) => {
     const friends = user.amici || [];
 
     const lastFriend = friends[friends.length - 1];
-    const lastFriendName = lastFriend ? lastFriend.split('@')[0] : 'Nessuno';
-    const friendList = friends.length > 0 
-      ? friends.map((friend, index) => `${index + 1}. ${friend.split('@')[0]}`).join('\n') 
+    const lastFriendNumber = lastFriend ? lastFriend.split('@')[0] : 'Nessuno';
+
+    const friendList = friends.length > 0
+      ? friends.map((friend, index) => `${index + 1}. ${friend.split('@')[0]}`).join('\n')
       : 'Nessuno';
 
     const message = `📜 *Lista Amici di ${user.name && user.name.trim() !== '' ? user.name : 'Sconosciuto'}*
 ┌───────────────
-│ 👤 *Ultimo Amico:* ${lastFriendName}
+│ 👤 *Ultimo Amico:* ${lastFriendNumber}
 │
 │ 👥 *Lista Completa:*
 ${friends.length > 0 ? friendList : '│   Nessuno'}
 └───────────────`;
 
-    await conn.sendMessage(m.chat, { 
-        text: message,
-        contextInfo: {
-            forwardingScore: 99,
-            isForwarded: true
-        }
+    await conn.sendMessage(m.chat, {
+      text: message,
+      contextInfo: {
+        forwardingScore: 99,
+        isForwarded: true
+      }
     }, { quoted: m });
 
   } catch (err) {
