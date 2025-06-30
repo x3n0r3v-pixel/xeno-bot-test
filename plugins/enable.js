@@ -865,7 +865,7 @@ function _0x3748() {
         'DFnLb',
         'TIqJg',
         'kHQWG',
-        'https://i.ibb.co/nqJRfF66/IMG-0630.jpg',
+        'https://telegra.ph/file/00edd0958c94359540a8f.png',
         'HwaAQ',
         'CqDUf',
         'data',
