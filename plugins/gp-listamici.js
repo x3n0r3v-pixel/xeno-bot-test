@@ -1,3 +1,4 @@
+
 import { createHash } from 'crypto';
 import PhoneNumber from 'awesome-phonenumber';
 import fetch from 'node-fetch';
@@ -15,15 +16,15 @@ const handler = async (m, { conn, usedPrefix, command }) => {
     const friends = user.amici || [];
 
     const lastFriend = friends[friends.length - 1];
-    const lastFriendNumber = lastFriend ? lastFriend.split('@')[0] : 'Nessuno';
+    const lastFriendName = lastFriend ? lastFriend.split('@')[0] : 'Nessuno';
 
     const friendList = friends.length > 0
-      ? friends.map((friend, index) => `${index + 1}. ${friend.split('@')[0]}`).join('\n')
+      ? friends.map((friend, index) => `${index + 1}. @${friend.split('@')[0]}`).join('\n')
       : 'Nessuno';
 
     const message = `📜 *Lista Amici di ${user.name && user.name.trim() !== '' ? user.name : 'Sconosciuto'}*
 ┌───────────────
-│ 👤 *Ultimo Amico:* ${lastFriendNumber}
+│ 👤 *Ultimo Amico:* ${friends.length > 0 ? "@" + lastFriendName : 'Nessuno'}
 │
 │ 👥 *Lista Completa:*
 ${friends.length > 0 ? friendList : '│   Nessuno'}
@@ -31,10 +32,7 @@ ${friends.length > 0 ? friendList : '│   Nessuno'}
 
     await conn.sendMessage(m.chat, {
       text: message,
-      contextInfo: {
-        forwardingScore: 99,
-        isForwarded: true
-      }
+      mentions: friends
     }, { quoted: m });
 
   } catch (err) {
