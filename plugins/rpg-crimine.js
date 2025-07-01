@@ -2,78 +2,97 @@ let cooldowns = {}
 
 let handler = async (m, { conn, text, command, usedPrefix }) => {
   let users = global.db.data.users;
+
+  // Assicurati che l'utente che invia il comando esista nel DB
   if (!users[m.sender]) {
-      users[m.sender] = {
-          // aggiungi qui tutte le proprietà di default che usi, ad esempio:
-          limit: 10,
-          // ...altre proprietà...
-      };
+    users[m.sender] = {
+      limit: 10,
+      // ...altre proprietà se necessarie
+    };
   }
 
-  let senderId = m.sender
-  let senderName = conn.getName(senderId)
-  
-  // Cooldown di 5 minuti tra un crimine e l'altro
-  let cooldownTime = 5 * 60
-  if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < cooldownTime * 1000) {
-    let tempoRimanente = formattaTempo(Math.ceil((cooldowns[m.sender] + cooldownTime * 1000 - Date.now()) / 1000))
-    return m.reply(`🚩 𝐡𝐚𝐢 𝐠𝐢𝐚 𝐜𝐨𝐦𝐦𝐞𝐬𝐬𝐨 𝐮𝐧 𝐜𝐫𝐢𝐦𝐢𝐧𝐞 𝐥𝐚𝐝𝐫𝐨 𝐝𝐢 𝐦𝐞𝐫𝐝𝐚 𝐚𝐬𝐩𝐞𝐭𝐭𝐚 *⏱ ${tempoRimanente}* 𝐩𝐫𝐢𝐦𝐚 𝐝𝐞𝐥𝐥𝐚 𝐩𝐫𝐨𝐬𝐬𝐢𝐦𝐚 𝐞𝐧𝐭𝐫𝐚𝐭𝐚 𝐢𝐧 𝐜𝐚𝐬𝐚 𝐩𝐞𝐫 𝐞𝐯𝐢𝐭𝐚𝐫𝐞 𝐝𝐢 𝐞𝐬𝐬𝐞𝐫𝐞 𝐩𝐫𝐞𝐬𝐨🚔.`)
+  let senderId = m.sender;
+  let senderName = conn.getName(senderId);
+
+  // Verifica se l'utente ha risposto a un messaggio
+  if (!m.quoted || !m.quoted.sender) {
+    return m.reply('🧠 Rispondi a un messaggio per rubare da quell\'utente.');
   }
-  
-  cooldowns[m.sender] = Date.now()
-  
-  // Seleziona un utente specifico se taggato, altrimenti casuale
-  let targetId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : Object.keys(users).filter(id => id !== senderId)[Math.floor(Math.random() * (Object.keys(users).length - 1))]
-  let targetName = conn.getName(targetId)
 
-  // Quantità rubabile (15-50 Unitycoins)
-  let minRubare = 50
-  let maxRubare = 100
-  let quantita = Math.floor(Math.random() * (maxRubare - minRubare + 1)) + minRubare
+  let targetId = m.quoted.sender;
 
-  // Possibili esiti (0=successo, 1=catturato, 2=successo parziale)
-  let esito = Math.floor(Math.random() * 3)
+  // Evita che l'utente rubi a se stesso
+  if (targetId === senderId) {
+    return m.reply('🤡 Non puoi rubare a te stesso, idiota.');
+  }
+
+  // Assicurati che il target esista nel DB
+  if (!users[targetId]) {
+    users[targetId] = {
+      limit: 10,
+      // ...altre proprietà se necessarie
+    };
+  }
+
+  // Cooldown di 5 minuti
+  let cooldownTime = 5 * 60 * 1000; // in ms
+  if (cooldowns[senderId] && Date.now() - cooldowns[senderId] < cooldownTime) {
+    let tempoRimanente = formattaTempo(Math.ceil((cooldowns[senderId] + cooldownTime - Date.now()) / 1000));
+    return m.reply(`🚩 Hai già commesso un crimine, aspetta *⏱ ${tempoRimanente}* prima di tentare di nuovo.`);
+  }
+
+  cooldowns[senderId] = Date.now();
+
+  // Quantità rubabile
+  let minRubare = 50;
+  let maxRubare = 100;
+  let quantita = Math.floor(Math.random() * (maxRubare - minRubare + 1)) + minRubare;
+
+  // Esiti: 0=successo, 1=catturato, 2=parziale
+  let esito = Math.floor(Math.random() * 3);
 
   switch (esito) {
     case 0: // Successo completo
-      users[senderId].limit += quantita
-      users[targetId].limit -= quantita
+      users[senderId].limit += quantita;
+      users[targetId].limit = Math.max(0, users[targetId].limit - quantita);
       await conn.sendMessage(m.chat, {
-        text: `🚩 𝐜'𝐞̀𝐥'𝐡𝐚𝐢 𝐟𝐚𝐭𝐭𝐚 𝐥𝐚𝐝𝐫𝐨 𝐝𝐞𝐥 𝐜𝐚𝐳𝐳𝐨 *${quantita} 💶 𝐔𝐂* 𝐚 𝐬𝐭𝐨 𝐝𝐨𝐰𝐧 @${targetId.split("@")[0]}\n\n*+${quantita} 💶* 𝐦𝐞𝐬𝐬𝐢 𝐧𝐞𝐥 𝐭𝐮𝐨 𝐬𝐚𝐥𝐝𝐨.`,
+        text: `💰 Hai rubato con successo *${quantita} 💶 UC* da @${targetId.split("@")[0]}!\n\n*+${quantita} 💶* aggiunti al tuo saldo.`,
         mentions: [targetId]
-      }, { quoted: m })
-      break
+      }, { quoted: m });
+      break;
 
     case 1: // Catturato
-      let multa = Math.min(Math.floor(Math.random() * (users[senderId].limit - minRubare + 1)) + minRubare, maxRubare)
-      users[senderId].limit -= multa
-      await conn.reply(m.chat, `🚩 𝐇𝐇𝐀 𝐬𝐞𝐢 𝐬𝐭𝐚𝐭𝐨 𝐩𝐫𝐞𝐬𝐨 𝐭𝐫𝐨𝐢𝐞𝐭𝐭𝐚 𝐬𝐢 𝐯𝐞𝐝𝐞 𝐜𝐡𝐞 𝐧𝐨𝐧 𝐡𝐚𝐢 𝐞𝐬𝐩𝐞𝐫𝐢𝐞𝐧𝐳𝐚 𝐨𝐫𝐚 𝐜𝐨𝐫𝐫𝐢!! 𝐦𝐮𝐥𝐭𝐚 𝐝𝐢*-${multa} 💶 𝐔𝐂* 𝐩𝐞𝐫 ${senderName}.`, m)
-      break
+      let multa = Math.min(Math.floor(Math.random() * (users[senderId].limit - minRubare + 1)) + minRubare, maxRubare);
+      multa = Math.max(0, multa); // evita valori negativi
+      users[senderId].limit = Math.max(0, users[senderId].limit - multa);
+      await conn.reply(m.chat, `🚔 Sei stato catturato! Multa di *-${multa} 💶 UC* per ${senderName}.`, m);
+      break;
 
-    case 2: // Successo parziale
-      let parziale = Math.min(Math.floor(Math.random() * (users[targetId].limit / 2 - minRubare + 1)) + minRubare, maxRubare)
-      users[senderId].limit += parziale
-      users[targetId].limit -= parziale
+    case 2: // Parziale
+      let parziale = Math.min(Math.floor(Math.random() * (users[targetId].limit / 2 - minRubare + 1)) + minRubare, maxRubare);
+      parziale = Math.max(0, parziale); // evita valori negativi
+      users[senderId].limit += parziale;
+      users[targetId].limit = Math.max(0, users[targetId].limit - parziale);
       await conn.sendMessage(m.chat, {
-        text: `🚩 𝐜'𝐞̀𝐥'𝐡𝐚𝐢 𝐟𝐚𝐭𝐭𝐚 𝐦𝐚 𝐡𝐚𝐢 𝐩𝐫𝐞𝐬𝐨 𝐬𝐨𝐥𝐨 𝐥𝐚 𝐦𝐞𝐭𝐚̀ *${parziale} 💶 Unitycoins* da @${targetId.split("@")[0]}\n\n*+${parziale} 💶* 𝐚𝐠𝐠𝐢𝐮𝐧𝐭𝐞 𝐚𝐥 𝐭𝐮𝐨 𝐬𝐚𝐥𝐝𝐨.`,
+        text: `💸 Hai rubato solo *${parziale} 💶 UC* da @${targetId.split("@")[0]}.\n\n*+${parziale} 💶* aggiunti al tuo saldo.`,
         mentions: [targetId]
-      }, { quoted: m })
-      break
+      }, { quoted: m });
+      break;
   }
-  
-  global.db.write()
+
+  global.db.write();
 }
 
-handler.tags = ['rpg']
-handler.help = ['crimine']
-handler.command = [ 'ruba', 'rapina']
-handler.register = true
-handler.group = true
+handler.tags = ['rpg'];
+handler.help = ['ruba'];
+handler.command = ['ruba', 'rapina'];
+handler.register = true;
+handler.group = true;
 
 function formattaTempo(secondi) {
-  let minuti = Math.floor(secondi / 60)
-  let secondiRimanenti = Math.floor(secondi % 60)
-  return `${minuti} minuti e ${secondiRimanenti} secondi`
+  let minuti = Math.floor(secondi / 60);
+  let secondiRimanenti = Math.floor(secondi % 60);
+  return `${minuti} minuti e ${secondiRimanenti} secondi`;
 }
 
-export default handler
+export default handler;
