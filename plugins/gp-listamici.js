@@ -27,7 +27,7 @@ const handler = async (m, { conn, usedPrefix, command }) => {
 │ 👤 *Ultimo Amico:* ${friends.length > 0 ? "@" + lastFriendName : 'Nessuno'}
 │
 │ 👥 *Lista Completa:*
-${friends.length > 0 ? friendList : '│   Nessuno'}
+${friends.length > 0 ? friendList : '│   Nessuno complimenti lupo solitario'}
 └───────────────`;
 
     await conn.sendMessage(m.chat, {
