@@ -1,4 +1,4 @@
-let gameSessions = {};
+const gameSessions = {};
 let cooldowns = {};
 
 let handler = async (m, { conn, text, command, usedPrefix }) => {
@@ -14,16 +14,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         if (!gameSessions[m.chat]) {
             if (!text) {
                 return conn.sendMessage(m.chat, {
-                    image: { url: 'https://i.imgur.com/Zq3L2x0.png' }, // puoi cambiare con un'immagine tua
-                    caption: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]}\n🕹️ In attesa del secondo giocatore...\n\nScegli una delle opzioni per iniziare.`,
+                    text: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]}\n🕹️ In attesa del secondo giocatore...\n\nScegli una delle opzioni per iniziare.`,
                     footer: 'Fai la tua scelta 👇',
                     mentions: [m.sender],
                     buttons: [
                         { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
                         { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
                     ],
-                    viewOnce: true,
-                    headerType: 4
+                    headerType: 1 // testo semplice, nessuna immagine
                 }, { quoted: m });
             }
 
@@ -36,16 +34,14 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             };
 
             return conn.sendMessage(m.chat, {
-                image: { url: 'https://i.imgur.com/Zq3L2x0.png' },
-                caption: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]} ha scelto *${text.toLowerCase()}*\n🎯 In attesa di un altro giocatore...\n\nTocca a te!`,
+                text: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]} ha scelto *${text.toLowerCase()}*\n🎯 In attesa di un altro giocatore...\n\nTocca a te!`,
                 footer: 'Partecipa ora 👇',
                 mentions: [m.sender],
                 buttons: [
                     { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
                     { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
                 ],
-                viewOnce: true,
-                headerType: 4
+                headerType: 1
             }, { quoted: m });
         } else {
             let session = gameSessions[m.chat];
@@ -53,15 +49,13 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             if (session.status === 'waiting' && m.sender !== session.player1) {
                 if (!['testa', 'croce'].includes(text.toLowerCase())) {
                     return conn.sendMessage(m.chat, {
-                        image: { url: 'https://i.imgur.com/Zq3L2x0.png' },
-                        caption: `⚠️ Devi scegliere tra *testa* o *croce*!`,
+                        text: `⚠️ Devi scegliere tra *testa* o *croce*!`,
                         footer: 'Seleziona una delle opzioni:',
                         buttons: [
                             { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
                             { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
                         ],
-                        viewOnce: true,
-                        headerType: 4
+                        headerType: 1
                     }, { quoted: m });
                 }
 
@@ -92,15 +86,13 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
                 }
 
                 conn.sendMessage(m.chat, {
-                    image: { url: 'https://i.imgur.com/Zq3L2x0.png' },
-                    caption: messaggio + `\n\nVuoi rigiocare? Premi sotto 👇`,
+                    text: messaggio + `\n\nVuoi rigiocare? Premi sotto 👇`,
                     mentions: [session.player1, session.player2],
                     footer: 'Gioca di nuovo',
                     buttons: [
                         { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
                     ],
-                    viewOnce: true,
-                    headerType: 4
+                    headerType: 1
                 }, { quoted: m });
 
                 cooldowns[session.player1] = Date.now();
@@ -114,27 +106,23 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             }
 
             return conn.sendMessage(m.chat, {
-                image: { url: 'https://i.imgur.com/Zq3L2x0.png' },
-                caption: '❌ Partita non disponibile o comando non valido.',
+                text: '❌ Partita non disponibile o comando non valido.',
                 footer: 'Avvia una nuova partita 👇',
                 buttons: [
                     { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
                 ],
-                viewOnce: true,
-                headerType: 4
+                headerType: 1
             }, { quoted: m });
         }
     }
 
     return conn.sendMessage(m.chat, {
-        image: { url: 'https://i.imgur.com/Zq3L2x0.png' },
-        caption: '❌ Comando non valido. Scrivi .moneta o scegli testa/croce.',
+        text: '❌ Comando non valido. Scrivi .moneta o scegli testa/croce.',
         footer: 'Avvia una nuova partita 👇',
         buttons: [
             { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
         ],
-        viewOnce: true,
-        headerType: 4
+        headerType: 1
     }, { quoted: m });
 };
 
