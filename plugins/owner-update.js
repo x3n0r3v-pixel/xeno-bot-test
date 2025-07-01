@@ -8,7 +8,7 @@ await m.react('✅')
 }}
 handler.help = ['aggiornabot']
 handler.tags = ['owner']
-handler.command = ['update', 'aggiornamento', 'aggiornabot'] 
+handler.command = ['aggiorna', 'update', 'aggiornabot'] 
 handler.rowner = true
 
 export default handler
