@@ -12,7 +12,6 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
 
     // Nuova partita o scelta del primo giocatore
     if (!text || ['testa', 'croce'].includes(text.toLowerCase())) {
-        // Se non c'è una sessione attiva, crea una nuova partita e salva la scelta del player1
         if (!gameSessions[m.chat]) {
             if (!text) {
                 // Solo .moneta senza scelta: mostra i bottoni
@@ -22,12 +21,15 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
                           `In attesa del secondo giocatore...\n\n` +
                           `Scegli *testa* o *croce* per partecipare:`,
                     mentions: [m.sender],
-                    buttons: [
-                        { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
-                        { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
-                    ]
+                    footer: 'Fai la tua scelta 👇',
+                    templateButtons: [
+                        { index: 1, quickReplyButton: { displayText: "🪙 Testa", id: `${usedPrefix + command} testa` } },
+                        { index: 2, quickReplyButton: { displayText: "🪙 Croce", id: `${usedPrefix + command} croce` } }
+                    ],
+                    headerType: 1
                 }, { quoted: m });
             }
+
             // Se viene scelto testa/croce, salva la scelta e attendi player2
             if (['testa', 'croce'].includes(text.toLowerCase())) {
                 gameSessions[m.chat] = {
@@ -43,31 +45,36 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
                           `In attesa del secondo giocatore...\n\n` +
                           `Scegli *testa* o *croce* per partecipare:`,
                     mentions: [m.sender],
-                    buttons: [
-                        { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
-                        { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
-                    ]
+                    footer: 'Fai la tua scelta 👇',
+                    templateButtons: [
+                        { index: 1, quickReplyButton: { displayText: "🪙 Testa", id: `${usedPrefix + command} testa` } },
+                        { index: 2, quickReplyButton: { displayText: "🪙 Croce", id: `${usedPrefix + command} croce` } }
+                    ],
+                    headerType: 1
                 }, { quoted: m });
             }
         } else {
-            // Se la sessione esiste già
+            // Sessione già esistente
             let session = gameSessions[m.chat];
-            // Se il secondo giocatore partecipa e non è il primo
+
             if (session.status === 'waiting' && m.sender !== session.player1) {
                 if (!['testa', 'croce'].includes(text.toLowerCase())) {
                     return conn.sendMessage(m.chat, {
                         text: '⚠️ Scegli un\'opzione valida:',
-                        buttons: [
-                            { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
-                            { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
-                        ]
+                        footer: 'Scegli ora 👇',
+                        templateButtons: [
+                            { index: 1, quickReplyButton: { displayText: "🪙 Testa", id: `${usedPrefix + command} testa` } },
+                            { index: 2, quickReplyButton: { displayText: "🪙 Croce", id: `${usedPrefix + command} croce` } }
+                        ],
+                        headerType: 1
                     }, { quoted: m });
                 }
+
                 session.player2 = m.sender;
                 session.choice2 = text.toLowerCase();
                 session.status = 'ready';
 
-                // Entrambi hanno scelto, calcola il risultato
+                // Risultato casuale
                 const risultato = Math.random() < 0.5 ? 'testa' : 'croce';
                 const vincitore1 = session.choice1 === risultato;
                 const vincitore2 = session.choice2 === risultato;
@@ -93,46 +100,50 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
                 conn.sendMessage(m.chat, {
                     text: messaggioRisultato + `\nScrivi *${usedPrefix + command}* per una nuova partita!`,
                     mentions: [session.player1, session.player2],
-                    buttons: [
-                        { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
-                    ]
+                    footer: 'Vuoi rigiocare? 🔁',
+                    templateButtons: [
+                        { index: 1, quickReplyButton: { displayText: "🔄 Nuova partita", id: `${usedPrefix + command}` } }
+                    ],
+                    headerType: 1
                 }, { quoted: m });
 
-                // Resetta la sessione e cooldown entrambi
                 cooldowns[session.player1] = Date.now();
                 cooldowns[session.player2] = Date.now();
                 delete gameSessions[m.chat];
                 return;
             }
-            // Se il player1 prova a scegliere di nuovo
+
             if (session.status === 'waiting' && m.sender === session.player1) {
                 return conn.sendMessage(m.chat, {
                     text: `Hai già scelto *${session.choice1}*. In attesa che un altro giocatore partecipi scegliendo testa o croce.`,
-                    mentions: [session.player1],
+                    mentions: [session.player1]
                 }, { quoted: m });
             }
-            // Se la partita è già pronta o finita
+
             return conn.sendMessage(m.chat, {
                 text: '⚠️ Non puoi unirti a questa partita o il comando non è valido',
-                buttons: [
-                    { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
-                ]
+                footer: 'Prova a iniziare una nuova partita 👇',
+                templateButtons: [
+                    { index: 1, quickReplyButton: { displayText: "🔄 Nuova partita", id: `${usedPrefix + command}` } }
+                ],
+                headerType: 1
             }, { quoted: m });
         }
     }
 
-    // Se non è una mossa valida
     return conn.sendMessage(m.chat, {
-        text: '⚠️ Non puoi unirti a questa partita o il comando non è valido',
-        buttons: [
-            { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
-        ]
+        text: '⚠️ Comando non valido o non puoi partecipare a questa partita.',
+        footer: 'Puoi iniziare una nuova partita 👇',
+        templateButtons: [
+            { index: 1, quickReplyButton: { displayText: "🔄 Nuova partita", id: `${usedPrefix + command}` } }
+        ],
+        headerType: 1
     }, { quoted: m });
-}
+};
 
 handler.help = ['moneta'];
 handler.tags = ['game'];
-handler.command = [ 'cf', 'flip', 'moneta'];
+handler.command = ['cf', 'flip', 'moneta'];
 handler.register = true;
 
 function secondiAHMS(secondi) {
