@@ -14,14 +14,10 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
         if (!gameSessions[m.chat]) {
             if (!text) {
                 return conn.sendMessage(m.chat, {
-                    text: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]}\n🕹️ In attesa del secondo giocatore...\n\nScegli una delle opzioni per iniziare.`,
-                    footer: 'Fai la tua scelta 👇',
+                    text: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]}\n🕹️ In attesa del secondo giocatore...\n\nScrivi "testa" o "croce" per iniziare.`,
+                    footer: 'Fai la tua scelta',
                     mentions: [m.sender],
-                    buttons: [
-                        { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
-                        { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
-                    ],
-                    headerType: 1 // testo semplice, nessuna immagine
+                    headerType: 1
                 }, { quoted: m });
             }
 
@@ -34,13 +30,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             };
 
             return conn.sendMessage(m.chat, {
-                text: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]} ha scelto *${text.toLowerCase()}*\n🎯 In attesa di un altro giocatore...\n\nTocca a te!`,
-                footer: 'Partecipa ora 👇',
+                text: `🎮 *Testa o Croce*\n\n🧑 Giocatore 1: @${m.sender.split('@')[0]} ha scelto *${text.toLowerCase()}*\n🎯 In attesa di un altro giocatore...\n\nTocca a te! Scrivi "testa" o "croce".`,
+                footer: 'Partecipa ora',
                 mentions: [m.sender],
-                buttons: [
-                    { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
-                    { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
-                ],
                 headerType: 1
             }, { quoted: m });
         } else {
@@ -49,12 +41,8 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             if (session.status === 'waiting' && m.sender !== session.player1) {
                 if (!['testa', 'croce'].includes(text.toLowerCase())) {
                     return conn.sendMessage(m.chat, {
-                        text: `⚠️ Devi scegliere tra *testa* o *croce*!`,
-                        footer: 'Seleziona una delle opzioni:',
-                        buttons: [
-                            { buttonId: `${usedPrefix + command} testa`, buttonText: { displayText: "🪙 Testa" }, type: 1 },
-                            { buttonId: `${usedPrefix + command} croce`, buttonText: { displayText: "🪙 Croce" }, type: 1 }
-                        ],
+                        text: `⚠️ Devi scegliere tra *testa* o *croce*! Scrivi la tua scelta.`,
+                        footer: 'Seleziona testa o croce',
                         headerType: 1
                     }, { quoted: m });
                 }
@@ -86,12 +74,9 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
                 }
 
                 conn.sendMessage(m.chat, {
-                    text: messaggio + `\n\nVuoi rigiocare? Premi sotto 👇`,
+                    text: messaggio + `\n\nPer giocare di nuovo scrivi il comando ${usedPrefix + command}`,
                     mentions: [session.player1, session.player2],
                     footer: 'Gioca di nuovo',
-                    buttons: [
-                        { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
-                    ],
                     headerType: 1
                 }, { quoted: m });
 
@@ -106,22 +91,16 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
             }
 
             return conn.sendMessage(m.chat, {
-                text: '❌ Partita non disponibile o comando non valido.',
-                footer: 'Avvia una nuova partita 👇',
-                buttons: [
-                    { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
-                ],
+                text: '❌ Partita non disponibile o comando non valido.\n\nPer iniziare una nuova partita scrivi il comando ' + usedPrefix + command,
+                footer: 'Avvia una nuova partita',
                 headerType: 1
             }, { quoted: m });
         }
     }
 
     return conn.sendMessage(m.chat, {
-        text: '❌ Comando non valido. Scrivi .moneta o scegli testa/croce.',
-        footer: 'Avvia una nuova partita 👇',
-        buttons: [
-            { buttonId: `${usedPrefix + command}`, buttonText: { displayText: "🔄 Nuova partita" }, type: 1 }
-        ],
+        text: '❌ Comando non valido. Scrivi "' + usedPrefix + command + '" o scegli "testa" o "croce".',
+        footer: 'Avvia una nuova partita',
         headerType: 1
     }, { quoted: m });
 };
