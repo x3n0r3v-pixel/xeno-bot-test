@@ -84,7 +84,6 @@ ${end}`
         footer: 'Vuoi giocare ancora?',
         buttons: [
           { buttonId: `${usedPrefix}slot`, buttonText: { displayText: "🎰 Gioca ancora" }, type: 1 },
-          { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "🏠 Menu Principale" }, type: 1 }
         ],
         viewOnce: true,
         headerType: 4
