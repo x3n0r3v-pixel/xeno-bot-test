@@ -75,7 +75,7 @@ export async function handler(chatUpdate) {
                 if (!('sDemote' in chat)) chat.sDemote = ''
                 if (!('delete' in chat)) chat.delete = false
                 if (!('gpt' in chat)) chat.gpt = false
-                if (!('bestemmiometro' in chat)) chat.bestemmiometro = true
+                if (!('bestemmiometro' in chat)) chat.bestemmiometro = false
                 if (!('antielimina' in chat)) chat.antielimina = false
                 if (!('antiLink' in chat)) chat.antiLink = true
                 if (!('antiinsta' in chat)) chat.antiinsta = false
@@ -83,7 +83,7 @@ export async function handler(chatUpdate) {
                 if (!('antiLink2' in chat)) chat.antiLink2 = false
                 if (!('antiviewonce' in chat)) chat.antiviewonce = false
                 if (!('antiTraba' in chat)) chat.antiTraba = true
-                if (!('antiArab' in chat)) chat.antiArab = true
+                if (!('antiArab' in chat)) chat.antiArab = false
                 if (!('modoadmin' in chat)) chat.modoadmin = false
                 if (!('antiporno' in chat)) chat.antiporno = true
                 if (!isNumber(chat.expired)) chat.expired = 0
