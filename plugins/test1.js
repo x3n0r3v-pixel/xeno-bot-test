@@ -1,376 +1,381 @@
-const handler = async (m, { conn, command, groupMetadata, usedPrefix, isAdmin, isOwner}) => {
-const mention = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : m.quoted
-const who = mention ? mention : m.sender
-const user = global.db.data.users[who] || {}
-
-//ciao davide se funziona lasciati mettere la punta:)
-
-if (command == 'menu') {
-   const commandList = `
-╭━━〔 *⚡ MENU DEL BOT ⚡* 〕━━╮
-┃
-┃ 👤 *Proprietario*   → ${usedPrefix}proprietario
-┃ 🛡️ *Admin*         → ${usedPrefix}admin
-┃ 👥 *Gruppo*        → ${usedPrefix}gruppo
-┃ ⚙️ *Funzioni*      → ${usedPrefix}funzioni
-┃
-╰━━━━━━━━━━━━━━━━━━━━━━╯
-*Versione:* ${vs}
-`.trim();
-
-  await conn.sendMessage(m.chat, {
-      text: commandList,
-      footer: 'Scegli un menu:',
-      buttons: [
-        { buttonId: `${usedPrefix}menuadmin`, buttonText: { displayText: '🛡️ Menu Admin' }, type: 1 },
-        { buttonId: `${usedPrefix}menuowner`, buttonText: { displayText: '👑 Menu Owner' }, type: 1 },
-        { buttonId: `${usedPrefix}menusicurezza`, buttonText: { displayText: '🚨 Menu Sicurezza' }, type: 1 },
-      ],
-      headerType: 1
-    }, { quoted: m });
-}
-
-//════════════•⊰✰⊱•═══════════
-
-if (command == 'menugruppo') {
-let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-    }, "message": {
-"locationMessage": { name: '𝐌𝐞𝐧𝐮 𝐆𝐫𝐮𝐩𝐩𝐨',
-"jpegThumbnail": fs.readFileSync('./Menu.png'),
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-}}, "participant": "0@s.whatsapp.net"}
-let due = `══════•⊰✦⊱•══════
-➣ ${usedPrefix}𝐢𝐧𝐟𝐨𝐛𝐨𝐭/𝐛𝐨𝐭
-➣ ${usedPrefix}𝐬𝐭𝐚𝐟𝐟
-➣ ${usedPrefix}𝐩𝐥𝐚𝐲 (𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐩𝐥𝐚𝐲𝟐 (𝐯𝐢𝐝𝐞𝐨)
-➣ ${usedPrefix}𝐫𝐞𝐩𝐨𝐫𝐭
-➣ ${usedPrefix}𝐥𝐢𝐧𝐤
-➣ ${usedPrefix}𝐠𝐩𝐭
-➣ ${usedPrefix}𝐬𝐞𝐭𝐢𝐠 + 𝐧𝐨𝐦𝐞 𝐢𝐠
-➣ ${usedPrefix}𝐫𝐢𝐦𝐮𝐨𝐯𝐢𝐢𝐠
-➣ ${usedPrefix}𝐛𝐚𝐥/𝐦𝐬𝐠/𝐚𝐭𝐭𝐢𝐯𝐢𝐭𝐚̀/𝐚𝐭𝐭𝐢𝐯𝐢𝐭𝐚́/𝐚𝐭𝐭𝐢𝐯𝐢𝐭𝐚/𝐩𝐫𝐨𝐟𝐢𝐥𝐨/𝐢𝐧𝐟𝐨
-➣ ${usedPrefix}𝐬/𝐬𝐭𝐢𝐜𝐤𝐞𝐫/𝐬𝐟𝐮𝐥𝐥 
-➣ ${usedPrefix}𝐥𝐢𝐧𝐤𝐨𝐟𝐟𝐢𝐜𝐢𝐚𝐥
-══════•⊰✦⊱•══════`
-conn.reply(m.chat, due, prova)
-}
-
-//════════════•⊰✦⊱•═══════════ 
-
-if (command == 'menuadmin') {
-if (!isAdmin) return m.reply('𝐌𝐞𝐧𝐮 𝐬𝐨𝐥𝐨 𝐩𝐞𝐫 𝐠𝐥𝐢 𝐚𝐝𝐦𝐢𝐧 𝐧𝐨𝐧 𝐩𝐮𝐨𝐢 𝐮𝐬𝐚𝐫𝐞 𝐪𝐮𝐞𝐬𝐭𝐨 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐩𝐥𝐞𝐛𝐞𝐨!!!')
-let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-    }, "message": {
-"locationMessage": { name: '𝐌𝐞𝐧𝐮 𝐀𝐝𝐦𝐢𝐧',
-"jpegThumbnail": await(await fetch('https://telegra.ph/file/25c9fa995b1201945991c.png')).buffer(),
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-}}, "participant": "0@s.whatsapp.net"
-}
-let tre = `══════•⊰✦⊱•══════
-> 𝐏𝐚𝐧𝐧𝐞𝐥𝐥𝐨 𝐝𝐢 𝐜𝐨𝐧𝐭𝐫𝐨𝐥𝐥𝐨 𝐌𝐨𝐝𝐞𝐫𝐚𝐭𝐨𝐫𝐞
-══════•⊰✦⊱•══════
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐛𝐞𝐬𝐭𝐞𝐦𝐦𝐢𝐨𝐦𝐞𝐭𝐫𝐨
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐥𝐢𝐧𝐤𝐠𝐩
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐥𝐢𝐧𝐤𝐢𝐠
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐥𝐢𝐧𝐤𝐭𝐠
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐥𝐢𝐧𝐤𝐭𝐤
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐬𝐩𝐚𝐦
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐝𝐞𝐭𝐞𝐜𝐭
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐞𝐥𝐢𝐦𝐢𝐧𝐚
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐯𝐢𝐞𝐰𝐨𝐧𝐜𝐞
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐭𝐫𝐚𝐯𝐚
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐩𝐚𝐤𝐢
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐦𝐨𝐝𝐨𝐚𝐝𝐦𝐢𝐧
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐮𝐭𝐨𝐬𝐭𝐢𝐜𝐤𝐞𝐫
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐜𝐡𝐚𝐭𝐛𝐨𝐭
-➣ 𝐬𝐯𝐞𝐠𝐥𝐢𝐚/𝐝𝐨𝐫𝐦𝐢 𝐭𝐮𝐫𝐛𝐨
-➣ ${usedPrefix}𝐬𝐭𝐚𝐭𝐨
-➣ ${usedPrefix}𝐬𝐞𝐭𝐛𝐞𝐧𝐯𝐞𝐧𝐮𝐭𝐨 (@𝐮𝐬𝐞𝐫 𝐭𝐱𝐭)
-➣ ${usedPrefix}𝐬𝐞𝐭𝐚𝐝𝐝𝐢𝐨 (@𝐮𝐬𝐞𝐫 𝐭𝐱𝐭)
-➣ ${usedPrefix}𝐥𝐢𝐧𝐤
-➣ ${usedPrefix}𝐫𝐞𝐢𝐦𝐩𝐨𝐬𝐭𝐚
-➣ ${usedPrefix}𝐡𝐢𝐝𝐞𝐭𝐚𝐠 (𝐭𝐱𝐭)
-➣ ${usedPrefix}𝐭𝐚𝐠𝐚𝐥𝐥/𝐦𝐚𝐫𝐜𝐚𝐫 (𝐭𝐱𝐭)
-➣ ${usedPrefix}𝐢𝐧𝐚𝐭𝐭𝐢𝐯𝐢/𝐯𝐢𝐚𝐢𝐧𝐚𝐭𝐭𝐢𝐯𝐢
-➣ ${usedPrefix}𝐩𝐫𝐨𝐦𝐮𝐨𝐯𝐢/𝐩 @
-➣ ${usedPrefix}𝐫𝐞𝐭𝐫𝐨𝐜𝐞𝐝𝐢/𝐫 @
-➣ ${usedPrefix}𝐚𝐩𝐫𝐢/𝐚𝐩𝐞𝐫𝐭𝐨
-➣ ${usedPrefix}𝐜𝐡𝐢𝐮𝐬𝐨/𝐜𝐡𝐢𝐮𝐝𝐢
-➣ ${usedPrefix}𝐧𝐨𝐦𝐞 (𝐭𝐱𝐭)
-➣ ${usedPrefix}𝐬𝐭𝐚𝐟𝐟
-➣ ${usedPrefix}𝐩𝐢𝐧𝐠
-➣ ${usedPrefix}𝐰𝐚𝐫𝐧 @
-➣ ${usedPrefix}𝐮𝐧𝐰𝐚𝐫𝐧 @
-➣ ${usedPrefix}𝐮𝐧𝐰𝐚𝐫𝐧𝐥𝐢𝐧𝐤/𝐮𝐧𝐰𝐚𝐫𝐧𝐥 @
-➣ ${usedPrefix}𝐦𝐮𝐭𝐚 @
-➣ ${usedPrefix}𝐬𝐦𝐮𝐭𝐚 @
-➣ ${usedPrefix}𝐦𝐮𝐭𝐞𝐭𝐢𝐦𝐞 𝐡/𝐦 @
-➣ ${usedPrefix}𝐝𝐞𝐥 (𝐦𝐬𝐠)
-➣ ${usedPrefix}𝐬𝐭𝐞𝐫𝐦𝐢𝐧𝐚 +𝟗𝟐
-➣ ${usedPrefix}𝐥𝐢𝐬𝐭𝐚𝐧𝐮𝐦 +𝟏
-➣ ${usedPrefix}𝐰𝐚𝐫𝐧𝐥𝐢𝐬𝐭
-➣ ${usedPrefix}𝐦𝐮𝐭𝐞𝐥𝐢𝐬𝐭
-➣ ${usedPrefix}𝐛𝐚𝐧 @
-➣  𝐤𝐢𝐜𝐤/𝐬𝐩𝐚𝐫𝐢𝐬𝐜𝐢/𝐚𝐯𝐚𝐝𝐚𝐜𝐡𝐞𝐝𝐚𝐛𝐫𝐚/𝐩𝐮𝐟𝐟𝐨
-➣ ${usedPrefix}𝐜𝐥𝐚𝐬𝐬𝐢𝐟𝐢𝐜𝐚/𝐭𝐨𝐩
-➣ ${usedPrefix}𝐩𝐥𝐚𝐲 (𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐩𝐥𝐚𝐲𝟐 (𝐯𝐢𝐝𝐞𝐨)
-➣ ${usedPrefix}𝐬/𝐬𝐭𝐢𝐜𝐤𝐞𝐫/𝐬𝐟𝐮𝐥𝐥  
-➣ ${usedPrefix}𝐞𝐝𝐢𝐭  
-══════•⊰✦⊱•══════`
-conn.reply(m.chat, tre, prova)
-}
-
-//════════════•⊰✰⊱•═══════════ 
-
-if (command == 'menufun') {
-let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-    }, "message": {
-"locationMessage": { name: '𝐌𝐞𝐧𝐮 𝐅𝐮𝐧',
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-}}, "participant": "0@s.whatsapp.net"
-}
-let quattro = `══════•⊰✦⊱•══════
-➣ ${usedPrefix}𝐬𝐢𝐦𝐩𝐜𝐚𝐫𝐝 @
-➣ ${usedPrefix}𝐠𝐞𝐧𝐞𝐫𝐞 @
-➣ ${usedPrefix}𝐩𝐮𝐠𝐧𝐚𝐥𝐚 @
-➣ ${usedPrefix}𝐩𝐢𝐜𝐜𝐡𝐢𝐚 @
-➣ ${usedPrefix}𝐬𝐩𝐚𝐫𝐚 @
-➣ ${usedPrefix}𝐦𝐨𝐫𝐝𝐢 @
-➣ ${usedPrefix}𝐚𝐛𝐛𝐫𝐚𝐜𝐜𝐢𝐨/𝐚 @
-➣ ${usedPrefix}𝐛𝐚𝐜𝐢𝐨/𝐚 @
-➣ ${usedPrefix}𝐜𝐫𝐞𝐚𝐜𝐨𝐩𝐩𝐢𝐚 
-➣ ${usedPrefix}𝐭𝐫𝐨𝐯𝐚𝐟𝐢𝐝
-➣ ${usedPrefix}𝐚𝐦𝐨𝐫𝐞 @
-➣ ${usedPrefix}𝐨𝐝𝐢𝐨 @
-➣ ${usedPrefix}𝐬𝐭𝐮𝐩𝐢𝐝𝐨/𝐚 @
-➣ ${usedPrefix}𝐩𝐞𝐧𝐞 @
-➣ ${usedPrefix}𝐭𝐞𝐭𝐭𝐞 @
-➣ ${usedPrefix}𝐢𝐧𝐜𝐮𝐥𝐚 @
-➣ ${usedPrefix}𝐬𝐭𝐮𝐩𝐫𝐚 @
-➣ ${usedPrefix}𝐭𝐡𝐫𝐞𝐞𝐬𝐨𝐦𝐞  @𝐭𝐚𝐠𝐠𝐚 𝟐 𝐩𝐞𝐫𝐬𝐨𝐧𝐞
-➣ ${usedPrefix}𝐨𝐫𝐠𝐢𝐚 @𝐭𝐚𝐠𝐠𝐚 𝟏𝟎 𝐩𝐞𝐫𝐬𝐨𝐧𝐞
-➣ ${usedPrefix}𝐬𝐞𝐠𝐚 @
-➣ ${usedPrefix}𝐝𝐢𝐭𝐚𝐥𝐢𝐧𝐨 @
-➣ ${usedPrefix}𝐚𝐥𝐜𝐨𝐥𝐢𝐳𝐳𝐚𝐭𝐨 @
-➣ ${usedPrefix}𝐚𝐥𝐜𝐨𝐥𝐢𝐳𝐧𝐚 @
-➣ ${usedPrefix}𝐚𝐥𝐜𝐨𝐥𝐭𝐞𝐬𝐭 @
-➣ ${usedPrefix}𝐧𝐨𝐦𝐞𝐧𝐢𝐧𝐣𝐚 + 𝐧𝐨𝐦𝐞
-➣ ${usedPrefix}𝐢𝐡𝐭𝐞𝐬𝐭 
-➣ ${usedPrefix}𝐝𝐨𝐱 @
-➣ ${usedPrefix}𝐝𝐚𝐝𝐨
-➣ ${usedPrefix}𝐬𝐥𝐨𝐭
-➣ ${usedPrefix}𝐠𝐚𝐲 @
-➣ ${usedPrefix}𝐥𝐞𝐬𝐛𝐢𝐜𝐚 @
-➣ ${usedPrefix}𝐟𝐫𝐨𝐜𝐢𝐨 @
-➣ ${usedPrefix}𝐭𝐞𝐫𝐫𝐨𝐧𝐞 @
-➣ ${usedPrefix}𝐧𝐞𝐫𝐝 @
-➣ ${usedPrefix}𝐧𝐞𝐫𝐨/𝐚 @
-➣ ${usedPrefix}𝐚𝐧𝐨𝐫𝐞𝐬𝐬𝐢𝐜𝐨/𝐚 @
-➣ ${usedPrefix}𝐩𝐮𝐭𝐭𝐚𝐧𝐢𝐞𝐫𝐞 @
-➣ ${usedPrefix}𝐩𝐮𝐭𝐭𝐚𝐧𝐚 @
-➣ ${usedPrefix}𝐫𝐚𝐧𝐝𝐨𝐦 @
-➣ ${usedPrefix}𝐜𝐫𝐢𝐦𝐢𝐧𝐚𝐥𝐞 @
-➣ ${usedPrefix}𝐬𝐧𝐢𝐭𝐜𝐡 @
-➣ ${usedPrefix}𝐚𝐧𝐝𝐢𝐜𝐚𝐩𝐩𝐚𝐭𝐨/𝐚 @
-➣ ${usedPrefix}𝐚𝐫𝐫𝐞𝐬𝐭𝐚𝐭𝐨/𝐚 @
-➣ ${usedPrefix}𝐟𝐫𝐮𝐬𝐭𝐫𝐚𝐭𝐨/𝐚 @
-➣ ${usedPrefix}𝐝𝐫𝐨𝐠𝐚𝐭𝐨/𝐚 @
-➣ ${usedPrefix}𝐚𝐫𝐫𝐚𝐩𝐚𝐭𝐨/𝐚 @
-➣ ${usedPrefix}𝐚𝐥𝐛𝐚𝐧𝐞𝐬𝐞 @
-➣ ${usedPrefix}𝐫𝐮𝐦𝐞𝐧𝐨/𝐚 @
-➣ ${usedPrefix}𝐭𝐞𝐫𝐫𝐨𝐧𝐞/𝐚 @
-➣ ${usedPrefix}𝐧𝐚𝐳𝐢𝐬𝐭𝐚 @
-➣ ${usedPrefix}𝐜𝐨𝐦𝐮𝐧𝐢𝐬𝐭𝐚 @
-➣ ${usedPrefix}𝐜𝐥𝐨𝐰𝐧 @
-➣ ${usedPrefix}𝐩𝐮𝐳𝐳𝐚 @
-➣ ${usedPrefix}𝐭𝐨𝐩𝐠𝐚𝐲𝐬
-➣ ${usedPrefix}𝐭𝐨𝐩𝐫𝐢𝐦𝐚𝐬𝐭𝐢
-➣ ${usedPrefix}𝐭𝐨𝐩𝐭𝐞𝐫𝐫𝐨𝐧𝐢
-➣ ${usedPrefix}𝐭𝐨𝐩𝐬𝐜𝐢𝐦𝐦𝐢𝐞
-➣ ${usedPrefix}𝐭𝐨𝐩𝐧𝐞𝐫𝐝
-➣ ${usedPrefix}𝐛𝐥𝐮𝐮𝐫 (𝐬𝐮 𝐮𝐧𝐚 𝐟𝐨𝐭𝐨)
-➣ ${usedPrefix}𝐛𝐚𝐬𝐬 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐛𝐥𝐨𝐰𝐧 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐝𝐞𝐞𝐩 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐞𝐚𝐫𝐫𝐚𝐩𝐞 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐟𝐚𝐬𝐭 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐧𝐢𝐠𝐡𝐭𝐜𝐨𝐫𝐞 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐫𝐞𝐯𝐞𝐫𝐬𝐞 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐫𝐨𝐛𝐨𝐭 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐬𝐥𝐨𝐰 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐬𝐦𝐨𝐨𝐭𝐡 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐭𝐮𝐩𝐚𝐢 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐬𝐪𝐮𝐢𝐫𝐫𝐞𝐥 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ ${usedPrefix}𝐜𝐡𝐢𝐩𝐦𝐮𝐧𝐤 (𝐬𝐮 𝐮𝐧 𝐚𝐮𝐝𝐢𝐨)
-➣ 𝐢𝐧𝐬𝐮𝐥𝐭𝐚/𝐦𝐢𝐧𝐚𝐜𝐜𝐢𝐚/𝐬𝐞𝐠𝐫𝐞𝐭𝐨/𝐳𝐢𝐳𝐳𝐚𝐧𝐢𝐚 
-(𝐟𝐮𝐧𝐳𝐢𝐨𝐧𝐚𝐧𝐨 𝐬𝐨𝐥𝐨 𝐜𝐨𝐧 𝐬𝐯𝐞𝐠𝐥𝐢𝐚 𝐭𝐮𝐫𝐛𝐨)
-══════•⊰✦⊱•══════`
-conn.reply(m.chat, quattro, prova)
-}
-
-
-//════════════•⊰✰⊱•═══════════ 
-
-if (command == 'menuowner') {
-if (!isOwner) return m.reply('𝐌𝐞𝐧𝐮 𝐬𝐨𝐥𝐨 𝐩𝐞𝐫 𝐠𝐥𝐢 𝐨𝐰𝐧𝐞𝐫 𝐧𝐨𝐧 𝐩𝐮𝐨𝐢 𝐮𝐬𝐚𝐫𝐞 𝐪𝐮𝐞𝐬𝐭𝐨 𝐜𝐨𝐦𝐚𝐧𝐝𝐨 𝐩𝐥𝐞𝐛𝐞𝐨!!!')
-let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-    }, "message": {
-"locationMessage": { name: '𝐌𝐞𝐧𝐮 𝐎𝐰𝐧𝐞𝐫',
-"jpegThumbnail": await(await fetch('https://telegra.ph/file/25c9fa995b1201945991c.png')).buffer(),
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-}}, "participant": "0@s.whatsapp.net"
-}
-let cinque = `══════•⊰✦⊱•══════
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐫𝐞𝐬𝐭𝐫𝐢𝐜𝐭
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐩𝐫𝐢𝐯𝐚𝐭𝐨
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐧𝐭𝐢𝐜𝐚𝐥𝐥
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐬𝐨𝐥𝐨𝐠𝐫𝐮𝐩𝐩𝐨
-➣ ${usedPrefix}𝐚𝐭𝐭𝐢𝐯𝐚/𝐝𝐢𝐬𝐚𝐛𝐢𝐥𝐢𝐭𝐚 𝐚𝐮𝐭𝐨𝐫𝐞𝐚𝐝
-➣ ${usedPrefix}𝐠𝐫𝐮𝐩𝐩𝐢
-➣ ${usedPrefix}𝐚𝐝𝐝𝐦𝐞𝐬𝐬𝐚𝐠𝐠𝐢
-➣ ${usedPrefix}𝐚𝐝𝐝𝐦𝐨𝐧𝐞𝐲
-➣ ${usedPrefix}𝐚𝐝𝐝𝐛𝐞𝐬𝐭𝐞𝐦𝐦𝐢𝐞
-➣ ${usedPrefix}𝐚𝐳𝐳𝐞𝐫𝐚𝐦𝐞𝐬𝐬𝐚𝐠𝐠𝐢
-➣ ${usedPrefix}𝐚𝐳𝐳𝐞𝐫𝐚𝐛𝐞𝐬𝐭𝐞𝐦𝐦𝐢𝐞
-➣ ${usedPrefix}𝐚𝐳𝐳𝐞𝐫𝐚𝐦𝐨𝐧𝐞𝐲
-➣ ${usedPrefix}𝐬𝐞𝐭𝐩𝐫𝐞𝐟𝐢𝐱
-➣ ${usedPrefix}𝐫𝐞𝐬𝐞𝐭𝐩𝐫𝐞𝐟𝐢𝐱
-➣ ${usedPrefix}𝐚𝐝𝐝𝐨𝐰𝐧𝐞𝐫 @
-➣ ${usedPrefix}𝐛𝐚𝐧𝐜𝐡𝐚𝐭
-➣ ${usedPrefix}𝐮𝐧𝐛𝐚𝐧𝐜𝐡𝐚𝐭
-➣ ${usedPrefix}𝐛𝐚𝐧𝐥𝐢𝐬𝐭
-➣ ${usedPrefix}𝐩𝐫𝐞𝐦𝐥𝐢𝐬𝐭
-➣ ${usedPrefix}𝐩𝐚𝐝𝐫𝐨𝐧𝐢
-➣ ${usedPrefix}𝐛𝐚𝐧𝐮𝐬𝐞𝐫 @
-➣ ${usedPrefix}𝐮𝐧𝐛𝐚𝐧𝐮𝐬𝐞𝐫 @
-➣ ${usedPrefix}𝐛𝐥𝐨𝐜𝐤/𝐮𝐧𝐛𝐥𝐨𝐜𝐤 @
-➣ ${usedPrefix}𝐝𝐞𝐥𝐞𝐭𝐞𝐩𝐥𝐮𝐠𝐢𝐧 + 𝐧𝐨𝐦𝐞𝐩𝐥𝐮𝐠
-➣ ${usedPrefix}𝐬𝐚𝐯𝐞𝐩𝐥𝐮𝐠𝐢𝐧 + 𝐧𝐨𝐦𝐞𝐩𝐥𝐮𝐠 
-➣ ${usedPrefix}𝐠𝐞𝐭𝐩𝐥𝐮𝐠𝐢𝐧 + 𝐧𝐨𝐦𝐞 𝐩𝐥𝐮𝐠
-➣ ${usedPrefix}𝐠𝐞𝐭𝐧𝐚𝐦𝐞 @
-➣ ${usedPrefix}𝐬𝐞𝐭𝐩𝐩 (𝐦𝐨𝐝𝐢𝐟𝐢𝐜𝐚 𝐩𝐢𝐜 𝐝𝐞𝐥 𝐛𝐨𝐭)
-➣ ${usedPrefix}𝐢𝐬𝐩𝐞𝐳𝐢𝐨𝐧𝐚 + 𝐥𝐢𝐧𝐤 𝐠𝐫𝐮𝐩𝐩𝐨
-➣ ${usedPrefix}𝐣𝐨𝐢𝐧 + 𝐥𝐢𝐧𝐤 𝐠𝐫𝐮𝐩𝐩𝐨
-➣ ${usedPrefix}𝐨𝐮𝐭
-➣ ${usedPrefix}𝐧𝐨𝐰𝐚
-➣ ${usedPrefix}𝐬𝐩𝐚𝐦𝐠𝐩 + 𝐥𝐢𝐧𝐤 𝐠𝐫𝐮𝐩𝐩𝐨 𝐚𝐩𝐞𝐫𝐭𝐨
-➣ ${usedPrefix}𝐬𝐩𝐚𝐦 
-➣ ${usedPrefix}𝐬𝐢𝐦𝐮𝐥𝐚
-➣ ${usedPrefix}𝐬𝐭𝐨𝐩
-➣ ${usedPrefix}𝐛𝐫𝐨𝐚𝐝𝐜𝐚𝐬𝐭/𝐛𝐜 (𝐦𝐞𝐬𝐬𝐚𝐠𝐠𝐢𝐨)
-➣ ${usedPrefix}𝐜𝐥𝐞𝐚𝐫𝐭𝐞𝐦𝐩
-➣ ${usedPrefix}𝐝𝐬
-➣ ${usedPrefix}𝐫𝐞𝐠𝐚𝐥𝐨 (𝐚𝐝𝐦𝐢𝐧 𝐚 𝐭𝐮𝐭𝐭𝐢)
-➣ ${usedPrefix}𝐫𝐮𝐛𝐚 (𝐥𝐞𝐯𝐚 𝐭𝐮𝐭𝐭𝐢 𝐚𝐝𝐦𝐢𝐧)
-➣ ${usedPrefix}𝐠𝐨𝐝𝐦𝐨𝐝𝐞/𝐚𝐮𝐭𝐨𝐚𝐝𝐦𝐢𝐧
-➣ ${usedPrefix}𝐧𝐮𝐤𝐞/𝐤𝐨
-══════•⊰✦⊱•══════`
-conn.reply(m.chat, cinque, prova)
-}
-
-//════════════•⊰✰⊱•═══════════ 
-
-if (command == 'menusticker') {
-let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-    }, "message": {
-"locationMessage": { name: '𝐌𝐞𝐧𝐮 𝐒𝐭𝐢𝐜𝐤𝐞𝐫',
-"vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-}}, "participant": "0@s.whatsapp.net"
-}
-let sei = `══════•⊰✦⊱•══════
-➣ ${usedPrefix}𝐝𝐚𝐝𝐨
-➣ ${usedPrefix}𝐛𝐨𝐧𝐤 
-➣ ${usedPrefix}𝐞𝐦𝐨𝐣𝐢𝐦𝐢𝐱 (𝐝𝐢𝐯𝐢𝐝𝐢 𝐜𝐨𝐧 +)
-➣ ${usedPrefix}𝐬/𝐬𝐭𝐢𝐜𝐤𝐞𝐫/𝐬𝐟𝐮𝐥𝐥 
-➣ ${usedPrefix}𝐜𝐞𝐫𝐜𝐡𝐢𝐨
-➣ ${usedPrefix}𝐪𝐜 + 𝐭𝐞𝐬𝐭𝐨
-➣ ${usedPrefix}𝐬𝐭𝐢𝐜𝐤𝐞𝐫𝐬𝐞𝐚𝐫𝐜𝐡 (𝐧𝐨𝐦𝐞)
-➣ ${usedPrefix}𝐬𝐥𝐚𝐩/𝐬𝐜𝐡𝐢𝐚𝐟𝐟𝐨 @
-➣ ${usedPrefix}𝐤𝐢𝐬𝐬/𝐛𝐚𝐜𝐢𝐨/𝐛𝐚𝐜𝐢𝐚 @
-➣ ${usedPrefix}𝐩𝐚𝐭/𝐜𝐚𝐫𝐢𝐧𝐨/𝐜𝐚𝐫𝐢𝐧𝐚 @
-➣ ${usedPrefix}𝐰𝐦 + 𝐧𝐮𝐨𝐯𝐨 𝐧𝐨𝐦𝐞
-══════•⊰✦⊱•══════`
-conn.reply(m.chat, sei, prova)
-}
-
-//════════════•⊰✰⊱•═══════════ 
-
-
-if (command == 'menugame') {
-let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-    }, "message": {
- "locationMessage": { name: '𝐌𝐞𝐧𝐮 𝐆𝐚𝐦𝐞',
-  "jpegThumbnail": await(await fetch('https://telegra.ph/file/97f4cc1b5d725412cb347.png')).buffer(),
- "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
- }}, "participant": "0@s.whatsapp.net"
- }
-let otto = `══════•⊰✦⊱•══════
-➣ ${usedPrefix}𝐜𝐨𝐫𝐬𝐚
-➣ ${usedPrefix}𝐭𝐫𝐢𝐬
-➣ ${usedPrefix}𝐬𝐨𝐫𝐭𝐞
-➣ ${usedPrefix}𝐬𝐥𝐨𝐭
-➣ ${usedPrefix}𝐦𝐨𝐫𝐫𝐚
-➣ ${usedPrefix}𝐯𝐞𝐫𝐢𝐭à
-➣ ${usedPrefix}𝐨𝐛𝐛𝐥𝐢𝐠𝐨
-➣ ${usedPrefix}𝐫𝐨𝐮𝐥𝐞𝐭𝐭𝐞 
-➣ ${usedPrefix}𝐛𝐚𝐭𝐭𝐚𝐠𝐥𝐢𝐚
-══════•⊰✦⊱•══════`
-    conn.reply(m.chat, otto, prova)}
-
-  //════════════ ೋೋ═══════════ 
-
-  if (command == 'menurpg') {
-  let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-      }, "message": {
-   "contactMessage": { displayName: '𝐌𝐞𝐧𝐮 𝐑𝐩𝐠',
-   "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-   }}, "participant": "0@s.whatsapp.net"
-   }
-  let nove = `══════•⊰✦⊱•══════
-➣ ${usedPrefix}𝐩𝐚𝐠𝐡𝐞𝐭𝐭𝐚
-➣ ${usedPrefix}𝐚𝐟𝐟𝐢𝐭𝐭𝐨
-➣ ${usedPrefix}𝐜𝐡𝐞𝐬𝐭/𝐜𝐞𝐬𝐭𝐚
-➣ ${usedPrefix}𝐜𝐚𝐜𝐜𝐢𝐚
-➣ ${usedPrefix}𝐳𝐚𝐢𝐧𝐨/𝐢𝐧𝐯/𝐢𝐧𝐯𝐞𝐧𝐭𝐚𝐫𝐢𝐨
-➣ ${usedPrefix}𝐩𝐨𝐫𝐭𝐚𝐟𝐨𝐠𝐥𝐢𝐨/𝐬𝐨𝐥𝐝𝐢
-➣ ${usedPrefix}𝐝𝐞𝐩𝐨𝐬𝐢𝐭𝐚/𝐩𝐫𝐞𝐥𝐞𝐯𝐚
-➣ ${usedPrefix}𝐭𝐫𝐚𝐬𝐟𝐞𝐫𝐢𝐬𝐜𝐢/𝐛𝐨𝐧𝐢𝐟𝐢𝐜𝐨
-➣ ${usedPrefix}𝐧𝐚𝐩𝐨𝐥𝐢/𝐫𝐚𝐩𝐢𝐧𝐚
-➣ ${usedPrefix}𝐧𝐞𝐠𝐨𝐳𝐢𝐨/𝐬𝐡𝐨𝐩
-➣ ${usedPrefix}𝐜𝐨𝐦𝐩𝐫𝐚
-➣ ${usedPrefix}𝐯𝐞𝐧𝐝𝐢
-➣ ${usedPrefix}𝐮𝐬𝐚
-➣ ${usedPrefix}𝐬𝐩𝐨𝐬𝐚
-══════•⊰✦⊱•══════`
-conn.reply(m.chat, nove, prova)}
-
-if (command == 'menusicurezza') {
-    let prova = { "key": {"participants":"0@s.whatsapp.net", "fromMe": false, "id": "Halo"
-        }, "message": {
-      "contactMessage": { displayName: '𝐌𝐞𝐧𝐮 𝐒𝐢𝐜𝐮𝐫𝐞𝐳𝐳𝐚',
-      "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-      }}, "participant": "0@s.whatsapp.net"
+//comando creato da sam aka vare github.com/realvare
+let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
+  if (m.text?.toLowerCase() === '.skipbandiera') {
+    if (!m.isGroup) return m.reply('⚠️ Questo comando funziona solo nei gruppi!')
+    if (!global.bandieraGame?.[m.chat]) return m.reply('⚠️ Non c\'è nessuna partita attiva in questo gruppo!')
+    
+    if (!isAdmin && !m.fromMe) {
+      return m.reply('❌ *Questo comando può essere usato solo dagli admin!*')
     }
-    let sicurezza = `══════•⊰✦⊱•══════
-➣ ${usedPrefix}antispam
-➣ ${usedPrefix}antilink
-➣ ${usedPrefix}antiviewonce
-➣ ${usedPrefix}antielimina
-➣ ${usedPrefix}antipaki
-➣ ${usedPrefix}antitrava
-➣ ${usedPrefix}antibestemmia
-➣ ${usedPrefix}modoadmin
-➣ ${usedPrefix}detect
-➣ ${usedPrefix}banlist
-══════•⊰✦⊱•══════`
-    conn.reply(m.chat, sicurezza, prova)
+
+    clearTimeout(global.bandieraGame[m.chat].timeout)
+    await conn.reply(m.chat, `🛑 *Gioco delle bandiere interrotto dall'admin*\n✨ La risposta era: *${global.bandieraGame[m.chat].risposta}*`, m)
+    delete global.bandieraGame[m.chat]
+    return
+  }
+
+  if (global.bandieraGame?.[m.chat]) {
+    return m.reply('⚠️ C\'è già una partita attiva in questo gruppo!')
+  }
+
+  const cooldownKey = `bandiera_${m.chat}`
+  const lastGame = global.cooldowns?.[cooldownKey] || 0
+  const now = Date.now()
+  const cooldownTime = 10000
+
+  if (now - lastGame < cooldownTime) {
+    const remainingTime = Math.ceil((cooldownTime - (now - lastGame)) / 1000)
+    return m.reply(`⏳ *Aspetta ancora ${remainingTime} secondi prima di avviare un nuovo gioco!*`)
+  }
+
+  global.cooldowns = global.cooldowns || {}
+  global.cooldowns[cooldownKey] = now
+
+  let bandiere = [
+    { url: 'https://flagcdn.com/w320/it.png', nome: 'Italia' },
+    { url: 'https://flagcdn.com/w320/fr.png', nome: 'Francia' },
+    { url: 'https://flagcdn.com/w320/de.png', nome: 'Germania' },
+    { url: 'https://flagcdn.com/w320/gb.png', nome: 'Regno Unito' },
+    { url: 'https://flagcdn.com/w320/es.png', nome: 'Spagna' },
+    { url: 'https://flagcdn.com/w320/se.png', nome: 'Svezia' },
+    { url: 'https://flagcdn.com/w320/no.png', nome: 'Norvegia' },
+    { url: 'https://flagcdn.com/w320/fi.png', nome: 'Finlandia' },
+    { url: 'https://flagcdn.com/w320/dk.png', nome: 'Danimarca' },
+    { url: 'https://flagcdn.com/w320/pl.png', nome: 'Polonia' },
+    { url: 'https://flagcdn.com/w320/pt.png', nome: 'Portogallo' },
+    { url: 'https://flagcdn.com/w320/gr.png', nome: 'Grecia' },
+    { url: 'https://flagcdn.com/w320/ch.png', nome: 'Svizzera' },
+    { url: 'https://flagcdn.com/w320/at.png', nome: 'Austria' },
+    { url: 'https://flagcdn.com/w320/be.png', nome: 'Belgio' },
+    { url: 'https://flagcdn.com/w320/nl.png', nome: 'Paesi Bassi' },
+    { url: 'https://flagcdn.com/w320/ua.png', nome: 'Ucraina' },
+    { url: 'https://flagcdn.com/w320/ro.png', nome: 'Romania' },
+    { url: 'https://flagcdn.com/w320/hu.png', nome: 'Ungheria' },
+    { url: 'https://flagcdn.com/w320/cz.png', nome: 'Repubblica Ceca' },
+    { url: 'https://flagcdn.com/w320/ie.png', nome: 'Irlanda' },
+    { url: 'https://flagcdn.com/w320/ee.png', nome: 'Estonia' },
+    { url: 'https://flagcdn.com/w320/lt.png', nome: 'Lituania' },
+    { url: 'https://flagcdn.com/w320/lv.png', nome: 'Lettonia' },
+    { url: 'https://flagcdn.com/w320/sk.png', nome: 'Slovacchia' },
+    { url: 'https://flagcdn.com/w320/si.png', nome: 'Slovenia' },
+    { url: 'https://flagcdn.com/w320/hr.png', nome: 'Croazia' },
+    { url: 'https://flagcdn.com/w320/ba.png', nome: 'Bosnia ed Erzegovina' },
+    { url: 'https://flagcdn.com/w320/me.png', nome: 'Montenegro' },
+    { url: 'https://flagcdn.com/w320/mk.png', nome: 'Macedonia del Nord' },
+    { url: 'https://flagcdn.com/w320/al.png', nome: 'Albania' },
+    { url: 'https://flagcdn.com/w320/bg.png', nome: 'Bulgaria' },
+    { url: 'https://flagcdn.com/w320/md.png', nome: 'Moldavia' },
+    { url: 'https://flagcdn.com/w320/by.png', nome: 'Bielorussia' },
+    { url: 'https://flagcdn.com/w320/is.png', nome: 'Islanda' },
+    { url: 'https://flagcdn.com/w320/mt.png', nome: 'Malta' },
+    { url: 'https://flagcdn.com/w320/cy.png', nome: 'Cipro' },
+    { url: 'https://flagcdn.com/w320/lu.png', nome: 'Lussemburgo' },
+    { url: 'https://flagcdn.com/w320/li.png', nome: 'Liechtenstein' },
+    { url: 'https://flagcdn.com/w320/sm.png', nome: 'San Marino' },
+    { url: 'https://flagcdn.com/w320/ad.png', nome: 'Andorra' },
+    { url: 'https://flagcdn.com/w320/mc.png', nome: 'Monaco' },
+    { url: 'https://flagcdn.com/w320/va.png', nome: 'Città del Vaticano' },
+    { url: 'https://flagcdn.com/w320/rs.png', nome: 'Serbia' },
+    { url: 'https://flagcdn.com/w320/xk.png', nome: 'Kosovo' },
+    { url: 'https://flagcdn.com/w320/cn.png', nome: 'Cina' },
+    { url: 'https://flagcdn.com/w320/jp.png', nome: 'Giappone' },
+    { url: 'https://flagcdn.com/w320/in.png', nome: 'India' },
+    { url: 'https://flagcdn.com/w320/kr.png', nome: 'Corea del Sud' },
+    { url: 'https://flagcdn.com/w320/kp.png', nome: 'Corea del Nord' },
+    { url: 'https://flagcdn.com/w320/th.png', nome: 'Thailandia' },
+    { url: 'https://flagcdn.com/w320/vn.png', nome: 'Vietnam' },
+    { url: 'https://flagcdn.com/w320/id.png', nome: 'Indonesia' },
+    { url: 'https://flagcdn.com/w320/ph.png', nome: 'Filippine' },
+    { url: 'https://flagcdn.com/w320/my.png', nome: 'Malesia' },
+    { url: 'https://flagcdn.com/w320/sg.png', nome: 'Singapore' },
+    { url: 'https://flagcdn.com/w320/mm.png', nome: 'Myanmar' },
+    { url: 'https://flagcdn.com/w320/kh.png', nome: 'Cambogia' },
+    { url: 'https://flagcdn.com/w320/la.png', nome: 'Laos' },
+    { url: 'https://flagcdn.com/w320/lk.png', nome: 'Sri Lanka' },
+    { url: 'https://flagcdn.com/w320/np.png', nome: 'Nepal' },
+    { url: 'https://flagcdn.com/w320/bt.png', nome: 'Bhutan' },
+    { url: 'https://flagcdn.com/w320/bd.png', nome: 'Bangladesh' },
+    { url: 'https://flagcdn.com/w320/pk.png', nome: 'Pakistan' },
+    { url: 'https://flagcdn.com/w320/af.png', nome: 'Afghanistan' },
+    { url: 'https://flagcdn.com/w320/ir.png', nome: 'Iran' },
+    { url: 'https://flagcdn.com/w320/iq.png', nome: 'Iraq' },
+    { url: 'https://flagcdn.com/w320/tr.png', nome: 'Turchia' },
+    { url: 'https://flagcdn.com/w320/il.png', nome: 'Israele' },
+    { url: 'https://flagcdn.com/w320/ps.png', nome: 'Palestina' },
+    { url: 'https://flagcdn.com/w320/sa.png', nome: 'Arabia Saudita' },
+    { url: 'https://flagcdn.com/w320/ae.png', nome: 'Emirati Arabi Uniti' },
+    { url: 'https://flagcdn.com/w320/qa.png', nome: 'Qatar' },
+    { url: 'https://flagcdn.com/w320/om.png', nome: 'Oman' },
+    { url: 'https://flagcdn.com/w320/jo.png', nome: 'Giordania' },
+    { url: 'https://flagcdn.com/w320/lb.png', nome: 'Libano' },
+    { url: 'https://flagcdn.com/w320/sy.png', nome: 'Siria' },
+    { url: 'https://flagcdn.com/w320/ye.png', nome: 'Yemen' },
+    { url: 'https://flagcdn.com/w320/kz.png', nome: 'Kazakistan' },
+    { url: 'https://flagcdn.com/w320/uz.png', nome: 'Uzbekistan' },
+    { url: 'https://flagcdn.com/w320/tj.png', nome: 'Tagikistan' },
+    { url: 'https://flagcdn.com/w320/kg.png', nome: 'Kirghizistan' },
+    { url: 'https://flagcdn.com/w320/tm.png', nome: 'Turkmenistan' },
+    { url: 'https://flagcdn.com/w320/mn.png', nome: 'Mongolia' },
+    { url: 'https://flagcdn.com/w320/az.png', nome: 'Azerbaigian' },
+    { url: 'https://flagcdn.com/w320/ge.png', nome: 'Georgia' },
+    { url: 'https://flagcdn.com/w320/am.png', nome: 'Armenia' },
+    { url: 'https://flagcdn.com/w320/kw.png', nome: 'Kuwait' },
+    { url: 'https://flagcdn.com/w320/bh.png', nome: 'Bahrain' },
+    { url: 'https://flagcdn.com/w320/tw.png', nome: 'Taiwan' },
+    { url: 'https://flagcdn.com/w320/hk.png', nome: 'Hong Kong' },
+    { url: 'https://flagcdn.com/w320/eg.png', nome: 'Egitto' },
+    { url: 'https://flagcdn.com/w320/ng.png', nome: 'Nigeria' },
+    { url: 'https://flagcdn.com/w320/ma.png', nome: 'Marocco' },
+    { url: 'https://flagcdn.com/w320/tn.png', nome: 'Tunisia' },
+    { url: 'https://flagcdn.com/w320/ke.png', nome: 'Kenya' },
+    { url: 'https://flagcdn.com/w320/et.png', nome: 'Etiopia' },
+    { url: 'https://flagcdn.com/w320/gh.png', nome: 'Ghana' },
+    { url: 'https://flagcdn.com/w320/cm.png', nome: 'Camerun' },
+    { url: 'https://flagcdn.com/w320/ci.png', nome: "Costa d'Avorio" },
+    { url: 'https://flagcdn.com/w320/sn.png', nome: 'Senegal' },
+    { url: 'https://flagcdn.com/w320/zm.png', nome: 'Zambia' },
+    { url: 'https://flagcdn.com/w320/zw.png', nome: 'Zimbabwe' },
+    { url: 'https://flagcdn.com/w320/ao.png', nome: 'Angola' },
+    { url: 'https://flagcdn.com/w320/mg.png', nome: 'Madagascar' },
+    { url: 'https://flagcdn.com/w320/tz.png', nome: 'Tanzania' },
+    { url: 'https://flagcdn.com/w320/ug.png', nome: 'Uganda' },
+    { url: 'https://flagcdn.com/w320/mz.png', nome: 'Mozambico' },
+    { url: 'https://flagcdn.com/w320/rw.png', nome: 'Ruanda' },
+    { url: 'https://flagcdn.com/w320/mw.png', nome: 'Malawi' },
+    { url: 'https://flagcdn.com/w320/bw.png', nome: 'Botswana' },
+    { url: 'https://flagcdn.com/w320/na.png', nome: 'Namibia' },
+    { url: 'https://flagcdn.com/w320/sz.png', nome: 'Eswatini' },
+    { url: 'https://flagcdn.com/w320/ls.png', nome: 'Lesotho' },
+    { url: 'https://flagcdn.com/w320/dz.png', nome: 'Algeria' },
+    { url: 'https://flagcdn.com/w320/ly.png', nome: 'Libia' },
+    { url: 'https://flagcdn.com/w320/sd.png', nome: 'Sudan' },
+    { url: 'https://flagcdn.com/w320/ss.png', nome: 'Sudan del Sud' },
+    { url: 'https://flagcdn.com/w320/er.png', nome: 'Eritrea' },
+    { url: 'https://flagcdn.com/w320/dj.png', nome: 'Gibuti' },
+    { url: 'https://flagcdn.com/w320/so.png', nome: 'Somalia' },
+    { url: 'https://flagcdn.com/w320/cd.png', nome: 'Repubblica Democratica del Congo' },
+    { url: 'https://flagcdn.com/w320/cg.png', nome: 'Repubblica del Congo' },
+    { url: 'https://flagcdn.com/w320/cf.png', nome: 'Repubblica Centrafricana' },
+    { url: 'https://flagcdn.com/w320/td.png', nome: 'Ciad' },
+    { url: 'https://flagcdn.com/w320/ne.png', nome: 'Niger' },
+    { url: 'https://flagcdn.com/w320/ml.png', nome: 'Mali' },
+    { url: 'https://flagcdn.com/w320/bf.png', nome: 'Burkina Faso' },
+    { url: 'https://flagcdn.com/w320/mr.png', nome: 'Mauritania' },
+    { url: 'https://flagcdn.com/w320/gn.png', nome: 'Guinea' },
+    { url: 'https://flagcdn.com/w320/gw.png', nome: 'Guinea-Bissau' },
+    { url: 'https://flagcdn.com/w320/sl.png', nome: 'Sierra Leone' },
+    { url: 'https://flagcdn.com/w320/lr.png', nome: 'Liberia' },
+    { url: 'https://flagcdn.com/w320/tg.png', nome: 'Togo' },
+    { url: 'https://flagcdn.com/w320/bj.png', nome: 'Benin' },
+    { url: 'https://flagcdn.com/w320/ga.png', nome: 'Gabon' },
+    { url: 'https://flagcdn.com/w320/gq.png', nome: 'Guinea Equatoriale' },
+    { url: 'https://flagcdn.com/w320/cv.png', nome: 'Capo Verde' },
+    { url: 'https://flagcdn.com/w320/gm.png', nome: 'Gambia' },
+    { url: 'https://flagcdn.com/w320/bi.png', nome: 'Burundi' },
+    { url: 'https://flagcdn.com/w320/km.png', nome: 'Comore' },
+    { url: 'https://flagcdn.com/w320/mu.png', nome: 'Mauritius' },
+    { url: 'https://flagcdn.com/w320/sc.png', nome: 'Seychelles' },
+    { url: 'https://flagcdn.com/w320/us.png', nome: 'Stati Uniti' },
+    { url: 'https://flagcdn.com/w320/ca.png', nome: 'Canada' },
+    { url: 'https://flagcdn.com/w320/mx.png', nome: 'Messico' },
+    { url: 'https://flagcdn.com/w320/br.png', nome: 'Brasile' },
+    { url: 'https://flagcdn.com/w320/ar.png', nome: 'Argentina' },
+    { url: 'https://flagcdn.com/w320/cl.png', nome: 'Cile' },
+    { url: 'https://flagcdn.com/w320/co.png', nome: 'Colombia' },
+    { url: 'https://flagcdn.com/w320/pe.png', nome: 'Perù' },
+    { url: 'https://flagcdn.com/w320/ve.png', nome: 'Venezuela' },
+    { url: 'https://flagcdn.com/w320/cu.png', nome: 'Cuba' },
+    { url: 'https://flagcdn.com/w320/bo.png', nome: 'Bolivia' },
+    { url: 'https://flagcdn.com/w320/ec.png', nome: 'Ecuador' },
+    { url: 'https://flagcdn.com/w320/uy.png', nome: 'Uruguay' },
+    { url: 'https://flagcdn.com/w320/py.png', nome: 'Paraguay' },
+    { url: 'https://flagcdn.com/w320/cr.png', nome: 'Costa Rica' },
+    { url: 'https://flagcdn.com/w320/pa.png', nome: 'Panama' },
+    { url: 'https://flagcdn.com/w320/do.png', nome: 'Repubblica Dominicana' },
+    { url: 'https://flagcdn.com/w320/jm.png', nome: 'Giamaica' },
+    { url: 'https://flagcdn.com/w320/gt.png', nome: 'Guatemala' },
+    { url: 'https://flagcdn.com/w320/hn.png', nome: 'Honduras' },
+    { url: 'https://flagcdn.com/w320/ni.png', nome: 'Nicaragua' },
+    { url: 'https://flagcdn.com/w320/sv.png', nome: 'El Salvador' },
+    { url: 'https://flagcdn.com/w320/bz.png', nome: 'Belize' },
+    { url: 'https://flagcdn.com/w320/ht.png', nome: 'Haiti' },
+    { url: 'https://flagcdn.com/w320/gy.png', nome: 'Guyana' },
+    { url: 'https://flagcdn.com/w320/sr.png', nome: 'Suriname' },
+    { url: 'https://flagcdn.com/w320/gf.png', nome: 'Guyana Francese' },
+    { url: 'https://flagcdn.com/w320/tt.png', nome: 'Trinidad e Tobago' },
+    { url: 'https://flagcdn.com/w320/bb.png', nome: 'Barbados' },
+    { url: 'https://flagcdn.com/w320/lc.png', nome: 'Santa Lucia' },
+    { url: 'https://flagcdn.com/w320/dm.png', nome: 'Dominica' },
+    { url: 'https://flagcdn.com/w320/bs.png', nome: 'Bahamas' },
+    { url: 'https://flagcdn.com/w320/au.png', nome: 'Australia' },
+    { url: 'https://flagcdn.com/w320/nz.png', nome: 'Nuova Zelanda' },
+    { url: 'https://flagcdn.com/w320/fj.png', nome: 'Fiji' },
+    { url: 'https://flagcdn.com/w320/pg.png', nome: 'Papua Nuova Guinea' },
+    { url: 'https://flagcdn.com/w320/nc.png', nome: 'Nuova Caledonia' },
+    { url: 'https://flagcdn.com/w320/pr.png', nome: 'Porto Rico' },
+    { url: 'https://flagcdn.com/w320/gl.png', nome: 'Groenlandia' },
+    { url: 'https://flagcdn.com/w320/gi.png', nome: 'Gibilterra' },
+    { url: 'https://flagcdn.com/w320/aq.png', nome: 'Antartide' },
+    { url: 'https://flagcdn.com/w320/eh.png', nome: 'Sahara Occidentale' },
+  ]
+
+  let frasi = [
+    `🇺🇳 *INDOVINA LA BANDIERA!* 🇺🇳`,
+    `🌍 *Che nazione rappresenta questa bandiera?*`,
+    `🏳️ *Sfida geografica: riconosci questa bandiera?*`,
+    `🧭 *Indovina la nazione dalla sua bandiera!*`,
+    `🎯 *Quiz bandiere: quale paese è questo?*`,
+    `🌟 *Metti alla prova la tua conoscenza geografica!*`,
+    `🔍 *Osserva attentamente e indovina la nazione!*`,
+  ]
+
+  let scelta = bandiere[Math.floor(Math.random() * bandiere.length)]
+  let frase = frasi[Math.floor(Math.random() * frasi.length)]
+
+  try {
+    let msg = await conn.sendMessage(m.chat, {
+      image: { url: scelta.url },
+      caption: `${frase}\n\n ㌌ *Rispondi con il nome della nazione!*\n⏱️ *Tempo disponibile:* 30 secondi\n\n> \`vare ✧ bot\``,
+      quoted: m
+    })
+
+    global.bandieraGame = global.bandieraGame || {}
+    global.bandieraGame[m.chat] = {
+      id: msg.key.id,
+      risposta: scelta.nome.toLowerCase(),
+      rispostaOriginale: scelta.nome,
+      tentativi: {},
+      suggerito: false,
+      startTime: Date.now(),
+      timeout: setTimeout(() => {
+        if (global.bandieraGame?.[m.chat]) {
+          conn.reply(m.chat, `⏳ *Tempo scaduto!*\n\n🌍 *La risposta era:* *${scelta.nome}*\n\n> \`vare ✧ bot\``, msg)
+          delete global.bandieraGame[m.chat]
+        }
+      }, 30000)
+    }
+  } catch (error) {
+    console.error('Errore nel gioco bandiere:', error)
+    m.reply('❌ *Si è verificato un errore durante l\'avvio del gioco*\n\n🔄 *Riprova tra qualche secondo*')
   }
 }
 
-handler.help = handler.command = [
-  'menu','menugruppo','menuadmin','menufun','menuowner','menusticker','menurpg','menugame','menusicurezza'
-]
+function normalizeString(str) {
+    if (!str) return ''
+    return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s]/g, '')
+        .trim()
+}
+
+function calculateSimilarity(str1, str2) {
+    const words1 = str1.split(' ').filter(word => word.length > 1)
+    const words2 = str2.split(' ').filter(word => word.length > 1)
+    
+    if (words1.length === 0 || words2.length === 0) return 0
+    
+    const matches = words1.filter(word => 
+        words2.some(w2 => w2.includes(word) || word.includes(w2))
+    )
+    
+    return matches.length / Math.max(words1.length, words2.length)
+}
+
+function isAnswerCorrect(userAnswer, correctAnswer) {
+    if (userAnswer.length < 2) return false
+    
+    const similarityScore = calculateSimilarity(userAnswer, correctAnswer)
+    
+    return (
+        userAnswer === correctAnswer ||
+        (correctAnswer.includes(userAnswer) && userAnswer.length > correctAnswer.length * 0.5) ||
+        (userAnswer.includes(correctAnswer) && userAnswer.length < correctAnswer.length * 1.5) ||
+        similarityScore >= 0.8
+    )
+}
+
+handler.before = async (m, { conn }) => {
+    const chat = m.chat
+    const game = global.bandieraGame?.[chat]
+    
+    if (!game || !m.quoted || m.quoted.id !== game.id || m.key.fromMe) return
+    
+    const userAnswer = normalizeString(m.text || '')
+    const correctAnswer = normalizeString(game.risposta)
+    
+    if (!userAnswer || userAnswer.length < 2) return
+    
+    const similarityScore = calculateSimilarity(userAnswer, correctAnswer)
+
+    if (isAnswerCorrect(userAnswer, correctAnswer)) {
+        clearTimeout(game.timeout)
+        
+        const timeTaken = Math.round((Date.now() - game.startTime) / 1000)
+        let reward = Math.floor(Math.random() * 31) + 20
+        let exp = 500
+        
+        const timeBonus = timeTaken <= 10 ? 20 : timeTaken <= 20 ? 10 : 0
+        reward += timeBonus
+        
+        if (!global.db.data.users[m.sender]) global.db.data.users[m.sender] = {}
+        global.db.data.users[m.sender].euro = (global.db.data.users[m.sender].euro || 0) + reward
+        global.db.data.users[m.sender].exp = (global.db.data.users[m.sender].exp || 0) + exp
+
+        let congratsMessage = `
+╭━『 🎉 *RISPOSTA CORRETTA!* 』━╮
+┃
+┃ 🌍 *Nazione:* ${game.rispostaOriginale}
+┃ ⏱️ *Tempo impiegato:* ${timeTaken}s
+┃
+┃ 🎁 *Ricompense:*
+┃ • ${reward} 💰 euro ${timeBonus > 0 ? `(+${timeBonus} bonus velocità)` : ''}
+┃ • ${exp} 🆙 EXP
+┃
+╰━━━━━━━━━━━━━━━━╯
+
+> \`vare ✧ bot\``
+
+        await conn.reply(chat, congratsMessage, m)
+        delete global.bandieraGame[chat]
+        
+    } else if (similarityScore >= 0.6 && !game.suggerito) {
+        game.suggerito = true
+        await conn.reply(chat, '👀 *Ci sei quasi!*', m)
+        
+    } else if (game.tentativi[m.sender] >= 3) {
+        await conn.reply(chat, '❌ *Hai esaurito i tuoi 3 tentativi!*\n\n⏳ *Aspetta che altri giocatori provino o che finisca il tempo*', m)
+        
+    } else {
+        game.tentativi[m.sender] = (game.tentativi[m.sender] || 0) + 1
+        const tentativiRimasti = 3 - game.tentativi[m.sender]
+        
+        if (tentativiRimasti === 1) {
+            const primaLettera = game.rispostaOriginale[0].toUpperCase()
+            const numeroLettere = game.rispostaOriginale.length
+            await conn.reply(chat, `❌ *Risposta errata!*
+
+💡 *Suggerimento:*
+   • Inizia con la lettera *"${primaLettera}"*
+   • È composta da *${numeroLettere} lettere*`, m)
+        } else if (tentativiRimasti === 2) {
+            await conn.reply(chat, `❌ *Risposta errata!*
+
+📝 *Tentativi rimasti:* 
+🤔 *Pensa bene alla tua prossima risposta!*`, m)
+        } else {
+            await conn.reply(chat, `❌ *Risposta errata!*
+
+📝 *Ultimo tentativo rimasto..*`, m)
+        }
+    }
+}
+
+handler.help = ['bandiera']
+handler.tags = ['giochi']
+handler.command = /^(bandiera|skipbandiera)$/i
+handler.group = true
+handler.register = true
+
 export default handler
