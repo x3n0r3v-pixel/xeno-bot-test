@@ -17,6 +17,12 @@ let handler = async (m, { conn, text, participants }) => {
       tagText = `Tag by ${tagger}`
     }
 
+    if (q.mtype === 'stickerMessage') {
+      let media = await q.download?.()
+      if (!media) throw 'Sticker non scaricato'
+      return await conn.sendMessage(m.chat, { sticker: media, mentions: users }, { quoted: m })
+    }
+
     let msg = conn.cMod(
       m.chat,
       generateWAMessageFromContent(
@@ -38,7 +44,6 @@ let handler = async (m, { conn, text, participants }) => {
     await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
 
   } catch {
-    // fallback per media o errori
     let users = participants.map(u => conn.decodeJid(u.id))
     let quoted = m.quoted ? m.quoted : m
     let mime = (quoted.msg || quoted).mimetype || ''
