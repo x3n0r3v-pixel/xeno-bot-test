@@ -2,7 +2,7 @@
 
 let userSpamCounters = {};  // Start
 const STICKER_LIMIT = 6;  // Start
-const PHOTO_VIDEO_LIMIT = 6;  // Start
+const PHOTO_VIDEO_LIMIT = 13;  // Start
 const RESET_TIMEOUT = 5000;  // Start
 
 export async function before(m, { isAdmin, isBotAdmin, conn }) {
