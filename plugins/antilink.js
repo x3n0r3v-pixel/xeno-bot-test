@@ -16,38 +16,48 @@ export async function before(message, { isAdmin, isBotAdmin }) {
   let isGroupLink = linkRegex.test(text);
   let qrLinkFound = false;
 
-
+  // Se è un'immagine e ci sono controlli anti-link attivi
   const mediaMessage = message.message?.imageMessage;
   if (mediaMessage && chatData.antiLink && isBotAdmin) {
     try {
       const imageBuffer = await conn.downloadMediaMessage(message);
 
+      if (!imageBuffer) {
+        console.warn('⚠️ Impossibile scaricare l\'immagine dal messaggio.');
+        return true;
+      }
+
       const form = new FormData();
       form.append('file', imageBuffer, {
         filename: 'qr.jpg',
-        contentType: 'image/jpeg'
+        contentType: 'image/jpeg',
       });
 
       const res = await fetch('https://api.qrserver.com/v1/read-qr-code/', {
         method: 'POST',
-        body: form
+        body: form,
+        headers: form.getHeaders()
       });
 
       const result = await res.json();
       const decoded = result?.[0]?.symbol?.[0]?.data;
 
+      console.log('✅ Risultato QR decodificato:', decoded);
+
       if (decoded && decoded.includes(whatsappDomain)) {
         qrLinkFound = true;
+      } else {
+        console.log('ℹ️ QR trovato ma non contiene un link WhatsApp.');
       }
+
     } catch (err) {
-      console.error('Errore nel rilevamento QR:', err);
+      console.error('❌ Errore nella lettura del QR code:', err);
     }
   }
 
   const shouldAct = chatData.antiLink && (isGroupLink || qrLinkFound) && !isAdmin;
 
   if (shouldAct && isBotAdmin && groupSettings.restrict) {
-    
     const warningMessage = {
       key: {
         participants: '0@s.whatsapp.net',
@@ -74,7 +84,9 @@ END:VCARD`,
       participant: '0@s.whatsapp.net',
     };
 
-    await conn.sendMessage(message.chat, '⚠ 𝐋𝐈𝐍𝐊 𝐃𝐈 𝐀𝐋𝐓𝐑𝐈 𝐆𝐑𝐔𝐏𝐏𝐈 𝐍𝐎𝐍 𝐒𝐎𝐍𝐎 𝐂𝐎𝐍𝐒𝐄𝐍𝐓𝐈𝐓𝐈 ', warningMessage);
+    // Invia avviso e rimuove l'utente
+    await conn.sendMessage(message.chat, '⚠ 𝐋𝐈𝐍𝐊 𝐃𝐈 𝐀𝐋𝐓𝐑𝐈 𝐆𝐑𝐔𝐏𝐏𝐈 𝐍𝐎𝐍 𝐒𝐎𝐍𝐎 𝐂𝐎𝐍𝐒𝐄𝐍𝐓𝐈𝐓𝐈', warningMessage);
+
     await conn.sendMessage(message.chat, {
       delete: {
         remoteJid: message.chat,
