@@ -1,6 +1,8 @@
+// Codice di _antispam.js
+
 let userSpamCounters = {};  // Start
 const STICKER_LIMIT = 6;  // Start
-const PHOTO_VIDEO_LIMIT = 15;  // Start
+const PHOTO_VIDEO_LIMIT = 6;  // Start
 const RESET_TIMEOUT = 5000;  // Start
 
 export async function before(m, { isAdmin, isBotAdmin, conn }) {
@@ -86,7 +88,7 @@ export async function before(m, { isAdmin, isBotAdmin, conn }) {
                     console.log('Chat riattivata per tutti i membri.');
 
                     // Start
-                    await conn.sendMessage(m.chat, { text: '*SPAM RILEVATO*' });
+                    await conn.sendMessage(m.chat, { text: '*antispam by Origin detected*' });
                     console.log('Messaggio di notifica antispam inviato.');
 
                     // Start
