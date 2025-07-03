@@ -4,7 +4,8 @@ const botsInfo = {
   "origin-bot": "🤖 *Origin-Bot*\nBot ricco di funzionalità di sicurezza e automazioni, la sua velocità è imbattibile.",
   "universal-bot": "🤖 *Universal-Bot*\nBot multiuso, supporta molte piattaforme e integrazioni.",
   "turbo-bot": "🤖 *Turbo-Bot*\nOttimizzato per performance e gestione di grandi gruppi.",
-  "onix-bot": "🤖 *Onix-Bot*\nOgni risposta, un tocco di classe. L'eleganza si fa notare"
+  "onix-bot": "🤖 *Onix-Bot*\nOgni risposta, un tocco di classe. L'eleganza si fa notare",
+  "varebot": "🤖 *VareBot*\nVareBot è un bot versatile e ricco di API, pensato per offrire funzionalità utili e comandi divertenti in un’unica esperienza semplice e veloce!"
 };
 
 const handler = async (m, { conn, args, usedPrefix }) => {
@@ -27,19 +28,20 @@ const handler = async (m, { conn, args, usedPrefix }) => {
   }
 
   const text = `
-╭━━〔 *🌐 PROGETTO EGEMONIA* 〕━━┈⊷
-┃◈ L'*Egemonia* è un progetto ideato dal founder di ChatUnity per riunire i più grandi developer di bot privati:
-┃◈
+╭━〔*🌐 PROGETTO EGEMONIA*〕━┈⊷
+ L'*Egemonia* è un progetto ideato dal founder di ChatUnity per riunire i più grandi developer di bot privati:
+
 ┃◈ • 333bot
 ┃◈ • Bixby-Bot
 ┃◈ • Origin-Bot
 ┃◈ • Universal-Bot
 ┃◈ • Turbo-Bot
 ┃◈ • Onix-Bot
-┃◈
-┃◈ Tutti insieme per portare ChatUnity-Bot in concorrenza globale, aiutando con la creazione/fix di plugin.
-┃◈ Dalla versione 5.0 sono già presenti plugin creati da questi sviluppatori!
-╰━━━━━━━━━━━━━━━━━━━⊷
+┃◈ • VareBot
+
+ Tutti insieme per portare ChatUnity-Bot in concorrenza globale, aiutando con la creazione/fix di plugin.
+ Dalla versione 5.0 sono già presenti plugin creati da questi sviluppatori!
+╰━━━━━━━━━━━━━━⊷
 
 *Scopri di più su ogni bot cliccando sui bottoni qui sotto!*
 `.trim();
@@ -55,7 +57,8 @@ const handler = async (m, { conn, args, usedPrefix }) => {
         { buttonId: `${usedPrefix}egemonia origin-bot`, buttonText: { displayText: "🤖 Origin-Bot" }, type: 1 },
         { buttonId: `${usedPrefix}egemonia universal-bot`, buttonText: { displayText: "🤖 Universal-Bot" }, type: 1 },
         { buttonId: `${usedPrefix}egemonia turbo-bot`, buttonText: { displayText: "🤖 Turbo-Bot" }, type: 1 },
-        { buttonId: `${usedPrefix}egemonia onix-bot`, buttonText: { displayText: "🤖 Onix-Bot" }, type: 1 }
+        { buttonId: `${usedPrefix}egemonia onix-bot`, buttonText: { displayText: "🤖 Onix-Bot" }, type: 1 },
+        { buttonId: `${usedPrefix}egemonia varebot`, buttonText: { displayText: "🤖 VareBot" }, type: 1 }
       ],
       viewOnce: true,
       headerType: 4
