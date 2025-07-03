@@ -1,5 +1,3 @@
-//creazione di chatunity
-
 let handler = async (m, { conn }) => {
 
     const createVCard = (name, number, role) => {
@@ -16,12 +14,11 @@ END:VCARD`.replace(/\n/g, '\r\n');
         contacts: { 
             displayName: '👥 ChatUnity Staff', 
             contacts: [
-           
                 { vcard: createVCard('Creatore', '393515533859', 'Founder') },
                 { vcard: createVCard('Finanziatore', '393803482529', 'Financer') },
                 { vcard: createVCard('Social Manager', '639076516872', 'Social Media') },
                 { vcard: createVCard('Promoter', '393534243103', 'Promoter') },
-                
+
                 // Team Sviluppo
                 { vcard: createVCard('Developer 1', '393935731102', 'Developer') },
                 { vcard: createVCard('Developer 2', '447365589428', 'Developer') },
@@ -29,7 +26,8 @@ END:VCARD`.replace(/\n/g, '\r\n');
                 { vcard: createVCard('Developer 4', '393518419909', 'Developer') },
                 { vcard: createVCard('Developer 5', '639649477630', 'Developer') },
                 { vcard: createVCard('Developer 6', '393509368693', 'Developer') },
-                { vcard: createVCard('Developer 7', '393201448716', 'Developer') } 
+                { vcard: createVCard('Developer 7', '393201448716', 'Developer') },
+                { vcard: createVCard('Developer 8', '393476686131', 'Developer') }
             ]
         }
     }, { quoted: m });
@@ -38,4 +36,5 @@ END:VCARD`.replace(/\n/g, '\r\n');
 handler.help = ['staff'];
 handler.tags = ['info'];
 handler.command = ['staff', 'team'];
+
 export default handler;
