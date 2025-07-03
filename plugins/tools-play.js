@@ -93,7 +93,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
       const thumb = (await conn.getFile(thumbnail))?.data;
 
       if (command === 'playaudio') {
-        await conn.sendMessage(m.chat, { text: '🎵 Sto inviando l\'audio...' }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: '🎵 𝒐𝒓𝒂 𝒕𝒊 𝒎𝒂𝒏𝒅𝒐 𝒔𝒕𝒐 𝒄𝒂𝒛𝒛𝒐 𝒅𝒊 𝒂𝒖𝒅𝒊𝒐' }, { quoted: m });
         const api = await ddownr.download(url, 'mp3');
         await conn.sendMessage(m.chat, { 
           audio: { url: api.downloadUrl }, 
@@ -109,7 +109,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
           }
         }, { quoted: m });
       } else {
-        await conn.sendMessage(m.chat, { text: '🎬 Sto inviando il video...' }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: '🎬 𝒗𝒊𝒅𝒆𝒐 𝒑𝒐𝒓𝒏𝒐 𝒐𝒓𝒂 𝒕𝒆 𝒍𝒐 𝒎𝒂𝒏𝒅𝒐' }, { quoted: m });
         let sources = [
           `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
           `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
@@ -198,12 +198,12 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
       const infoMessage = `
 ╭〔*🎥 𝑰𝑵𝑭𝑶 𝑽𝑰𝑫𝑬𝑶*〕┈⊷
 ┃◈╭─────────·๏
-┃◈┃• *Titolo:* ${title}
-┃◈┃• *Durata:* ${timestamp}
-┃◈┃• *Visualizzazioni:* ${formattedViews}
-┃◈┃• *Canale:* ${author?.name || "Sconosciuto"}
-┃◈┃• *Pubblicato:* ${ago}
-┃◈┃• *Link:* ${url}
+┃◈┃• ✍️𝒕𝒊𝒕𝒐𝒍𝒐: ${title}
+┃◈┃• ⏳𝒅𝒖𝒓𝒂𝒕𝒂: ${timestamp}
+┃◈┃• 👀𝒗𝒊𝒔𝒖𝒂𝒍: ${formattedViews}
+┃◈┃• 🔰𝒄𝒂𝒏𝒂𝒍𝒆: ${author?.name ||"Sconosciuto"}
+┃◈┃• 🔳𝒑𝒖𝒃𝒃𝒍𝒊𝒄𝒂𝒕𝒐: ${ago}
+┃◈┃• 🔗𝒍𝒊𝒏𝒌: ${url}
 ┃◈└───────┈⊷
 ╰━━━━━━━━━┈·๏`;
 
@@ -213,9 +213,9 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
         text: infoMessage,
         footer: 'Scegli un formato:',
         buttons: [
-          { buttonId: `${usedPrefix}playaudio ${title}`, buttonText: { displayText: "🎵 Scarica Audio" }, type: 1 },
-          { buttonId: `${usedPrefix}playvideo ${title}`, buttonText: { displayText: "🎬 Scarica Video" }, type: 1 },
-          { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 Salva in Playlist" }, type: 1 }
+          { buttonId: `${usedPrefix}playaudio ${title}`, buttonText: { displayText: "🎵 𝒔𝒄𝒂𝒓𝒊𝒄𝒂 𝒂𝒖𝒅𝒊𝒐" }, type: 1 },
+          { buttonId: `${usedPrefix}playvideo ${title}`, buttonText: { displayText: "🎬 𝒔𝒄𝒂𝒓𝒊𝒄𝒂 𝒗𝒊𝒅𝒆𝒐" }, type: 1 },
+          { buttonId: `${usedPrefix}salva ${title}`, buttonText: { displayText: "💾 𝒔𝒂𝒍𝒗𝒂 𝒏𝒆𝒍𝒍𝒂 𝒑𝒍𝒂𝒚𝒍𝒊𝒔𝒕" }, type: 1 }
         ],
         viewOnce: true,
         headerType: 4,
@@ -225,7 +225,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
           forwardedNewsletterMessageInfo: {
             newsletterJid: '120363259442839354@newsletter',
             serverMessageId: '',
-            newsletterName: 'ChatUnity'
+            newsletterName: '—͟͞͞★𝙧ᥱ𝙫𝗈ᶩէ★Ᏼo͢Ꭲ'
           },
           externalAdReply: {
             mediaType: 1,
@@ -249,7 +249,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363259442839354@newsletter',
           serverMessageId: '',
-          newsletterName: 'ChatUnity'
+          newsletterName: '—͟͞͞★𝙧ᥱ𝙫𝗈ᶩէ★Ᏼo͢Ꭲ'
         }
       }
     }, { quoted: m });
@@ -260,8 +260,4 @@ handler.command = handler.help = ['play', 'playaudio', 'playvideo', 'ytmp4', 'pl
 handler.tags = ['downloader'];
 
 export default handler;
-
-
-
-
 
