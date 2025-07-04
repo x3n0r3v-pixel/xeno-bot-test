@@ -39,7 +39,7 @@ let handler = async (m, { conn, text, args, groupMetadata, usedPrefix, command }
   if (warn < war) {
     user.warn += 1
     await conn.sendMessage(m.chat, {
-      text: `⚠️ 𝐀𝐕𝐕𝐄𝐑𝐓𝐈𝐌𝐄𝐍𝐓𝐎 ${user.warn}/3 (𝐀𝐥 𝐭𝐞𝐫𝐳𝐨 𝐰𝐚𝐫𝐧=𝐛𝐚𝐧)`,
+      text: `⚠️ 𝐀𝐕𝐕𝐄𝐑𝐓𝐈𝐌𝐄𝐍𝐓𝐎 ${user.warn}/𝟑 (𝟑 𝐰𝐚𝐫𝐧=𝐛𝐚𝐧)`,
       ...messageOptions
     })
   } else if (warn >= war) {
