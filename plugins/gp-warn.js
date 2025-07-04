@@ -1,5 +1,5 @@
 let handler = async (m, { conn, text, args, groupMetadata, usedPrefix, command }) => {
-  let war = 2 // <-- Corretto: numero, non stringa
+  let war = 2 // <-- numero di warning prima del ban
 
   let who
   if (m.isGroup) {
@@ -9,6 +9,11 @@ let handler = async (m, { conn, text, args, groupMetadata, usedPrefix, command }
   }
 
   if (!who) return m.reply("❌ Devi menzionare un utente o rispondere a un suo messaggio.")
+
+  // 🔒 BLOCCA AVVERTIMENTI AL BOT
+  if (who === conn.user.jid) {
+    return m.reply("🚫 Non puoi warnare il bot.")
+  }
 
   if (!(who in global.db.data.users)) {
     return m.reply("❌ Utente non trovato nel database.")
