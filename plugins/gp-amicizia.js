@@ -1,3 +1,4 @@
+//edited by filo222
 const friendRequests = {};
 
 let handler = async (m, { conn, participants, command, text, args, usedPrefix }) => {
@@ -34,8 +35,20 @@ const handleFriendRequest = async (m, user, users, text, usedPrefix, conn) => {
     friendRequests[mention] = { from: m.sender, timeout: null };
     friendRequests[m.sender] = { to: mention, timeout: null };
     
- let testo = `👥 𝐑𝐢𝐜𝐡𝐢𝐞𝐬𝐭𝐚 𝐝𝐢 𝐚𝐦𝐢𝐜𝐢𝐳𝐢𝐚 𝐢𝐧 𝐜𝐨𝐫𝐬𝐨...\n\n@${mention.split('@')[0]}, 𝐯𝐮𝐨𝐢 𝐚𝐜𝐜𝐞𝐭𝐭𝐚𝐫𝐞 𝐥'𝐚𝐦𝐢𝐜𝐢𝐳𝐢𝐚 𝐝𝐢 @${m.sender.split('@')[0]}?\n\n𝐑𝐢𝐬𝐩𝐨𝐧𝐝𝐢 𝐜𝐨𝐧 "𝐚𝐜𝐜𝐞𝐭𝐭𝐚" 𝐩𝐞𝐫 𝐚𝐜𝐜𝐞𝐭𝐭𝐚𝐫𝐞 𝐨 "𝐫𝐢𝐟𝐢𝐮𝐭𝐚" 𝐩𝐞𝐫 𝐫𝐢𝐟𝐢𝐮𝐭𝐚𝐫𝐞.\n> ⏳ 𝐇𝐚𝐢 60 𝐬𝐞𝐜𝐨𝐧𝐝𝐢 𝐩𝐞𝐫 𝐫𝐢𝐬𝐩𝐨𝐧𝐝𝐞𝐫𝐞.`;
-    await conn.sendMessage(m.chat, { text: testo, mentions: [mention, m.sender] }, { quoted: m });
+ let testo = `👥 𝐑𝐢𝐜𝐡𝐢𝐞𝐬𝐭𝐚 𝐝𝐢 𝐚𝐦𝐢𝐜𝐢𝐳𝐢𝐚 𝐢𝐧 𝐜𝐨𝐫𝐬𝐨...\n\n@${mention.split('@')[0]}, 𝐯𝐮𝐨𝐢 𝐚𝐜𝐜𝐞𝐭𝐭𝐚𝐫𝐞 𝐥'𝐚𝐦𝐢𝐜𝐢𝐳𝐢𝐚 𝐝𝐢 @${m.sender.split('@')[0]}?\n\n> ⏳ 𝐇𝐚𝐢 60 𝐬𝐞𝐜𝐨𝐧𝐝𝐢 𝐩𝐞𝐫 𝐬𝐜𝐞𝐠𝐥𝐢𝐞𝐫𝐞.`;
+
+const buttons = [
+  { buttonId: 'accetta', buttonText: { displayText: '✅ 𝐀𝐜𝐜𝐞𝐭𝐭𝐚' }, type: 1 },
+  { buttonId: 'rifiuta', buttonText: { displayText: '❌ 𝐑𝐢𝐟𝐢𝐮𝐭𝐚' }, type: 1 },
+  { buttonId: 'rimuoviamico', buttonText: { displayText: '🚫 𝐑𝐢𝐦𝐮𝐨𝐯𝐢 𝐚𝐦𝐢𝐜𝐨' }, type: 1 }
+];
+
+await conn.sendMessage(m.chat, {
+  text: testo,
+  buttons,
+  mentions: [mention, m.sender],
+  headerType: 1
+}, { quoted: m });
 
     let timeoutCallback = () => {
         if (friendRequests[mention]) {
@@ -53,21 +66,23 @@ const handleFriendRequest = async (m, user, users, text, usedPrefix, conn) => {
 handler.before = async (m, { conn, participants, command, text, args, usedPrefix }) => {
     if (!(m.sender in friendRequests)) return null;
 
-    if (!m.text) return;
+if (!m.message || !m.message.buttonsResponseMessage) return;
+let response = m.message.buttonsResponseMessage.selectedButtonId;
+let sender = m.sender;
 
     let user = friendRequests[m.sender];
     if (!user) return;
 
     clearTimeout(user.timeout);
 
-    if (/^rifiuta$/i.test(m.text)) {
+    if (response === 'rifiuta') {
         let fromUser = friendRequests[m.sender].from || m.sender;
         delete friendRequests[fromUser];
         delete friendRequests[m.sender];
         return m.reply(`❌ 𝐑𝐢𝐜𝐡𝐢𝐞𝐬𝐭𝐚 𝐝𝐢 𝐚𝐦𝐢𝐜𝐢𝐳𝐢𝐚 𝐫𝐢𝐟𝐢𝐮𝐭𝐚𝐭𝐚.`, null, { mentions: [fromUser] });
     }
 
-    if (/^accetta$/i.test(m.text)) {
+    if (response === 'accetta') {
         let fromUser = friendRequests[m.sender].from;
         let toUser = m.sender;
 
