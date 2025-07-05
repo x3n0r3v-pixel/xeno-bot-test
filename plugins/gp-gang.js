@@ -1,5 +1,3 @@
-const gangRequests = {};
-const gangData = {}; // Per memorizzare i dati delle gang
 
 let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     const gangData = global.db.data.gang = global.db.data.gang || {};
