@@ -3,6 +3,60 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     const gangData = global.db.data.gang = global.db.data.gang || {};
     const gangRequests = global.db.data.gangRequests = global.db.data.gangRequests || {};
     const users = global.db.data.users;
+if (command === 'creagang') {
+    const user = users[m.sender];
+    if (user.gang) {
+        return m.reply('Fai già parte di una gang. Lascia la tua gang prima di crearne una nuova.');
+    }
+
+    if (args.length < 2) {
+        return m.reply(`Formato errato. Usa: *${usedPrefix}creagang [nome] [emoji]*\nEsempio: *${usedPrefix}creagang Pirati ☠️*`);
+    }
+
+    const name = args.slice(0, -1).join(' ');
+    const emoji = args[args.length - 1];
+
+    const gangId = name.toLowerCase().replace(/\s+/g, '_');
+    if (gangData[gangId]) {
+        return m.reply('Esiste già una gang con questo nome.');
+    }
+
+    gangData[gangId] = {
+        id: gangId,
+        name,
+        emoji,
+        boss: m.sender,
+        members: [m.sender]
+    };
+
+    user.gang = {
+        id: gangId,
+        role: 'boss'
+    };
+
+    return m.reply(`✅ Hai creato la gang *${emoji} ${name} ${emoji}*! Ora sei il *boss*. Usa *${usedPrefix}invitogang @user* per invitare altri membri.`);
+}
+
+if (command === 'lasciagang') {
+    const user = users[m.sender];
+    if (!user.gang) {
+        return m.reply('Non fai parte di nessuna gang.');
+    }
+
+    const gangId = user.gang.id;
+    const gang = gangData[gangId];
+
+    // Se l'utente è il boss
+    if (user.gang.role === 'boss') {
+        return m.reply('Sei il boss della gang. Se vuoi sciogliere la gang, usa il comando apposito (es. *lasciagang*).');
+    }
+
+    // Rimuovi membro dalla gang
+    gang.members = gang.members.filter(jid => jid !== m.sender);
+    delete users[m.sender].gang;
+
+    return m.reply(`👋 Hai lasciato la gang *${gang.emoji} ${gang.name} ${gang.emoji}*.`);
+}
 
     if (command === 'invitogang') {
         const user = users[m.sender];
@@ -87,6 +141,6 @@ handler.before = async (m, { conn, command }) => {
 
 handler.help = ['invitogang @user', 'accetta', 'rifiuta'];
 handler.tags = ['gang'];
-handler.command = ['invitogang', 'accetta', 'rifiuta'];
+handler.command = ['creagang','invitogang', 'accetta', 'rifiuta','lasciagang'];
 
 export default handler;
