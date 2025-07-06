@@ -9,7 +9,7 @@ let handler = async (m, { conn, isPrems }) => {
   // Controllo cooldown
   if (cooldowns[m.sender] && Date.now() - cooldowns[m.sender] < tempoAttesa * 1000) {
     const tempoRimanente = formattaTempo(Math.ceil((cooldowns[m.sender] + tempoAttesa * 1000 - Date.now()) / 1000))
-    let message = `🚩 𝐡𝐚𝐢 𝐠𝐢𝐚̀𝐫𝐢𝐭𝐢𝐫𝐚𝐭𝐨 𝐢 𝐭𝐮𝐨𝐢 𝐬𝐨𝐥𝐝𝐢 𝐝𝐢 𝐨𝐠𝐠𝐢.\n𝐩𝐮𝐨𝐢 𝐩𝐫𝐞𝐧𝐝𝐞𝐫𝐥𝐞 𝐬𝐨𝐥𝐨 1 𝐨𝐠𝐧𝐢 24𝐡 (𝐆𝐎𝐃𝐎).\n\n𝐩𝐫𝐨𝐬𝐬𝐢𝐦𝐚 𝐫𝐢𝐜𝐨𝐦 𝐩𝐞𝐧𝐬𝐚 : +${isPrems ? premium : gratuito} 💶 𝐔𝐂\n 𝐭𝐫𝐚: ⏱ ${tempoRimanente}`;
+    let message = `🚩 𝐡𝐚𝐢 𝐠𝐢𝐚̀ 𝐫𝐢𝐭𝐢𝐫𝐚𝐭𝐨 𝐢 𝐭𝐮𝐨𝐢 𝐬𝐨𝐥𝐝𝐢 𝐝𝐢 𝐨𝐠𝐠𝐢.\n𝐩𝐮𝐨𝐢 𝐩𝐫𝐞𝐧𝐝𝐞𝐫𝐥𝐞 𝐬𝐨𝐥𝐨 1 𝐨𝐠𝐧𝐢 24𝐡.\n\n𝐩𝐫𝐨𝐬𝐬𝐢𝐦𝐚 𝐫𝐢𝐜𝐨𝐦𝐩𝐞𝐧𝐬𝐚 : +${isPrems ? premium : gratuito} 💶 𝐔𝐂\n 𝐭𝐫𝐚: ⏱ ${tempoRimanente}`;
     await conn.sendMessage(m.chat, { 
         text: message,
         contextInfo: {
