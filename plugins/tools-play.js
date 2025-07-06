@@ -93,7 +93,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
       const thumb = (await conn.getFile(thumbnail))?.data;
 
       if (command === 'playaudio') {
-        await conn.sendMessage(m.chat, { text: '🎵 𝒐𝒓𝒂 𝒕𝒊 𝒎𝒂𝒏𝒅𝒐 𝒔𝒕𝒐 𝒄𝒂𝒛𝒛𝒐 𝒅𝒊 𝒂𝒖𝒅𝒊𝒐' }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: '🎵 𝐚𝐮𝐝𝐢𝐨 𝐢𝐧 𝐚𝐫𝐫𝐢𝐯𝐨 𝐚𝐭𝐭𝐞𝐧𝐝𝐢 𝐪𝐮𝐚𝐥𝐜𝐡𝐞 𝐢𝐬𝐭𝐚𝐧𝐭𝐞...' }, { quoted: m });
         const api = await ddownr.download(url, 'mp3');
         await conn.sendMessage(m.chat, { 
           audio: { url: api.downloadUrl }, 
@@ -109,7 +109,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
           }
         }, { quoted: m });
       } else {
-        await conn.sendMessage(m.chat, { text: '🎬 𝒗𝒊𝒅𝒆𝒐 𝒑𝒐𝒓𝒏𝒐 𝒐𝒓𝒂 𝒕𝒆 𝒍𝒐 𝒎𝒂𝒏𝒅𝒐' }, { quoted: m });
+        await conn.sendMessage(m.chat, { text: '🎬 𝐯𝐢𝐝𝐞𝐨 𝐢𝐧 𝐚𝐫𝐫𝐢𝐯𝐨 𝐚𝐭𝐭𝐞𝐧𝐝𝐢 𝐪𝐮𝐚𝐥𝐜𝐡𝐞 𝐢𝐬𝐭𝐚𝐧𝐭𝐞...' }, { quoted: m });
         let sources = [
           `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
           `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
