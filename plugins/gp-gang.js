@@ -3,6 +3,32 @@ let handler = async (m, { conn, text, args, usedPrefix, command }) => {
     const gangData = global.db.data.gang = global.db.data.gang || {};
     const gangRequests = global.db.data.gangRequests = global.db.data.gangRequests || {};
     const users = global.db.data.users;
+if (command === 'accetta' || command === 'rifiuta') {
+        const req = gangRequests[m.sender];
+        if (!req) return;
+
+        clearTimeout(req.timeout);
+        const g = gangData[req.gangId];
+
+        if (command === 'accetta') {
+            g.members.push(m.sender);
+            users[m.sender].gang = { id: req.gangId, role: 'member' };
+
+            await conn.sendMessage(m.chat, {
+                text: `🎊 @${m.sender.split('@')[0]} è entrato nella gang *${g.emoji} ${g.name} ${g.emoji}*! Ora ci sono ${g.members.length} membri.`,
+                mentions: [m.sender]
+            });
+        } else {
+            await conn.sendMessage(m.chat, {
+                text: `💢 @${m.sender.split('@')[0]} ha rifiutato l'invito nella gang.`,
+                mentions: [m.sender]
+            });
+        }
+
+        delete gangRequests[m.sender];
+        return;
+    }
+
 if (command === 'creagang') {
     const user = users[m.sender];
     if (user.gang) {
@@ -107,37 +133,6 @@ if (command === 'lasciagang') {
     }
 };
 
-handler.before = async (m, { conn, command }) => {
-    const gangData = global.db.data.gang = global.db.data.gang || {};
-    const gangRequests = global.db.data.gangRequests = global.db.data.gangRequests || {};
-    const users = global.db.data.users;
-
-    if (command === 'accetta' || command === 'rifiuta') {
-        const req = gangRequests[m.sender];
-        if (!req) return;
-
-        clearTimeout(req.timeout);
-        const g = gangData[req.gangId];
-
-        if (command === 'accetta') {
-            g.members.push(m.sender);
-            users[m.sender].gang = { id: req.gangId, role: 'member' };
-
-            await conn.sendMessage(m.chat, {
-                text: `🎊 @${m.sender.split('@')[0]} è entrato nella gang *${g.emoji} ${g.name} ${g.emoji}*! Ora ci sono ${g.members.length} membri.`,
-                mentions: [m.sender]
-            });
-        } else {
-            await conn.sendMessage(m.chat, {
-                text: `💢 @${m.sender.split('@')[0]} ha rifiutato l'invito nella gang.`,
-                mentions: [m.sender]
-            });
-        }
-
-        delete gangRequests[m.sender];
-        return;
-    }
-};
 
 handler.help = ['invitogang @user', 'accetta', 'rifiuta'];
 handler.tags = ['gang'];
