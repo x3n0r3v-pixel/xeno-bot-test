@@ -2,9 +2,11 @@ import fetch from 'node-fetch'
 import FormData from 'form-data'
 import { downloadContentFromMessage } from '@whiskeysockets/baileys'
 
-const linkRegex = /\bchat\s*\.?\s*whatsapp\s*\.?\s*com\/([0-9A-Za-z]{20,24})/i
-const channelRegex = /\bwhatsapp\s*\.?\s*com\/channel\/([0-9A-Za-z]{20,24})/i
+// Regex migliorato per link WhatsApp (gruppi/canali), anche con spazi invisibili o caratteri . sparsi
+const linkRegex = /\bchat[\s.\u200B\u200C\u200D\uFEFF]*whatsapp[\s.\u200B\u200C\u200D\uFEFF]*com\/([0-9A-Za-z]{20,24})/i
+const channelRegex = /\bwhatsapp[\s.\u200B\u200C\u200D\uFEFF]*com\/channel\/([0-9A-Za-z]{20,24})/i
 
+// Estrai immagine/video se presenti
 async function getMediaBuffer(message) {
     try {
         const msg = message.message?.imageMessage
@@ -28,6 +30,7 @@ async function getMediaBuffer(message) {
     }
 }
 
+// Leggi QR code da immagine
 async function readQRCode(imageBuffer) {
     try {
         const controller = new AbortController()
@@ -51,21 +54,23 @@ async function readQRCode(imageBuffer) {
     }
 }
 
+// Estrai testo e normalizza invisibili/spazi
 function extractPossibleText(m) {
-    // Estrai testo normale o dai messaggi particolari (quote, sondaggio, ecc)
     const rawText = m.text ?? ''
     const pollV3 = m.message?.pollCreationMessageV3?.title
     const pollLegacy = m.message?.pollCreationMessage?.name
     const quotedPoll = m.message?.extendedTextMessage?.contextInfo?.quotedMessage?.pollCreationMessageV3?.title
+
     return (
         rawText
         || pollV3
         || pollLegacy
         || quotedPoll
         || ''
-    ).replace(/[\s\u200b\u200c\u200d\uFEFF]+/g, '') // Normalizza spazi invisibili
+    ).replace(/[\s\u200b\u200c\u200d\uFEFF]+/g, '') // Rimuove spazi e invisibili
 }
 
+// Funzione principale
 export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }) {
     if (!m.isGroup) return false
     if (isAdmin || isOwner || isROwner || m.fromMe) return false
@@ -76,12 +81,14 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }
     try {
         const normalizedText = extractPossibleText(m)
 
+        // Controllo link nel testo
         if (linkRegex.test(normalizedText) || channelRegex.test(normalizedText)) {
             const groupLink = `https://chat.whatsapp.com/${await conn.groupInviteCode(m.chat)}`
-            if (normalizedText.includes(groupLink.replace(/[\s\.]/g, ''))) return false
+            if (normalizedText.includes(groupLink.replace(/[\s.\u200B\u200C\u200D\uFEFF]/g, ''))) return false
             if (!isBotAdmin) return false
 
             await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove').catch(console.error)
+
             await conn.sendMessage(m.chat, {
                 delete: {
                     remoteJid: m.chat,
@@ -98,7 +105,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }
             return true
         }
 
-        // 🔍 Controlla i QR code nelle immagini
+        // Controllo link via QR code
         const media = await getMediaBuffer(m)
         if (!media) return false
 
@@ -109,6 +116,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isOwner, isROwner }
             if (!isBotAdmin) return false
 
             await conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove').catch(console.error)
+
             await conn.sendMessage(m.chat, {
                 delete: {
                     remoteJid: m.chat,
