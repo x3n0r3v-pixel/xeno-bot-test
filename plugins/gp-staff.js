@@ -16,7 +16,6 @@ END:VCARD`.replace(/\n/g, '\r\n');
             contacts: [
                 { vcard: createVCard('Creatore', '393515533859', 'Founder') },
                 { vcard: createVCard('Finanziatore', '393803482529', 'Financer') },
-                { vcard: createVCard('Social Manager', '639076516872', 'Social Media') },
                 { vcard: createVCard('Promoter', '393534243103', 'Promoter') },
 
                 // Team Sviluppo
