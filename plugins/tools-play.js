@@ -225,7 +225,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
           forwardedNewsletterMessageInfo: {
             newsletterJid: '120363259442839354@newsletter',
             serverMessageId: '',
-            newsletterName: '—͟͞͞★𝙧ᥱ𝙫𝗈ᶩէ★Ᏼo͢Ꭲ'
+            newsletterName: 'chatunity'
           },
           externalAdReply: {
             mediaType: 1,
@@ -249,7 +249,7 @@ const handler = async (m, { conn, text, usedPrefix, command, args }) => {
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363259442839354@newsletter',
           serverMessageId: '',
-          newsletterName: '—͟͞͞★𝙧ᥱ𝙫𝗈ᶩէ★Ᏼo͢Ꭲ'
+          newsletterName: 'chatunity'
         }
       }
     }, { quoted: m });
