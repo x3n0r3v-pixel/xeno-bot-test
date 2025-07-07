@@ -16,7 +16,7 @@ function normalize(str) {
 }
 async function getRandomItalianTrackFromItunes() {
     const keywords = [
-       "kid yugi","sfera ebbasta",
+       "kid yugi",
     ]
     let found = null
     let tentativi = 0
