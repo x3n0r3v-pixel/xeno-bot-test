@@ -26,7 +26,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 }
 handler.help = ['aperto'];
 handler.tags = ['group'];
-handler.command = /^aperto$/i;
+handler.command = /^(aperto|apri)$/i;
 handler.admin = true;
 handler.botAdmin = true;
 
