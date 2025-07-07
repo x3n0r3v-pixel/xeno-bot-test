@@ -45,12 +45,11 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     "SoloGruppo": chat.sologruppo,
     "SoloPrivato": chat.soloprivato,
     "ModoAdmin": chat.modoadmin,
-    "BanGruppo": chat.isBanned,
     "Antiporno": chat.antiporno,
     "AntiCall": chat.antiCall,
     "Antiinsta": chat.antiinsta,
     "AntiTikTok": chat.antitiktok,
-    "Antiarab": chat.antiArab,
+    "Antivoip": chat.antiArab,
     "Antivirus": chat.antivirus,
     "Antibot": chat.antibot,
   };
