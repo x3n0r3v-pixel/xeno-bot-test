@@ -18,8 +18,13 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
   const groupMetadata = await conn.groupMetadata(chatId);
   const groupOwner = groupMetadata.owner || chatId.split('-')[0] + '@s.whatsapp.net';
 
+  const creatorJid = '3515533859@s.whatsapp.net';
+
   if (mentionedUser === groupOwner)
     throw 'ⓘ 𝐈𝐥 𝐜𝐫𝐞𝐚𝐭𝐨𝐫𝐞 𝐝𝐞𝐥 𝐠𝐫𝐮𝐩𝐩𝐨 𝐧𝐨𝐧 𝐩𝐮ò 𝐞𝐬𝐬𝐞𝐫𝐞 𝐦𝐮𝐭𝐚𝐭𝐨';
+
+  if (mentionedUser === creatorJid)
+    throw 'ⓘ 𝐈𝐥 𝐜𝐫𝐞𝐚𝐭𝐨𝐫𝐞 𝐝𝐞𝐥 𝐛𝐨𝐭 𝐧𝐨𝐧 𝐩𝐮ò 𝐞𝐬𝐬𝐞𝐫𝐞 𝐦𝐮𝐭𝐚𝐭𝐨';
 
   if (mentionedUser === conn.user.jid)
     throw 'ⓘ 𝐍𝐨𝐧 𝐩𝐮𝐨𝐢 𝐦𝐮𝐭𝐚𝐫𝐞 𝐢𝐥 𝐛𝐨𝐭';
@@ -35,7 +40,7 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
 
   const alreadyMuted = userData.muto === true;
   if (command === 'muta' && alreadyMuted)
-    throw 'ⓘ 𝐐𝐮𝐞𝐬𝐭𝐨 𝐮𝐭𝐞𝐧𝐭𝐞 𝐞’ 𝐠𝐢𝐚 𝐬𝐭𝐚𝐭𝐨 𝐦𝐮𝐭𝐚𝐭𝐨/𝐚 🔇';
+    throw 'ⓘ 𝐐𝐮𝐞𝐬𝐭𝐨 𝐮𝐭𝐞𝐧𝐭𝐞 𝐞’ 𝐠𝐢à 𝐬𝐭𝐚𝐭𝐨 𝐦𝐮𝐭𝐚𝐭𝐨/𝐚 🔇';
   if (command === 'smuta' && !alreadyMuted)
     throw 'ⓘ 𝐐𝐮𝐞𝐬𝐭𝐨 𝐮𝐭𝐞𝐧𝐭𝐞 𝐧𝐨𝐧 𝐞’ 𝐦𝐮𝐭𝐚𝐭𝐨/𝐚';
 
