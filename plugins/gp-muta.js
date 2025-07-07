@@ -18,12 +18,19 @@ const handler = async (message, { conn, command, text, isAdmin }) => {
   const groupMetadata = await conn.groupMetadata(chatId);
   const groupOwner = groupMetadata.owner || chatId.split('-')[0] + '@s.whatsapp.net';
 
-  const creatorJid = '3515533859@s.whatsapp.net';
+  // Numero del creatore del bot
+  const creatorNumber = '3515533859';
 
-  if (mentionedUser === groupOwner)
+  // Funzione per ottenere solo il numero da uno JID
+  const getNumberFromJid = jid => jid.replace(/\D/g, '').replace(/^39/, '');
+
+  const mentionedNumber = getNumberFromJid(mentionedUser);
+  const groupOwnerNumber = getNumberFromJid(groupOwner);
+
+  if (mentionedNumber === groupOwnerNumber)
     throw 'ⓘ 𝐈𝐥 𝐜𝐫𝐞𝐚𝐭𝐨𝐫𝐞 𝐝𝐞𝐥 𝐠𝐫𝐮𝐩𝐩𝐨 𝐧𝐨𝐧 𝐩𝐮ò 𝐞𝐬𝐬𝐞𝐫𝐞 𝐦𝐮𝐭𝐚𝐭𝐨';
 
-  if (mentionedUser === creatorJid)
+  if (mentionedNumber === creatorNumber)
     throw 'ⓘ 𝐈𝐥 𝐜𝐫𝐞𝐚𝐭𝐨𝐫𝐞 𝐝𝐞𝐥 𝐛𝐨𝐭 𝐧𝐨𝐧 𝐩𝐮ò 𝐞𝐬𝐬𝐞𝐫𝐞 𝐦𝐮𝐭𝐚𝐭𝐨';
 
   if (mentionedUser === conn.user.jid)
