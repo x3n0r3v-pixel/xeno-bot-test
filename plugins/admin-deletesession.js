@@ -53,7 +53,6 @@ const handler = async (message, { conn, usedPrefix }) => {
     message: {
       locationMessage: {
         name: botName,
-        jpegThumbnail: await (await fetch("https://qu.ax/cSqEs.jpg")).buffer(),
         vcard: "BEGIN:VCARD\nVERSION:3.0\nN:;Unlimited;;;\nFN:Unlimited\nORG:Unlimited\nTITLE:\nitem1.TEL;waid=19709001746:+1 (970) 900-1746\nitem1.X-ABLabel:Unlimited\nX-WA-BIZ-DESCRIPTION:ofc\nX-WA-BIZ-NAME:Unlimited\nEND:VCARD"
       }
     },
