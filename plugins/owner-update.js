@@ -1,6 +1,11 @@
 import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
+import { createRequire } from 'module'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const require = createRequire(import.meta.url)
 
 let handler = async (m, { conn }) => {
     try {
@@ -16,21 +21,24 @@ let handler = async (m, { conn }) => {
             output = execSync('git pull', { encoding: 'utf-8' })
         }
         
-        // Reload plugins
-        const pluginsPath = path.join(process.cwd(), 'plugins')
-        const plugins = fs.readdirSync(pluginsPath)
+        // Reload plugins by clearing import cache
+        const pluginsPath = path.join(__dirname, '../plugins')
+        const pluginFiles = fs.readdirSync(pluginsPath)
             .filter(file => file.endsWith('.js'))
-            .map(file => file.replace('.js', ''))
+            .map(file => path.join(pluginsPath, file))
         
-        // Delete require cache
-        plugins.forEach(plugin => {
-            delete require.cache[require.resolve(`../plugins/${plugin}`)]
-        })
+        // Clear the import cache
+        for (const file of pluginFiles) {
+            const fileUrl = new URL(`file://${file}`).href
+            if (import.meta.url in require.cache) {
+                delete require.cache[fileUrl]
+            }
+        }
         
-        m.reply(`✅ Aggiornamento completato!\n\n${output}\n\nPlugin ricaricati: ${plugins.length}`)
+        m.reply(`✅ Update successful!\n\n${output}\n\nPlugins reloaded: ${pluginFiles.length}`)
     } catch (error) {
         console.error('Update error:', error)
-        m.reply(`❌ Errore nell'aggiornamento:\n${error.message}`)
+        m.reply(`❌ Update failed:\n${error.message}`)
     }
 }
 
