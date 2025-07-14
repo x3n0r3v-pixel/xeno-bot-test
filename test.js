@@ -1,30 +1,31 @@
+//comando creato da sam aka vare github.com/realvare
 let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
   if (m.text?.toLowerCase() === '.skipbandiera') {
-    if (!m.isGroup) return m.reply('⚠️ Questo comando funziona solo nei gruppi!')
-    if (!global.bandieraGame?.[m.chat]) return m.reply('⚠️ Non c\'è nessuna partita attiva in questo gruppo!')
+    if (!m.isGroup) return m.reply('⚠ Questo comando funziona solo nei gruppi!')
+    if (!global.bandieraGame?.[m.chat]) return m.reply('⚠ Non c\'è nessuna partita attiva in questo gruppo!')
     
     if (!isAdmin && !m.fromMe) {
-      return m.reply('❌ *Questo comando può essere usato solo dagli admin!*')
+      return m.reply('❌ Questo comando può essere usato solo dagli admin!')
     }
 
     clearTimeout(global.bandieraGame[m.chat].timeout)
-    await conn.reply(m.chat, `🛑 *Gioco delle bandiere interrotto dall'admin*\n✨ La risposta era: *${global.bandieraGame[m.chat].risposta}*`, m)
+    await conn.reply(m.chat, 🛑 *Gioco delle bandiere interrotto dall'admin*\n✨ La risposta era: *${global.bandieraGame[m.chat].risposta}*, m)
     delete global.bandieraGame[m.chat]
     return
   }
 
   if (global.bandieraGame?.[m.chat]) {
-    return m.reply('⚠️ C\'è già una partita attiva in questo gruppo!')
+    return m.reply('⚠ C\'è già una partita attiva in questo gruppo!')
   }
 
-  const cooldownKey = `bandiera_${m.chat}`
+  const cooldownKey = bandiera_${m.chat}
   const lastGame = global.cooldowns?.[cooldownKey] || 0
   const now = Date.now()
   const cooldownTime = 10000
 
   if (now - lastGame < cooldownTime) {
     const remainingTime = Math.ceil((cooldownTime - (now - lastGame)) / 1000)
-    return m.reply(`⏳ *Aspetta ancora ${remainingTime} secondi prima di avviare un nuovo gioco!*`)
+    return m.reply(⏳ *Aspetta ancora ${remainingTime} secondi prima di avviare un nuovo gioco!*)
   }
 
   global.cooldowns = global.cooldowns || {}
@@ -219,13 +220,13 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
   ]
 
   let frasi = [
-    `🇺🇳 *INDOVINA LA BANDIERA!* 🇺🇳`,
-    `🌍 *Che nazione rappresenta questa bandiera?*`,
-    `🏳️ *Sfida geografica: riconosci questa bandiera?*`,
-    `🧭 *Indovina la nazione dalla sua bandiera!*`,
-    `🎯 *Quiz bandiere: quale paese è questo?*`,
-    `🌟 *Metti alla prova la tua conoscenza geografica!*`,
-    `🔍 *Osserva attentamente e indovina la nazione!*`,
+    🇺🇳 *INDOVINA LA BANDIERA!* 🇺🇳,
+    🌍 *Che nazione rappresenta questa bandiera?*,
+    🏳 *Sfida geografica: riconosci questa bandiera?*,
+    🧭 *Indovina la nazione dalla sua bandiera!*,
+    🎯 *Quiz bandiere: quale paese è questo?*,
+    🌟 *Metti alla prova la tua conoscenza geografica!*,
+    🔍 *Osserva attentamente e indovina la nazione!*,
   ]
 
   let scelta = bandiere[Math.floor(Math.random() * bandiere.length)]
@@ -234,7 +235,7 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
   try {
     let msg = await conn.sendMessage(m.chat, {
       image: { url: scelta.url },
-      caption: `${frase}\n\n ㌌ *Rispondi con il nome della nazione!*\n⏱️ *Tempo disponibile:* 30 secondi\n\n> \`vare ✧ bot\``,
+      caption: `${frase}\n\n ㌌ Rispondi con il nome della nazione!\n⏱ Tempo disponibile: 30 secondi\n\n> \vare ✧ bot\`,
       quoted: m
     })
 
@@ -248,14 +249,14 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
       startTime: Date.now(),
       timeout: setTimeout(() => {
         if (global.bandieraGame?.[m.chat]) {
-          conn.reply(m.chat, `⏳ *Tempo scaduto!*\n\n🌍 *La risposta era:* *${scelta.nome}*\n\n> \`vare ✧ bot\``, msg)
+          conn.reply(m.chat, `⏳ Tempo scaduto!\n\n🌍 La risposta era: ${scelta.nome}\n\n> \vare ✧ bot\`, msg)
           delete global.bandieraGame[m.chat]
         }
       }, 30000)
     }
   } catch (error) {
     console.error('Errore nel gioco bandiere:', error)
-    m.reply('❌ *Si è verificato un errore durante l\'avvio del gioco*\n\n🔄 *Riprova tra qualche secondo*')
+    m.reply('❌ Si è verificato un errore durante l\'avvio del gioco\n\n🔄 Riprova tra qualche secondo')
   }
 }
 
@@ -318,45 +319,33 @@ handler.before = async (m, { conn }) => {
         const timeBonus = timeTaken <= 10 ? 20 : timeTaken <= 20 ? 10 : 0
         reward += timeBonus
         
-        // Inizializza il portafoglio se non esiste
         if (!global.db.data.users[m.sender]) global.db.data.users[m.sender] = {}
-        if (global.db.data.users[m.sender].money == null) global.db.data.users[m.sender].money = 0
-        if (global.db.data.users[m.sender].exp == null) global.db.data.users[m.sender].exp = 0
-
-        // Aggiungi UnityCoins e exp
-        global.db.data.users[m.sender].money = Number(global.db.data.users[m.sender].money) + Number(reward)
-        global.db.data.users[m.sender].exp = Number(global.db.data.users[m.sender].exp) + Number(exp)
-
-        // Forza la scrittura del database e aggiorna la cache in memoria
-        if (global.db && typeof global.db.write === 'function') {
-            await global.db.write();
-            await global.db.read(); // aggiorna la cache dopo la scrittura
-        }
+        global.db.data.users[m.sender].euro = (global.db.data.users[m.sender].euro || 0) + reward
+        global.db.data.users[m.sender].exp = (global.db.data.users[m.sender].exp || 0) + exp
 
         let congratsMessage = `
-╭━『 🎉 *RISPOSTA CORRETTA!* 』━╮
+╭━『 🎉 RISPOSTA CORRETTA! 』━╮
 ┃
-┃ 🌍 *Nazione:* ${game.rispostaOriginale}
-┃ ⏱️ *Tempo impiegato:* ${timeTaken}s
+┃ 🌍 Nazione: ${game.rispostaOriginale}
+┃ ⏱ Tempo impiegato: ${timeTaken}s
 ┃
-┃ 🎁 *Ricompense:*
-┃ • ${reward} 🪙 UnityCoins${timeBonus > 0 ? ` (+${timeBonus} bonus velocità)` : ''}
+┃ 🎁 Ricompense:
+┃ • ${reward} 💰 euro ${timeBonus > 0 ? (+${timeBonus} bonus velocità) : ''}
 ┃ • ${exp} 🆙 EXP
 ┃
-┃ 💰 *Saldo attuale:* ${global.db.data.users[m.sender].money} UnityCoins
 ╰━━━━━━━━━━━━━━━━╯
 
-> \`vare ✧ bot\``
+> \vare ✧ bot\`
 
         await conn.reply(chat, congratsMessage, m)
         delete global.bandieraGame[chat]
         
     } else if (similarityScore >= 0.6 && !game.suggerito) {
         game.suggerito = true
-        await conn.reply(chat, '👀 *Ci sei quasi!*', m)
+        await conn.reply(chat, '👀 Ci sei quasi!', m)
         
     } else if (game.tentativi[m.sender] >= 3) {
-        await conn.reply(chat, '❌ *Hai esaurito i tuoi 3 tentativi!*\n\n⏳ *Aspetta che altri giocatori provino o che finisca il tempo*', m)
+        await conn.reply(chat, '❌ Hai esaurito i tuoi 3 tentativi!\n\n⏳ Aspetta che altri giocatori provino o che finisca il tempo', m)
         
     } else {
         game.tentativi[m.sender] = (game.tentativi[m.sender] || 0) + 1
@@ -365,18 +354,18 @@ handler.before = async (m, { conn }) => {
         if (tentativiRimasti === 1) {
             const primaLettera = game.rispostaOriginale[0].toUpperCase()
             const numeroLettere = game.rispostaOriginale.length
-            await conn.reply(chat, `❌ *Risposta errata!*
+            await conn.reply(chat, `❌ Risposta errata!
 
-💡 *Suggerimento:*
-   • Inizia con la lettera *"${primaLettera}"*
+💡 Suggerimento:
+   • Inizia con la lettera "${primaLettera}"
    • È composta da *${numeroLettere} lettere*`, m)
         } else if (tentativiRimasti === 2) {
-            await conn.reply(chat, `❌ *Risposta errata!*
+            await conn.reply(chat, `❌ Risposta errata!
 
-📝 *Tentativi rimasti:* 
+📝 Tentativi rimasti: 
 🤔 *Pensa bene alla tua prossima risposta!*`, m)
         } else {
-            await conn.reply(chat, `❌ *Risposta errata!*
+            await conn.reply(chat, `❌ Risposta errata!
 
 📝 *Ultimo tentativo rimasto..*`, m)
         }
