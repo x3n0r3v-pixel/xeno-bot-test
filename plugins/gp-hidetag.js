@@ -12,7 +12,7 @@ let handler = async (m, { conn, text, participants }) => {
   } else if (text?.trim()) {
     captionText = `${text.trim()}\n\nTag by ${tagger}`
   } else {
-    captionText = `Tag by ${tagger}`
+    captionText = `𝐓𝐀𝐆 𝐁𝐘: ${tagger}`
   }
 
   try {
