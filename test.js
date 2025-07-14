@@ -9,7 +9,7 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
     }
 
     clearTimeout(global.bandieraGame[m.chat].timeout)
-    await conn.reply(m.chat, 🛑 *Gioco delle bandiere interrotto dall'admin*\n✨ La risposta era: *${global.bandieraGame[m.chat].risposta}*, m)
+    await conn.reply(m.chat, `🛑 *Gioco delle bandiere interrotto dall'admin*\n✨ La risposta era: *${global.bandieraGame[m.chat].risposta}*`, m)
     delete global.bandieraGame[m.chat]
     return
   }
@@ -18,20 +18,19 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
     return m.reply('⚠ C\'è già una partita attiva in questo gruppo!')
   }
 
-  const cooldownKey = bandiera_${m.chat}
+  const cooldownKey = `bandiera_${m.chat}`
   const lastGame = global.cooldowns?.[cooldownKey] || 0
   const now = Date.now()
   const cooldownTime = 10000
 
   if (now - lastGame < cooldownTime) {
     const remainingTime = Math.ceil((cooldownTime - (now - lastGame)) / 1000)
-    return m.reply(⏳ *Aspetta ancora ${remainingTime} secondi prima di avviare un nuovo gioco!*)
+    return m.reply(`⏳ *Aspetta ancora ${remainingTime} secondi prima di avviare un nuovo gioco!*`)
   }
 
   global.cooldowns = global.cooldowns || {}
   global.cooldowns[cooldownKey] = now
 
-  let bandiere = [
     { url: 'https://flagcdn.com/w320/it.png', nome: 'Italia' },
     { url: 'https://flagcdn.com/w320/fr.png', nome: 'Francia' },
     { url: 'https://flagcdn.com/w320/de.png', nome: 'Germania' },
@@ -220,13 +219,13 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
   ]
 
   let frasi = [
-    🇺🇳 *INDOVINA LA BANDIERA!* 🇺🇳,
-    🌍 *Che nazione rappresenta questa bandiera?*,
-    🏳 *Sfida geografica: riconosci questa bandiera?*,
-    🧭 *Indovina la nazione dalla sua bandiera!*,
-    🎯 *Quiz bandiere: quale paese è questo?*,
-    🌟 *Metti alla prova la tua conoscenza geografica!*,
-    🔍 *Osserva attentamente e indovina la nazione!*,
+    '🇺🇳 *INDOVINA LA BANDIERA!* 🇺🇳',
+    '🌍 *Che nazione rappresenta questa bandiera?*',
+    '🏳 *Sfida geografica: riconosci questa bandiera?*',
+    '🧭 *Indovina la nazione dalla sua bandiera!*',
+    '🎯 *Quiz bandiere: quale paese è questo?*',
+    '🌟 *Metti alla prova la tua conoscenza geografica!*',
+    '🔍 *Osserva attentamente e indovina la nazione!*',
   ]
 
   let scelta = bandiere[Math.floor(Math.random() * bandiere.length)]
@@ -235,7 +234,7 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
   try {
     let msg = await conn.sendMessage(m.chat, {
       image: { url: scelta.url },
-      caption: `${frase}\n\n ㌌ Rispondi con il nome della nazione!\n⏱ Tempo disponibile: 30 secondi\n\n> \vare ✧ bot\`,
+      caption: `${frase}\n\n ㌌ Rispondi con il nome della nazione!\n⏱ Tempo disponibile: 30 secondi\n\n> \\vare ✧ bot\\`,
       quoted: m
     })
 
@@ -249,7 +248,7 @@ let handler = async (m, { conn, args, participants, isAdmin, isBotAdmin }) => {
       startTime: Date.now(),
       timeout: setTimeout(() => {
         if (global.bandieraGame?.[m.chat]) {
-          conn.reply(m.chat, `⏳ Tempo scaduto!\n\n🌍 La risposta era: ${scelta.nome}\n\n> \vare ✧ bot\`, msg)
+          conn.reply(m.chat, `⏳ Tempo scaduto!\n\n🌍 La risposta era: ${scelta.nome}\n\n> \\vare ✧ bot\\`, msg)
           delete global.bandieraGame[m.chat]
         }
       }, 30000)
@@ -278,7 +277,6 @@ function calculateSimilarity(str1, str2) {
     
     const matches = words1.filter(word => 
         words2.some(w2 => w2.includes(word) || word.includes(w2))
-    )
     
     return matches.length / Math.max(words1.length, words2.length)
 }
@@ -330,12 +328,12 @@ handler.before = async (m, { conn }) => {
 ┃ ⏱ Tempo impiegato: ${timeTaken}s
 ┃
 ┃ 🎁 Ricompense:
-┃ • ${reward} 💰 euro ${timeBonus > 0 ? (+${timeBonus} bonus velocità) : ''}
+┃ • ${reward} 💰 euro ${timeBonus > 0 ? `(+${timeBonus} bonus velocità)` : ''}
 ┃ • ${exp} 🆙 EXP
 ┃
 ╰━━━━━━━━━━━━━━━━╯
 
-> \vare ✧ bot\`
+> \\vare ✧ bot\\`
 
         await conn.reply(chat, congratsMessage, m)
         delete global.bandieraGame[chat]
