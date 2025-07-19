@@ -1,3 +1,4 @@
+//developed by chatunity idea by vare
 import axios from 'axios';
 
 const kcalPlugin = async (m, { conn, text, usedPrefix, command }) => {
@@ -8,11 +9,11 @@ const kcalPlugin = async (m, { conn, text, usedPrefix, command }) => {
   const alimento = text.trim();
 
   const prompt = `
-Genera una scheda nutrizionale decorata, leggibile ma stilosa, per il seguente alimento: *${alimento}*.
+Genera una scheda nutrizionale decorata, leggibile ma stilosa, per il seguente alimento: *${alimento}*. Se ti dovessi dire qualcosa che non sia un non alimento rispondi con "ti sembra un'alimento?"
 
 Il formato deve essere esattamente questo (non cambiare lo stile, solo i valori):
 
-★´¯\`★『 ˗ˏˋ${alimento.toUpperCase()}ˎˊ˗ 』★´¯\`★
+.·´¯\`˚｡⋆『 ˗ˏˋ${alimento.toUpperCase()}ˎˊ˗ 』⋆｡˚⟡´¯\`·.
 
 📌 *Porzione analizzata:* *100g*
 🧭 *Valutazione nutrizionale:* *(Alta, Moderata, Bassa)*
@@ -56,6 +57,9 @@ Il formato deve essere esattamente questo (non cambiare lo stile, solo i valori)
 
 ⋆ ˚｡✦ *VG = Valori Giornalieri di riferimento (dieta 2000 kcal)*
 ⋆ ˚｡✦ *Consulta un nutrizionista per piani personalizzati*
+
+𖦹﹒✧･ﾟﾟ･:*:･ﾟ✧﹒𖦹
+✦ 𝘊𝘳𝘦𝘥𝘪𝘵𝘴 𝘵𝘰 ᐯᗩᖇᗴ ✦
 `;
 
   try {
