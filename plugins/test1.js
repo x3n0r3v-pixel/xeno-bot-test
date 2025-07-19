@@ -12,7 +12,7 @@ Genera una scheda nutrizionale decorata, leggibile ma stilosa, per il seguente a
 
 Il formato deve essere esattamente questo (non cambiare lo stile, solo i valori):
 
-★·.·´¯\`·.·★ ⟡ ˚｡⋆『 ˗ˏˋ  ${alimento.toUpperCase()}  ˎˊ˗ 』⋆｡˚⟡ ★·.·´¯\`·.·★
+★´¯\`★『 ˗ˏˋ${alimento.toUpperCase()}ˎˊ˗ 』★´¯\`★
 
 📌 *Porzione analizzata:* *100g*
 🧭 *Valutazione nutrizionale:* *(Alta, Moderata, Bassa)*
