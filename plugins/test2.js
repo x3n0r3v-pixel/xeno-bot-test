@@ -14,7 +14,7 @@ Crea una scheda informativa decorata e leggibile per l'animale "*${animale}*".
 ❥ Rispondi sempre in italiano.
 ❥ Il formato deve essere **esattamente** questo (modifica solo i dati reali, non lo stile):
 
-★·.·´¯\`·.·★ ⟡ ˚｡⋆『 ˗ˏˋ  ${animale.toUpperCase()}  ˎˊ˗ 』⋆｡˚⟡ ★·.·´¯\`·.·★
+·´¯\` ˚｡⋆『 ˗ˏˋ${animale.toUpperCase()}ˎˊ˗ 』⋆｡˚⟡´¯\`·.
 
 🦊 *Nome comune:* ${animale}
 📚 *Nome scientifico:* (es. Vulpes vulpes)
