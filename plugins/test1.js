@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const kcalPlugin = async (m, {conn, text, usedPrefix, command}) => {
+const kcalPlugin = async (m, { conn, text, usedPrefix, command }) => {
   if (!text) {
     return conn.reply(m.chat, `﹒⋆❛ ${usedPrefix + command} <alimento>\n❥ Per favore indica un alimento da analizzare!\nEsempio: *${usedPrefix + command} fragola*`, m);
   }
@@ -10,9 +10,9 @@ const kcalPlugin = async (m, {conn, text, usedPrefix, command}) => {
   const prompt = `
 Genera una scheda nutrizionale decorata, leggibile ma stilosa, per il seguente alimento: *${alimento}*.
 
-Il formato deve essere esattamente questo (solo valori reali, non cambiare lo stile):
+Il formato deve essere esattamente questo (non cambiare lo stile, solo i valori):
 
-★·.·´¯`·.·★ ⟡ ˚｡⋆『 ˗ˏˋ  ${alimento.toUpperCase()}  ˎˊ˗ 』⋆｡˚⟡ ★·.·´¯`·.·★
+★·.·´¯\`·.·★ ⟡ ˚｡⋆『 ˗ˏˋ  ${alimento.toUpperCase()}  ˎˊ˗ 』⋆｡˚⟡ ★·.·´¯\`·.·★
 
 📌 *Porzione analizzata:* *100g*
 🧭 *Valutazione nutrizionale:* *(Alta, Moderata, Bassa)*
@@ -47,7 +47,7 @@ Il formato deve essere esattamente questo (solo valori reali, non cambiare lo st
 ╰───────────────
 
 ╭─❍ 『 💡 』 *CONSIGLIO NUTRIZIONALE*
-│✓ (Es. Ottimo per spuntini / Da bilanciare con proteine, ecc.)
+│✓ *(es. Ottimo per spuntini / Da bilanciare con proteine, ecc.)*
 ╰───────────────
 
 ╭─❍ 『 📝 』 *NOTA PROFESSIONALE*
@@ -56,7 +56,7 @@ Il formato deve essere esattamente questo (solo valori reali, non cambiare lo st
 
 ⋆ ˚｡✦ *VG = Valori Giornalieri di riferimento (dieta 2000 kcal)*
 ⋆ ˚｡✦ *Consulta un nutrizionista per piani personalizzati*
-`.trim();
+`;
 
   try {
     await conn.sendPresenceUpdate('composing', m.chat);
