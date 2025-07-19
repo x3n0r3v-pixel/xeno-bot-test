@@ -52,7 +52,7 @@ Il formato deve essere esattamente questo (non cambiare lo stile, solo i valori)
 ╰───────────────
 
 ╭─❍ 『 📝 』 *NOTA PROFESSIONALE*
-│Scrivi una breve nota (max 4 righe) con tono medico-nutrizionale.
+│Scrivi una breve nota (max 2 righe) con tono medico-nutrizionale.
 ╰───────────────
 
 ⋆ ˚｡✦ *VG = Valori Giornalieri di riferimento (dieta 2000 kcal)*
