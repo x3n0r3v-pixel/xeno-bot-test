@@ -1,27 +1,27 @@
 import axios from 'axios';
 
 const bibbiaPlugin = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return conn.reply(m.chat, `📖 Usa il comando così:\n*${usedPrefix + command} Salmo 23:1*`, m);
-  }
+  // Se non c’è testo, chiediamo a GPT un versetto casuale
+  const prompt = text
+    ? `Riporta il versetto biblico richiesto: "${text}".  
+Formato di output richiesto:
 
-  const prompt = `
-Riporta il versetto della Bibbia richiesto: "${text}".  
-❥ Formatta il risultato in italiano in questo stile preciso:
+<Libro> <Capitolo> - <Verso> - <Riferimento greco in maiuscolo> (traslitterazione)
 
-⋆｡˚ ☁️ 𝐕𝐄𝐑𝐒𝐎 𝐁𝐈𝐁𝐋𝐈𝐂𝐎 ☁️ ˚｡⋆
+<testo del versetto biblico in italiano>
 
-“<versetto in italiano>”  
-— <libro> <capitolo>:<verso> ✦
+Rispondi solo con questo testo, senza altro.`
+    : `Riporta un versetto biblico casuale in questo formato:
 
-𖦹﹒✧･ﾟ  Traduzione: Nuova Riveduta  
-𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐝 𝐛𝐲 𝐂𝐡𝐚𝐭𝐔𝐧𝐢𝐭𝐲 ⋆ AI Scripture Assistant
+<Libro> <Capitolo> - <Verso> - <Riferimento greco in maiuscolo> (traslitterazione)
 
-Rispondi solo con il versetto richiesto, nessun commento o interpretazione.
-`;
+<testo del versetto biblico in italiano>
+
+Rispondi solo con questo testo, senza altro.`;
 
   try {
     await conn.sendPresenceUpdate('composing', m.chat);
+
     const res = await axios.post('https://luminai.my.id', {
       content: prompt,
       user: m.pushName || "utente",
@@ -35,12 +35,12 @@ Rispondi solo con il versetto richiesto, nessun commento o interpretazione.
     return await conn.reply(m.chat, verso, m);
   } catch (err) {
     console.error('[❌ bibbiaPlugin]', err);
-    return conn.reply(m.chat, '⚠️ Errore nel recupero del versetto. Assicurati che il riferimento sia corretto (es. Matteo 5:9)', m);
+    return conn.reply(m.chat, '⚠️ Errore nel recupero del versetto. Usa un riferimento valido tipo Giovanni 3:16', m);
   }
 };
 
-bibbiaPlugin.help = ['bibbia <riferimento>'];
-bibbiaPlugin.tags = ['fede', 'spirituale', 'bibbia'];
+bibbiaPlugin.help = ['bibbia [riferimento]'];
+bibbiaPlugin.tags = ['fede', 'bibbia'];
 bibbiaPlugin.command = /^bibbia$/i;
 
 export default bibbiaPlugin;
