@@ -17,6 +17,7 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
       const daAccettare = pending.slice(0, numero);
       let accettati = 0;
       try {
+        
         const jidList = daAccettare.map(p => p.jid);
         await conn.groupRequestParticipantsUpdate(groupId, jidList, 'approve');
         accettati = jidList.length;
