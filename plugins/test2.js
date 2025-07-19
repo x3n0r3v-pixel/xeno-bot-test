@@ -34,7 +34,7 @@ Crea una scheda informativa decorata e leggibile per l'animale "*${animale}*".
 ⋆ ˚｡✦ *Consulta sempre fonti ufficiali per ricerche accademiche*
 
 𖦹﹒✧･ﾟﾟ･:*:･ﾟ✧﹒𖦹
-✦ 𝘊𝘳𝘦𝘥𝘪𝘵𝘪 𝘢 ᐯᗩᖇᗴ ✦
+> 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐝 𝐛𝐲 𝐜𝐡𝐚𝐭𝐮𝐧𝐢𝐭𝐲 ✦
 `;
 
   try {
