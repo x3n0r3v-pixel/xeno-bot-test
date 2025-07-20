@@ -45,8 +45,6 @@ let handler = async (m, { conn, command, usedPrefix }) => {
             // Conferma con il tempo in millisecondi
             
 
-            m.react('✅️');
-
             // Pulisco la mappa per evitare confusione
             pinQueue.delete(m.chat);
         } catch (e) {
@@ -79,7 +77,6 @@ let handler = async (m, { conn, command, usedPrefix }) => {
                     await conn.sendMessage(m.chat, { keep: { key: messageKey, type: 2 } });
                     break;
             }
-            m.react('✅️');
         } catch (err) {
             console.error('[ERRORE]', err);
             m.reply('❌ Errore nell\'eseguire il comando.');
