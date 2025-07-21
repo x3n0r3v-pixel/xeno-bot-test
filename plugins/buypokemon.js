@@ -4,9 +4,9 @@ let handler = async (m, { conn, args }) => {
   const quantity = Math.max(1, parseInt(args[1]) || 1);
 
   const prices = {
-    base: 100,
-    imperium: 10000000,
-    premium: 1000000000000
+    base: 500,
+    imperium: 1500,
+    premium: 5000,
   };
 
   if (!['base', 'imperium', 'premium'].includes(type)) {
