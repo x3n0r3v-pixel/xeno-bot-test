@@ -1,7 +1,3 @@
-// Codice di OWNER_join.js
-
-// Plugin fatto da Gabs & 333 Staff
-
 let handler = async (m, { conn, text, usedPrefix, command, participants, isOwner, groupMetadata }) => {
   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
