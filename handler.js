@@ -41,64 +41,6 @@ export async function handler(chatUpdate) {
         global.db.data.users[m.sender] = {}
     }
 
-    // Sezione Antispam - Inizio
-    const isROwner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-    const isOwner = isROwner || m.fromMe
-    const user = global.db.data.users[m.sender] || {}
-    
-    if (!global.groupSpam[m.chat]?.isSuspended) {
-        const isPremium = user.premium || false
-        const cooldownTime = isOwner ? 0 : (isPremium ? 2000 : 4000)
-        const lastSpam = user.spam || 0
-        const now = Date.now()
-        
-        if (now - lastSpam < cooldownTime) {
-            const waitTime = ((cooldownTime - (now - lastSpam)) / 1000).toFixed(1)
-            console.log(`[SPAM] Utente ${m.sender} deve aspettare ancora ${waitTime}s`)
-            if (!isOwner && !isPremium) {
-                return conn.sendMessage(m.chat, {
-                    text: `⏳ *Attendi ancora* ${waitTime} *secondi prima di usare un altro comando.*`,
-                }, { quoted: m })
-            }
-        }
-        global.db.data.users[m.sender].spam = now
-    }
-
-    if (m.isGroup && !isOwner) {
-        if (!global.groupSpam[m.chat]) {
-            global.groupSpam[m.chat] = {
-                count: 0,
-                firstCommandTimestamp: 0,
-                isSuspended: false
-            }
-        }
-
-        const groupData = global.groupSpam[m.chat]
-        const now = Date.now()
-
-        if (groupData.isSuspended) {
-            return
-        }
-        
-        if (now - groupData.firstCommandTimestamp > 60000) {
-            groupData.count = 1
-            groupData.firstCommandTimestamp = now
-        } else {
-            groupData.count++
-        }
-        
-        if (groupData.count > 8) {
-            groupData.isSuspended = true
-            await conn.reply(m.chat, `『 ⚠ 』 Anti-spam comandi\n\n> Rilevati troppi comandi in un minuto, aspettate 15 secondi prima di riutilizzare i comandi.`, m)
-            setTimeout(() => {
-                delete global.groupSpam[m.chat]
-                console.log(`[Anti-Spam] Comandi riattivati per il gruppo: ${m.chat}`)
-            }, 15000)
-            return
-        }
-    }
-    // Sezione Antispam - Fine
-
     try {
         m = smsg(this, m) || m
         if (!m)
