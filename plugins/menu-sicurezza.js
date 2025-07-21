@@ -33,7 +33,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     "Antilink": chat.antiLink,
     "Antilinkhard": chat.antiLinkHard,
     "Antispam": chat.antiSpam,
-    "Antitrava": chat.antiTraba,
+    "Antitrava": chat.antitrava,
     "Antiviewonce": chat.antiviewonce,
     "Autosticker": chat.autosticker,
     "Benvenuto": chat.welcome,
@@ -44,14 +44,18 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     "JadiBot": chat.jadibot,
     "SoloGruppo": chat.sologruppo,
     "SoloPrivato": chat.soloprivato,
-    "ModoAdmin": chat.modoadmin,
+    "soloadmin": chat.soloadmin,
+    "BanGruppo": chat.isBanned,
     "Antiporno": chat.antiporno,
     "AntiCall": chat.antiCall,
     "Antiinsta": chat.antiinsta,
     "AntiTikTok": chat.antitiktok,
-    "Antivoip": chat.antiArab,
+    "Antipaki": chat.antiArab,
     "Antivirus": chat.antivirus,
     "Antibot": chat.antibot,
+    "Antivoip": chat.antivoip || false,
+    "Antimedia": chat.antimedia,
+    "Antisondaggi": chat.antisondaggi,
   };
 
   let statusList = Object.entries(functions)
@@ -64,24 +68,24 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃◈┃• *𝐀𝐓𝐓𝐈𝐕𝐀/𝐃𝐈𝐒𝐀𝐁𝐈𝐋𝐈𝐓𝐀*
 ┃◈┃
 ┃◈┃• *ℹ 𝐂𝐎𝐌𝐄 𝐒𝐈 𝐔𝐒𝐀*
-┃◈┃• *.attiva [funzione]* 
-┃◈┃• *.disabilita [funzione]*
-┃◈└───────────┈⊷
+┃◈┃• *🟢 attiva [funzione]* 
+┃◈┃• *🔴 disabilita [funzione]*
+┃◈┃
 ${statusList.split('\n').map(line => `┃◈┃• ${line}`).join('\n')}
 ┃◈┃
 ┃◈└───────────┈⊷
 ┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
-┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐃𝐑𝐆𝐁
+┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐎𝐍𝐄 𝐏𝐈𝐄𝐂𝐄
 ┃◈┃• *𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
 ╰━━━━━━━━━━━━━┈·๏
 `.trim();
 
   // Percorso dell'immagine
-  const videoPath = path.join(__dirname, '../menu/edit5.mp4');
+  const imagePath = path.join(__dirname, '../menu/onepiece4.jpeg');
 
   // Invia il menu con l'immagine e i bottoni
   await conn.sendMessage(m.chat, {
-    video: { url: videoPath },
+    image: { url: imagePath },
     caption: menuText,
     footer: 'Scegli un menu:',
     buttons: [

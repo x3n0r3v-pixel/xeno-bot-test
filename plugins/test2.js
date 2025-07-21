@@ -1,64 +1,46 @@
 import axios from 'axios';
 
-const infoAnimalePlugin = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return conn.reply(m.chat, `﹒⋆❛ ${usedPrefix + command} <nome animale>\n❥ Per favore indica un animale di cui vuoi informazioni!\nEsempio: *${usedPrefix + command} fennec*`, m);
+let handler = async (m, { conn, text, usedPrefix, command }) => {
+  const [courier, tracking] = text.split(' ');
+
+  if (!courier || !tracking) {
+    return m.reply(`❗ Usa il comando così:\n${usedPrefix + command} <corriere> <tracking number>\nEsempio: ${usedPrefix + command} DHL 123456789`);
   }
 
-  const animale = text.trim();
-
-  const prompt = `
-Crea una scheda informativa decorata e leggibile per l'animale "*${animale}*".
-
-❥ Il tono deve essere divulgativo ma leggero. Usa simboli estetici ma non esagerati.
-❥ Rispondi sempre in italiano.
-❥ Il formato deve essere **esattamente** questo (modifica solo i dati reali, non lo stile):
-
-·´¯\` ˚｡⋆『 ˗ˏˋ${animale.toUpperCase()}ˎˊ˗ 』⋆｡˚⟡´¯\`·.
-
-🦊 *Nome comune:* ${animale}
-📚 *Nome scientifico:* (es. Vulpes vulpes)
-🌍 *Habitat:* (es. Foreste temperate, deserti, savane...)
-🍽️ *Dieta:* (erbivoro, onnivoro, carnivoro – dettaglia con esempi)
-📏 *Dimensioni:* (lunghezza/peso medio)
-🧠 *Comportamento:* (solitario, sociale, notturno, ecc.)
-🎨 *Caratteristiche:* (es. pelo, becco, artigli, dentatura...)
-
-╭─❍ 『 💫 』 *CURIOSITÀ*
-│• Inserisci 2-3 curiosità interessanti e brevi
-╰───────────────
-
-⚠️ *Stato di conservazione:* (es. a rischio minimo / vulnerabile / in pericolo)
-
-⋆ ˚｡✦ *Fonte dati: AI Zoologica*
-⋆ ˚｡✦ *Consulta sempre fonti ufficiali per ricerche accademiche*
-
-𖦹﹒✧･ﾟﾟ･:*:･ﾟ✧﹒𖦹
-> 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐝 𝐛𝐲 𝐜𝐡𝐚𝐭𝐮𝐧𝐢𝐭𝐲 ✦
-`;
-
   try {
-    await conn.sendPresenceUpdate('composing', m.chat);
-    const res = await axios.post("https://luminai.my.id", {
-      content: prompt,
-      user: m.pushName || "utente",
-      prompt: `Rispondi sempre in italiano.`,
-      webSearchMode: false
-    });
+    const options = {
+      method: 'GET',
+      url: 'https://trackingpackage.p.rapidapi.com/TrackingPackage',
+      headers: {
+        'x-rapidapi-host': 'trackingpackage.p.rapidapi.com',
+        Authorization: 'Basic Ym9sZGNoYXQ6TGZYfm0zY2d1QzkuKz9SLw=='
+      },
+      params: {
+        TrackingNumber: tracking,
+        CourierCode: courier
+      }
+    };
 
-    const risposta = res.data.result;
-    if (!risposta) throw new Error("Risposta vuota dall'API.");
+    const { data } = await axios.request(options);
 
-    return await conn.reply(m.chat, risposta, m);
+    if (!data || !data.TrackingResults) return m.reply('❌ Nessun risultato trovato per questo tracking.');
 
-  } catch (err) {
-    console.error('[❌ infoanimale plugin errore]', err);
-    return await conn.reply(m.chat, '⚠️ Errore durante l’elaborazione della scheda animale. Riprova più tardi.', m);
+    const info = data.TrackingResults;
+    let msg = `📦 *Tracking per ${courier.toUpperCase()}*\n\n`;
+    msg += `🔍 Numero: ${tracking}\n`;
+    msg += `📝 Stato: ${info.StatusDescription || 'Non disponibile'}\n`;
+    msg += `📍 Posizione attuale: ${info.CurrentLocation || 'Non disponibile'}\n`;
+    msg += `🕒 Ultimo aggiornamento: ${info.UpdatedTime || 'Non disponibile'}\n`;
+
+    m.reply(msg);
+  } catch (e) {
+    console.error(e);
+    m.reply('❌ Errore durante il recupero delle informazioni di tracking. Verifica i dati inseriti.');
   }
 };
 
-infoAnimalePlugin.help = ['infoanimale <animale>'];
-infoAnimalePlugin.tags = ['animali', 'ai', 'divulgazione'];
-infoAnimalePlugin.command = /^infoanimale$/i;
+handler.help = ['track <corriere> <tracking>'];
+handler.tags = ['tools'];
+handler.command = /^track$/i;
 
-export default infoAnimalePlugin;
+export default handler;

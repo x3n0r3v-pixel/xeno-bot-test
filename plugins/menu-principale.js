@@ -13,11 +13,11 @@ const handler = async (message, { conn, usedPrefix, command }) => {
 
     const menuText = generateMenuText(usedPrefix, botName, userCount);
 
-    const videoPath = path.join(__dirname, '../menu/edit1.mp4'); // Cambia il nome se necessario
+    const imagePath = path.join(__dirname, '../menu/luffy.jpeg'); 
     await conn.sendMessage(
         message.chat,
         {
-            video: { url: videoPath },
+            image: { url: imagePath },
             caption: menuText,
             footer: 'Scegli un menu:',
             buttons: [
@@ -49,6 +49,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃• 📜 *${prefix}candidati*
 ┃◈┃• 📥 *${prefix}installa*
 ┃◈┃• 📖 *${prefix}guida*
+┃◈┃• 📝 *${prefix}canali* 
 ┃◈┃• ⚙ *${prefix}sistema*
 ┃◈┃• ❓ *${prefix}FAQ*
 ┃◈┃• 🚀 *${prefix}ping*
@@ -57,7 +58,7 @@ function generateMenuText(prefix, botName, userCount) {
 ┃◈┃
 ┃◈└───────────┈⊷
 ┃◈┃• *𝑽𝑬𝑹𝑺𝑰𝑶𝑵𝑬:* ${vs}
-┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐃𝐑𝐆𝐁
+┃◈┃•  𝐂𝐎𝐋𝐋𝐀𝐁: 𝐎𝐍𝐄 𝐏𝐈𝐄𝐂𝐄
 ┃◈┃• *𝐒𝐔𝐏𝐏𝐎𝐑𝐓𝐎:* (.supporto)
 ╰━━━━━━━━━━━━━┈·๏
 `.trim();

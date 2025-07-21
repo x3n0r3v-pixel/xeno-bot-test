@@ -14,16 +14,12 @@ let handler = async (m, { conn, text, command, usedPrefix }) => {
   let senderId = m.sender;
   let senderName = conn.getName(senderId);
 
-  // Identifica il bersaglio: o da reply, o da mention
-  let targetId;
-
-  if (m.quoted && m.quoted.sender) {
-    targetId = m.quoted.sender;
-  } else if (text && m.mentionedJid && m.mentionedJid.length > 0) {
-    targetId = m.mentionedJid[0];
-  } else {
-    return m.reply('🧠 Rispondi a un messaggio *oppure* tagga qualcuno per rubare da quell\'utente.');
+  // Verifica se l'utente ha risposto a un messaggio
+  if (!m.quoted || !m.quoted.sender) {
+    return m.reply('🧠 Rispondi a un messaggio per rubare da quell\'utente.');
   }
+
+  let targetId = m.quoted.sender;
 
   // Evita che l'utente rubi a se stesso
   if (targetId === senderId) {

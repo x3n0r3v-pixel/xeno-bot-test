@@ -27,7 +27,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   
   handler.help = ['group open / close', 'gruppo aperto / chiuso']
   handler.tags = ['group']
-handler.command = /^(chiuso|chiudi)$/i;
+  handler.command = /^(chiuso)$/i
   handler.admin = true
   handler.botAdmin = true
   

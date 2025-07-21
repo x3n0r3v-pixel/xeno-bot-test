@@ -1,89 +1,46 @@
-//developed by chatunity idea by vare
 import axios from 'axios';
 
-const kcalPlugin = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    return conn.reply(m.chat, `﹒⋆❛ ${usedPrefix + command} <alimento>\n❥ Per favore indica un alimento da analizzare!\nEsempio: *${usedPrefix + command} fragola*`, m);
+let handler = async (m, { conn, usedPrefix, command, text }) => {
+  // Ottieni utente menzionato o citato o autore del messaggio
+  let user = m.mentionedJid?.[0] || m.quoted?.sender || m.sender;
+
+  // Ottieni nome visibile
+  let name = await conn.getName(user);
+  let randomPercent = Math.floor(Math.random() * 100) + 1; // 1-100
+
+  // Ottieni foto profilo
+  let avatarUrl;
+  try {
+    avatarUrl = await conn.profilePictureUrl(user, 'image');
+  } catch {
+    avatarUrl = 'https://telegra.ph/file/6880771a42bad09dd6087.jpg'; // fallback
   }
 
-  const alimento = text.trim();
-
-  const prompt = `
-Genera una scheda nutrizionale decorata, leggibile ma stilosa, per il seguente alimento: *${alimento}*. Se ti dovessi dire qualcosa che non sia un non alimento rispondi con "ti sembra un'alimento?"
-
-Il formato deve essere esattamente questo (non cambiare lo stile, solo i valori):
-
-.·´¯\`˚｡⋆『 ˗ˏˋ${alimento.toUpperCase()}ˎˊ˗ 』⋆｡˚⟡´¯\`·.
-
-📌 *Porzione analizzata:* *100g*
-🧭 *Valutazione nutrizionale:* *(Alta, Moderata, Bassa)*
-🔍 *Fonte dati:* *AI Nutrizionale*
-
-╭─❍ 『 🔥 』 *ENERGIA*
-│• *XXX kcal* (X% VG)
-│🔹 Densità calorica: *(alta / moderata / bassa)*
-╰───────────────
-
-╭─❍ 『 🥩 』 *MACRONUTRIENTI*
-│• *Proteine:* Xg (X% VG)
-│• *Grassi:* Xg (X% VG)
-│  ↳ _Saturi:_ Xg (X% VG)
-│• *Carboidrati:* Xg (X% VG)
-│  ↳ _Zuccheri:_ Xg
-│• *Fibre:* Xg (X% VG)
-╰───────────────
-
-╭─❍ 『 🧪 』 *MICRONUTRIENTI*
-│• *Sodio:* Xmg
-│• *Potassio:* Xmg
-│• *Calcio:* Xmg
-│• *Ferro:* Xmg
-│• *Colesterolo:* Xmg
-╰───────────────
-
-╭─❍ 『 ℹ️ 』 *INFO GENERALI*
-│• Categoria: *(es. Frutta, Verdura, Legumi)*
-│• Porzione consigliata: XXg
-│• Densità calorica: XXX kcal/100g
-╰───────────────
-
-╭─❍ 『 💡 』 *CONSIGLIO NUTRIZIONALE*
-│✓ *(es. Ottimo per spuntini / Da bilanciare con proteine, ecc.)*
-╰───────────────
-
-╭─❍ 『 📝 』 *NOTA PROFESSIONALE*
-│Scrivi una breve nota (max 2 righe) con tono medico-nutrizionale.
-╰───────────────
-
-⋆ ˚｡✦ *VG = Valori Giornalieri di riferimento (dieta 2000 kcal)*
-⋆ ˚｡✦ *Consulta un nutrizionista per piani personalizzati*
-
-𖦹﹒✧･ﾟﾟ･:*:･ﾟ✧﹒𖦹
-✦ 𝘊𝘳𝘦𝘥𝘪𝘵𝘴 𝘵𝘰 ᐯᗩᖇᗴ ✦
-`;
+  // Componi URL API
+  const apiUrl = `https://api.siputzx.my.id/api/canvas/gay?nama=${encodeURIComponent(name)}&avatar=${encodeURIComponent(avatarUrl)}&num=${randomPercent}`;
 
   try {
-    await conn.sendPresenceUpdate('composing', m.chat);
-    const res = await axios.post("https://luminai.my.id", {
-      content: prompt,
-      user: m.pushName || "utente",
-      prompt: `Rispondi sempre in italiano.`,
-      webSearchMode: false
+    // Richiesta all'API
+    const response = await axios.get(apiUrl, {
+      responseType: 'arraybuffer',
     });
 
-    const risposta = res.data.result;
-    if (!risposta) throw new Error("Risposta vuota dall'API.");
+    const buffer = Buffer.from(response.data, 'binary');
 
-    return await conn.reply(m.chat, risposta, m);
+    await conn.sendMessage(m.chat, {
+      image: buffer,
+      caption: `🌈 @${user.split('@')[0]} è gay al ${randomPercent}% 🏳️‍🌈`,
+      mentions: [user],
+    }, { quoted: m });
 
-  } catch (err) {
-    console.error('[❌ kcal plugin errore]', err);
-    return await conn.reply(m.chat, '⚠️ Errore durante l’elaborazione. Riprova più tardi.', m);
+  } catch (e) {
+    console.error(e);
+    return m.reply('❌ Errore durante la generazione dell\'immagine. Controlla se l\'avatar è valido.');
   }
 };
 
-kcalPlugin.help = ['kcal <cibo>'];
-kcalPlugin.tags = ['nutrizione', 'ai'];
-kcalPlugin.command = /^kcal$/i;
+handler.help = ['gay @utente'];
+handler.tags = ['fun'];
+handler.command = /^gayy$/i;
 
-export default kcalPlugin;
+export default handler;
