@@ -6,6 +6,11 @@ let handler = async (m, { conn, text, participants }) => {
   let q = m.quoted ? m.quoted : m
   let tagger = m.sender ? '@' + (m.sender.split('@')[0]) : ''
 
+  const invisibleChar = '\u2063' 
+  if (text?.trim()?.startsWith('.') || text?.trim()?.startsWith('/')) {
+    text = invisibleChar + text
+  }
+
   let captionText
   if (m.quoted && m.quoted.text) {
     captionText = `${m.quoted.text}\n\nTag by ${tagger}`
@@ -34,7 +39,6 @@ let handler = async (m, { conn, text, participants }) => {
         await conn.sendMessage(m.chat, { sticker: media, mentions: users }, { quoted: m })
       }
     } else {
-      // testo semplice
       await conn.sendMessage(
         m.chat,
         { text: captionText, mentions: users },
