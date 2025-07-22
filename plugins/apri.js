@@ -15,12 +15,7 @@ const rarities = {
   darkness: ['Misterioso']
 };
 
-const darknessPokemons = [
-  { name: 'Edy', type: 'Buio', rarity: 'Misterioso', image: './icone/edy.png' },
-  { name: 'Thoka', type: 'Buio', rarity: 'Misterioso', image: './icone/thoka.png' },
-  { name: 'Matte', type: 'Buio', rarity: 'Misterioso', image: './icone/matte.png' },
-  { name: 'Cecilia', type: 'Buio', rarity: 'Misterioso', image: './icone/cecilia.png' }
-];
+
 
 function convertRarityLabel(rarity) {
   switch (rarity) {
