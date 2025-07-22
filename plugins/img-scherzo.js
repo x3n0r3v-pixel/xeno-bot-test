@@ -92,6 +92,6 @@ let handler = async (m, { conn, args }) => {
 // Definizione comando per handler.js
 handler.help = ['imgjoke'];
 handler.tags = ['img'];
-handler.command = /^(imgjoke|jokedit)$/i;
+handler.command = /^(sherzo|jokedit)$/i;
 
 export default handler;
