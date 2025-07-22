@@ -1,58 +1,38 @@
+
 import axios from "axios";
 import FormData from 'form-data';
 import fs from 'fs';
 import os from 'os';
 import path from "path";
 
-// Sistema comando diretto (compatibile con handler.js)
 let handler = async (m, { conn, args }) => {
   try {
-    // Cerca l'immagine nel messaggio quotato o nel messaggio stesso
-    let quotedMsg = m.quoted ? m.quoted : m;
-    let mimeType = (quotedMsg.msg || quotedMsg).mimetype || '';
+    let who;
+    
+    if (m.mentionedJid && m.mentionedJid[0]) {
+      who = m.mentionedJid[0];
+    } 
+    else if (m.quoted) {
+      who = m.quoted.sender;
+    }
+    else {
+      who = m.sender;
+    }
 
     let mediaBuffer;
-    // Se rispondo a un messaggio normale (non immagine), prendi la foto profilo del target
-    if (m.quoted && (!mimeType || !mimeType.startsWith('image/'))) {
-      let who = m.quoted.sender || m.sender;
-      try {
-        let url = await conn.profilePictureUrl(who, 'image');
-        const res = await axios.get(url, { responseType: 'arraybuffer' });
-        mediaBuffer = Buffer.from(res.data);
-        mimeType = 'image/jpeg';
-      } catch (e) {
-        return m.reply("Non è stato possibile recuperare la foto profilo di questo utente.");
-      }
-    }
-    // Se non c'è quoted e non c'è immagine, prendi la foto profilo dell'utente che ha inviato il comando
-    else if (!m.quoted && (!mimeType || !mimeType.startsWith('image/'))) {
-      let who = m.sender;
-      try {
-        let url = await conn.profilePictureUrl(who, 'image');
-        const res = await axios.get(url, { responseType: 'arraybuffer' });
-        mediaBuffer = Buffer.from(res.data);
-        mimeType = 'image/jpeg';
-      } catch (e) {
-        return m.reply("Non hai una foto profilo o non è stato possibile recuperarla.");
-      }
-    }
-    // Se c'è quoted e contiene immagine, usa quella
-    else {
-      mediaBuffer = await quotedMsg.download();
+    try {
+      let url = await conn.profilePictureUrl(who, 'image');
+      const res = await axios.get(url, { responseType: 'arraybuffer' });
+      mediaBuffer = Buffer.from(res.data);
+      mimeType = 'image/jpeg';
+    } catch (e) {
+      return m.reply("Non è stato possibile recuperare la foto profilo.");
     }
 
-    // Get file extension based on mime type
-    let extension = '';
-    if (mimeType.includes('image/jpeg')) extension = '.jpg';
-    else if (mimeType.includes('image/png')) extension = '.png';
-    else {
-      return m.reply("Unsupported image format. Please use JPEG or PNG");
-    }
-
+    let extension = '.jpg';
     const tempFilePath = path.join(os.tmpdir(), `imgscan_${Date.now()}${extension}`);
     fs.writeFileSync(tempFilePath, mediaBuffer);
 
-    // Upload to Catbox
     const form = new FormData();
     form.append('fileToUpload', fs.createReadStream(tempFilePath), `image${extension}`);
     form.append('reqtype', 'fileupload');
@@ -62,18 +42,17 @@ let handler = async (m, { conn, args }) => {
     });
 
     const imageUrl = uploadResponse.data;
-    fs.unlinkSync(tempFilePath); // Clean up temp file
+    fs.unlinkSync(tempFilePath);
 
     if (!imageUrl) {
-      throw "Failed to upload image to Catbox";
+      throw "Failed to upload image";
     }
 
-    // Scan the image using the API
     const apiUrl = `https://api.popcat.xyz/v2/jail?image=${encodeURIComponent(imageUrl)}`;
     const response = await axios.get(apiUrl, { responseType: "arraybuffer" });
 
     if (!response || !response.data) {
-      return m.reply("Error: The API did not return a valid image. Try again later.");
+      return m.reply("Errore API");
     }
 
     const imageBuffer = Buffer.from(response.data, "binary");
@@ -84,12 +63,11 @@ let handler = async (m, { conn, args }) => {
     });
 
   } catch (error) {
-    console.error("Jail Error:", error);
-    m.reply(`An error occurred: ${error.response?.data?.message || error.message || "Unknown error"}`);
+    console.error("Error:", error);
+    m.reply(`Errore: ${error.response?.data?.message || error.message || "Errore sconosciuto"}`);
   }
 };
 
-// Definizione comando per handler.js
 handler.help = ['jail'];
 handler.tags = ['img'];
 handler.command = /^(jail|carcere)$/i;
