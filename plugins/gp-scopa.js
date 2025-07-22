@@ -9,7 +9,7 @@ let handler = async (m, { conn, text }) => {
     let sender = m.sender.split('@')[0];
 
     // Messaggio provocante
-    let message = `*🔥 ${sender} sta scatenando la passione con @${target}... 💋*`;
+    let message = `*🔥 @${sender} sta scatenando la passione con @${target}... 💋*`;
 
     // Invia messaggio con menzione
     await conn.reply(m.chat, message, m, { mentions: [user, m.sender] });
