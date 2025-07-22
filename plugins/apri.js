@@ -15,7 +15,44 @@ const rarities = {
   darkness: ['Misterioso']
 };
 
-
+// Define darknessPokemons array with some default dark-type Pokémon
+const darknessPokemons = [
+  {
+    name: "Darkrai",
+    rarity: "Misterioso",
+    type: "Dark",
+    image: "https://images.pokemontcg.io/dp7/3_hires.png",
+    hp: "110"
+  },
+  {
+    name: "Umbreon",
+    rarity: "Misterioso",
+    type: "Dark",
+    image: "https://images.pokemontcg.io/ecard2/H32_hires.png",
+    hp: "90"
+  },
+  {
+    name: "Tyranitar",
+    rarity: "Misterioso",
+    type: "Dark/Rock",
+    image: "https://images.pokemontcg.io/ex15/30_hires.png",
+    hp: "150"
+  },
+  {
+    name: "Zoroark",
+    rarity: "Misterioso",
+    type: "Dark",
+    image: "https://images.pokemontcg.io/bw6/71_hires.png",
+    hp: "100"
+  },
+  {
+    name: "Houndoom",
+    rarity: "Misterioso",
+    type: "Dark/Fire",
+    image: "https://images.pokemontcg.io/ex15/4_hires.png",
+    hp: "90"
+  }
+];
 
 function convertRarityLabel(rarity) {
   switch (rarity) {
