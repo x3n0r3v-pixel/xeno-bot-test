@@ -90,7 +90,7 @@ let handler = async (m, { conn, args }) => {
 
   const packType = args[0]?.toLowerCase();
   if (!['base', 'imperium', 'premium', 'darkness'].includes(packType)) {
-    return m.reply(`❌ Specifica un tipo di pacchetto valido: *base*, *imperium*, *premium* o *darkness*.\n\nEsempio: *.apri base*`);
+    return m.reply(`❌ Specifica un tipo di pacchetto valido: *base*, *imperium*, *premium* o *darkness*.\n\nEsempio: *.apripokemon base*`);
   }
 
   if ((data.packInventory[packType] || 0) <= 0) {
