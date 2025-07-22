@@ -1,18 +1,20 @@
-let handler = async (m, { conn, command, text }) => {
-    if (!text) throw 'Tagga qualcuno con cui vuoi interagire.';
+let handler = async (m, { conn, text }) => {
+    // Controlla se è stato taggato qualcuno o se si sta rispondendo a un messaggio
+    let user = m.mentionedJid?.[0] || m.quoted?.sender;
 
-    let user = m.mentionedJid?.[0] || (m.quoted?.sender);
-    if (!user) throw 'Non riesco a trovare l\'utente specificato.';
+    // Se non c'è testo né risposta a un messaggio, errore
+    if (!user) throw '❗ Tagga un utente o rispondi a un suo messaggio per usare questo comando.';
 
-    // Messaggio stilizzato
-    let username = user.split('@')[0];
+    let target = user.split('@')[0];
     let sender = m.sender.split('@')[0];
-    let message = `*🔥 ${sender} sta avendo un momento bollente con @${username}!*`;
 
-    // Risposta
+    // Messaggio provocante
+    let message = `*🔥 ${sender} sta scatenando la passione con @${target}... 💋*`;
+
+    // Invia messaggio con menzione
     await conn.reply(m.chat, message, m, { mentions: [user, m.sender] });
 
-    // Reazione
+    // Invia reazione
     await conn.sendMessage(m.chat, {
         react: {
             text: '💦',
@@ -21,7 +23,7 @@ let handler = async (m, { conn, command, text }) => {
     });
 };
 
-// Usa un comando specifico, come ".scopa"
+// Comando personalizzato (non è un handler.command)
 handler.customPrefix = /^\.scopa$/i;
-handler.command = new RegExp; // Impedisce conflitti con altri comandi
+handler.command = new RegExp; // per compatibilità
 export default handler;
