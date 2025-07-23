@@ -126,7 +126,7 @@ export async function handler(chatUpdate) {
                     antiToxic: false,
                     antitrava: true,
                     antiArab: true,
-                    modoadmin: false,
+                    soloadmin: false,
                     antiPorno: true,
                     muto: false,
                     expired: 0,
