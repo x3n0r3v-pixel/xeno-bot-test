@@ -22,7 +22,8 @@ let handler = async (m, { conn, isAdmin, isBotAdmin, args, usedPrefix, command }
         return m.reply("❌ Errore durante l'accettazione.");
       }
     }
-
+    
+    
     if (input === '39' || input === '+39') {
       // accetta tutti con jid che iniziano con '39' o '+39'
       const daAccettare = pending.filter(p => p.jid.startsWith('39') || p.jid.startsWith('+39'));
