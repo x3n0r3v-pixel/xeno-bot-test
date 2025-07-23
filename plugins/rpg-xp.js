@@ -7,7 +7,8 @@ let handler = async (m, { conn, usedPrefix }) => {
     
     // Calcolo XP necessario per il prossimo livello
     let { min, xp, max } = xpRange(user.level, global.multiplier || 1)
-    let xpNeeded = max - user.exp
+    let currentLevelXP = user.exp - min
+    let xpNeeded = Math.max(0, max - user.exp) // Evita valori negativi
     
     // Formattazione numeri con separatore delle migliaia
     let format = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -17,12 +18,12 @@ let handler = async (m, { conn, usedPrefix }) => {
     txt += `▸ *𝐔𝐓𝐄𝐍𝐓𝐄*: ${conn.getName(m.sender)}\n`
     txt += `▸ *𝐥𝐢𝐯𝐞𝐥𝐥𝐨 𝐚𝐭𝐭𝐮𝐚𝐥𝐞*: ${user.level}\n`
     txt += `▸  𝐗𝐏 𝐭𝐨𝐭𝐚𝐥𝐢: ${format(user.exp)}\n\n`
-    txt += `📈 *𝐩𝐫𝐨𝐠𝐫𝐞𝐬𝐬𝐨*: ${format(user.exp - min)}/${format(xp)} 𝐗𝐋\n`
+    txt += `📈 *𝐩𝐫𝐨𝐠𝐫𝐞𝐬𝐬𝐨*: ${format(currentLevelXP)}/${format(xp)} 𝐗𝐏\n`
     txt += `🎯 𝐌𝐀𝐍𝐂𝐀𝐍𝐎: ${format(xpNeeded)} 𝐗𝐏 𝐩𝐞𝐫 𝐢𝐥 𝐥𝐢𝐯𝐞𝐥𝐥𝐨 ${user.level + 1}\n\n`
     txt += `ℹ️ 𝐮𝐬𝐚 ${usedPrefix}𝐦𝐢𝐧𝐚 𝐩𝐞𝐫 𝐠𝐮𝐚𝐝𝐚𝐠𝐧𝐚𝐫𝐞 𝐩𝐢𝐮 𝐗𝐏!`
     
     // Invia messaggio con immagine di sfondo (opzionale)
-    let img = 'https://i.ibb.co/pcjHVvx/Whats-App-Image-2025-04-12-at-00-50-15.jpg' // Sostituisci con il tuo URL
+    let img = 'https://i.ibb.co/pcjHVvx/Whats-App-Image-2025-04-12-at-00-50-15.jpg'
     try {
         await conn.sendFile(m.chat, img, 'xp.jpg', txt, m)
     } catch {
@@ -36,10 +37,11 @@ handler.command = ['xp', 'exp', 'esperienza']
 handler.register = true
 export default handler
 
-// Funzione necessaria per il calcolo (simile a quella in levelling.js)
+// Funzione corretta per il calcolo
 function xpRange(level, multiplier = 1) {
-    let min = level * level * 20
-    let max = (level + 1) * (level + 1) * 20
+    if(level < 0) level = 0
+    let min = level === 0 ? 0 : Math.pow(level, 2) * 20
+    let max = Math.pow(level + 1, 2) * 20
     let xp = Math.floor((max - min) * multiplier)
     return { min, xp, max }
 }
