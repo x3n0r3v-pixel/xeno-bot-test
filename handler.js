@@ -33,6 +33,8 @@ export async function handler(chatUpdate) {
     let m = chatUpdate.messages[chatUpdate.messages.length - 1]
     if (!m)
         return
+    if (!m.sender) // Guard: skip if sender is undefined
+        return
     if (global.db.data == null)
         await global.loadDatabase()
 
@@ -54,12 +56,15 @@ export async function handler(chatUpdate) {
         
         if (now - lastSpam < cooldownTime) {
             const waitTime = ((cooldownTime - (now - lastSpam)) / 1000).toFixed(1)
-            console.log(`[SPAM] Utente ${m.sender} deve aspettare ancora ${waitTime}s`)
-            if (!isOwner && !isPremium) {
-                return conn.sendMessage(m.chat, {
-                    text: `⏳ *Attendi ancora* ${waitTime} *secondi prima di usare un altro comando.*`,
-                }, { quoted: m })
+            if (m.sender && m.chat) { // Only log and send if sender/chat defined
+                console.log(`[SPAM] Utente ${m.sender} deve aspettare ancora ${waitTime}s`)
+                if (!isOwner && !isPremium) {
+                    return conn.sendMessage(m.chat, {
+                        text: `⏳ *Attendi ancora* ${waitTime} *secondi prima di usare un altro comando.*`,
+                    }, { quoted: m })
+                }
             }
+            return // Always return if cooldown not passed
         }
         global.db.data.users[m.sender].spam = now
     }
