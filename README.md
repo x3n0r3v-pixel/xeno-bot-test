@@ -1,13 +1,9 @@
-
-
 <p align="center">
-  <img src="https://i.ibb.co/9mWwC5PP/Whats-App-Image-2025-07-06-at-23-32-06.jpg"  style="width: 100%; height: auto; max-width: 400px;">
+  <img src="https://i.ibb.co/9mWwC5P/Whats-App-Image-2025-07-06-at-23-32-06.jpg" width="400">
 </p>
 
-<h1 align="center">© ChatUnity-Bot 6.0🤖</h1>
-<p align="center">
-  <strong>Un bot avanzato per WhatsApp, ricco di funzionalità e divertimento!</strong>
-</p>
+<h1 align="center">© ChatUnity-Bot 6.0 🤖</h1>
+<p align="center"><strong>Un bot avanzato per WhatsApp, ricco di funzionalità e divertimento!</strong></p>
 
 <p align="center">
   <a href="https://whatsapp.com/channel/0029VaZVlJZHwXb8naJBQN0J">
@@ -17,84 +13,68 @@
 
 ---
 
-## 📌 **Introduzione**
+## 📌 Introduzione
+
 © ChatUnity-Bot è un bot multifunzionale per WhatsApp, progettato per semplificare la gestione delle chat e offrire funzionalità avanzate. Con un'interfaccia intuitiva e una configurazione semplice, è perfetto per chiunque voglia migliorare l'esperienza su WhatsApp.
 
 ---
 
-## 📥 **Installa (Termux)**
+## 📥 Installa (Termux)
 
 <details>
   <summary><b>Clicca qui per vedere i passaggi</b></summary>
-  https://www.mediafire.com/file/0npdmv51pnttps0/com.termux_0.119.1-119_minAPI21(arm64-v8a,armeabi-v7a,x86,x86_64)(nodpi)_apkmirror.com.apk/
+
+👉 [Scarica Termux (MediaFire)](https://www.mediafire.com/file/0npdmv51pnttps0/com.termux_0.119.1-119_minAPI21(arm64-v8a,armeabi-v7a,x86,x86_64)(nodpi)_apkmirror.com.apk/)
 
 </details>
 
 ---
 
+## 🚀 Installazione (Termux)
 
-## 🚀 **Installazione (Termux)**
+[![Tutorial Installazione](https://img.shields.io/badge/Tutorial-Installazione-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/shorts/qek7wWadhtI?feature=share)
 
-[![blog](https://img.shields.io/badge/Tutorial-Installazione-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtube.com/shorts/qek7wWadhtI?feature=share)
-
- **Apri Termux** e digita i seguenti comandi:
-   ```bash
-   termux-setup-storage
-   ```
-   ```bash
-   apt update -y && yes | apt upgrade && pkg install -y bash wget mpv && cd /sdcard && wget -O - https://raw.githubusercontent.com/chatunitycenter/chatunity-bot/main/chatunity.sh | bash
-   ```
----
-
-## 🔄 **Riavvia il bot (Termux)**
-
-<details>
-  <summary><b>Clicca qui per vedere i passaggi</b></summary>
-
-1. **Fai nuova sessione e scrivi**:
- ```bash
-  cd chatunity-bot
-  ```
-
- 2. **Elimina le Sessioni**:
 ```bash
-  rm -rf Sessioni
- ```
+termux-setup-storage
+apt update -y && yes | apt upgrade && pkg install -y bash wget mpv
+cd /sdcard
+wget -O - https://raw.githubusercontent.com/chatunitycenter/chatunity-bot/main/chatunity.sh | bash
+```
 
-2. **Ricollega il bot**:
-   ```bash
-   npm start
-   ```
+---
+
+## 🔄 Riavvia il bot (Termux)
+
+<details>
+<summary><b>Clicca qui per vedere i passaggi</b></summary>
+
+```bash
+cd chatunity-bot
+rm -rf Sessioni
+npm start
+```
 
 </details>
 
 ---
 
-## 🌐 **Installazione su Windows/VPS/RDP**
+## 🌐 Installazione su Windows/VPS/RDP
 
 <details>
-  <summary><b>Clicca qui per vedere i passaggi</b></summary>
+<summary><b>Clicca qui per vedere i passaggi</b></summary>
 
-1. **Scarica e installa**:
-   - Git: [Scarica qui](https://git-scm.com/downloads)
-   - NodeJS: [Scarica qui](https://nodejs.org/en/download)
-   - FFmpeg: [Scarica qui](https://ffmpeg.org/download.html) (Aggiungi FFmpeg alle variabili PATH)
-   - ImageMagick: [Scarica qui](https://imagemagick.org/script/download.php)
+1. Scarica:
+   - [Git](https://git-scm.com/downloads)
+   - [NodeJS](https://nodejs.org/en/download)
+   - [FFmpeg](https://ffmpeg.org/download.html)
+   - [ImageMagick](https://imagemagick.org/script/download.php)
 
-2. **Clona il repository**:
+2. Clona e installa:
    ```bash
    git clone https://github.com/chatunitycenter/chatunity-bot
    cd chatunity-bot
-   ```
-
-3. **Installa le dipendenze**:
-   ```bash
    npm install
    npm update
-   ```
-
-4. **Avvia il bot**:
-   ```bash
    npm start
    ```
 
@@ -102,54 +82,45 @@
 
 ---
 
-## 🔄 **Attivazione 24/7 (Termux)**
+## 🕒 Avvio 24/7 con PM2 (Termux)
 
 <details>
-  <summary><b>Clicca qui per vedere i passaggi</b></summary>
+<summary><b>Clicca qui per vedere i passaggi</b></summary>
 
-1. Installa **PM2**:
-   ```bash
-npm i -g pm2 && pm2 start index.js && pm2 save && pm2 logs 
-   ```
-
-
+```bash
+npm i -g pm2
+pm2 start index.js
+pm2 save
+pm2 logs
+```
 
 </details>
 
 ---
 
-## 📂 **Risorse Utili**
+## 📂 Risorse Utili
 
-- **Dashboard:** [Visita qui](https://github.com/chatunity-bot)
-- **Canale WhatsApp:** [Unisciti qui](https://whatsapp.com/channel/0029VaZVlJZHwXb8naJBQN0J)
-- **Contatto:** [Scrivi qui](https://wa.me/393515533859)
-- **Collaborazioni:** [Partecipa qui](https://whatsapp.com/channel/0029Vb1C4od5vKA35u1Mqc06)
-
----
+- **Dashboard GitHub**: [Visita qui](https://github.com/chatunity-bot)
+- **Canale WhatsApp**: [Unisciti qui](https://whatsapp.com/channel/0029VaZVlJZHwXb8naJBQN0J)
+- **Contatto**: [Scrivi qui](https://wa.me/393515533859)
+- **Collaborazioni**: [Partecipa qui](https://whatsapp.com/channel/0029Vb1C4od5vKA35u1Mqc06)
 
 ---
 
-## 👥 **Collaboratori**
+## 👥 Collaboratori
 
 Grazie a tutti coloro che hanno contribuito a questo progetto!
 
-<div align="center">
-
-<a href="https://github.com/chatunitycenter/chatunity-bot/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=chatunitycenter/chatunity-bot"/>
-</a>
-
-</div>
-
----
-
-## 📜 **Licenza**
-© **ChatUnity-Bot**. Tutti i diritti riservati. Consulta la licenza per i dettagli.
-
----
-
 <p align="center">
-  <strong>🌟 Supporta il progetto con una Stella su GitHub! 🌟</strong>
+  <a href="https://github.com/chatunitycenter/chatunity-bot/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=chatunitycenter/chatunity-bot"/>
+  </a>
 </p>
 
 ---
+
+## 📜 Licenza
+
+© ChatUnity-Bot. Tutti i diritti riservati. Consulta la licenza per i dettagli.
+
+<p align="center"><strong>🌟 Supporta il progetto con una stella su GitHub! 🌟</strong></p>
