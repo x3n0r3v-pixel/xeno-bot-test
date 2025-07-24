@@ -19,12 +19,13 @@
 
 ---
 
-## 📥 Installa (Termux)
+## 📥 Installa Termux & MT Manager
 
 <details>
   <summary><b>Clicca qui per vedere i passaggi</b></summary>
 
-👉 [Scarica Termux (MediaFire)](https://www.mediafire.com/file/0npdmv51pnttps0/com.termux_0.119.1-119_minAPI21(arm64-v8a,armeabi-v7a,x86,x86_64)(nodpi)_apkmirror.com.apk/)
+👉🏻 [Scarica Termux (MediaFire)](https://www.mediafire.com/file/0npdmv51pnttps0/com.termux_0.119.1-119_minAPI21(arm64-v8a,armeabi-v7a,x86,x86_64)(nodpi)_apkmirror.com.apk/)
+👉🏻 [Scarica MT Manager](https://mt-manager.en.softonic.com/android)
 
 </details>
 
@@ -58,6 +59,22 @@ npm start
 
 ---
 
+## 🕒 Avvio 24/7 con PM2 (Termux)
+
+<details>
+<summary><b>Clicca qui per vedere i passaggi</b></summary>
+
+```bash
+npm i -g pm2
+pm2 start index.js
+pm2 save
+pm2 logs
+```
+
+</details>
+
+---
+
 ## 🌐 Installazione su Windows/VPS/RDP
 
 <details>
@@ -77,22 +94,6 @@ npm start
    npm update
    npm start
    ```
-
-</details>
-
----
-
-## 🕒 Avvio 24/7 con PM2 (Termux)
-
-<details>
-<summary><b>Clicca qui per vedere i passaggi</b></summary>
-
-```bash
-npm i -g pm2
-pm2 start index.js
-pm2 save
-pm2 logs
-```
 
 </details>
 
