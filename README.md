@@ -60,7 +60,7 @@ npm start
 
 ---
 
-## 🕒 Avvio 24/7 con PM2 (Termux)
+## 🕒 Attivo 24/7 con PM2 (Termux)
 
 <details>
 <summary><b>Clicca qui per vedere i passaggi</b></summary>
