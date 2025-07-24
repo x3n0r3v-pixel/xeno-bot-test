@@ -127,6 +127,22 @@ npm i -g pm2 && pm2 start index.js && pm2 save && pm2 logs
 
 ---
 
+---
+
+## 👥 **Collaboratori**
+
+Grazie a tutti coloro che hanno contribuito a questo progetto!
+
+<div align="center">
+
+<a href="https://github.com/chatunitycenter/chatunity-bot/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=chatunitycenter/chatunity-bot"/>
+</a>
+
+</div>
+
+---
+
 ## 📜 **Licenza**
 © **ChatUnity-Bot**. Tutti i diritti riservati. Consulta la licenza per i dettagli.
 
