@@ -1,55 +1,93 @@
 import fetch from 'node-fetch'
 
-let handler = async (m, { conn, usedPrefix }) => {
-    let rcanal = null
-    
-    let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-    let user = global.db.data.users[who]
-    let name = conn.getName(who)
-
-    if (!(who in global.db.data.users)) throw '🚩 𝐢𝐥 𝐛𝐭𝐨 𝐧𝐨𝐧 𝐞 𝐬𝐭𝐚𝐭𝐨 𝐭𝐫𝐨𝐯𝐚𝐭𝐨 𝐧𝐞𝐥 𝐝𝐚𝐭𝐚𝐛𝐚𝐬𝐞'
-
-
-    if (!user.limit) user.limit = 0
-    if (!user.bank) user.bank = 0
-
-    let userbank = user.bank
-    let imgUrl = 'https://i.ibb.co/4RSNsdx9/Sponge-Bob-friendship-wallet-meme-9.png'
-
-    let txt = `
-╭─「 💰 𝐖𝐀𝐋𝐋𝐄𝐓」─
-│
-│ 👤 𝐢𝐥𝐛𝐫𝐨: ${name}
-│ 💰 𝐮𝐧𝐢𝐭𝐲𝐜𝐨𝐢𝐧: ${formatNumber(user.limit)} 💶
-│ 🏛️ 𝐛𝐚𝐧𝐤: ${formatNumber(userbank)} 💳
-│
-╰───────✦───────
-    `.trim()
-
-    await conn.sendMessage(m.chat, {
-        text: txt,
-        mentions: [who],
-        contextInfo: {
-            externalAdReply: {
-                title: `𝐩𝐨𝐫𝐭𝐚𝐟𝐨𝐠𝐥𝐢𝐨 𝐝𝐢 ${name}`,
-                body: `𝐬𝐚𝐥𝐝𝐨: ${user.limit} 𝑼𝑪`,
-                thumbnailUrl: imgUrl,
-                mediaType: 1,
-                renderLargerThumbnail: true
-            }
-        }
-    })
-
-    m.react('💶')
+const rarityCosts = {
+  'Comune': 100,
+  'Non Comune': 1000,
+  'Raro': 10000,
+  'Leggendario': 100000
 }
 
-handler.help = ['wallet']
-handler.tags = ['economy']
-handler.command = ['soldi', 'wallet', 'portafoglio', 'uc', 'saldo', 'unitycoins']
-handler.register = true
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+async function getEvolution(name) {
+  try {
+    const speciesRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${name.toLowerCase()}`)
+    if (!speciesRes.ok) return null
+    const speciesData = await speciesRes.json()
+    const evoChainUrl = speciesData.evolution_chain?.url
+    if (!evoChainUrl) return null
+
+    const evoRes = await fetch(evoChainUrl)
+    if (!evoRes.ok) return null
+    const evoData = await evoRes.json()
+
+    function findNextEvolution(chain) {
+      if (chain.species.name.toLowerCase() === name.toLowerCase()) {
+        return chain.evolves_to?.[0]?.species?.name || null
+      }
+      for (const evo of chain.evolves_to) {
+        const result = findNextEvolution(evo)
+        if (result) return result
+      }
+      return null
+    }
+
+    const nextEvo = findNextEvolution(evoData.chain)
+    return nextEvo
+  } catch (err) {
+    console.error('Errore durante il recupero dell\'evoluzione:', err)
+    return null
+  }
+}
+
+let handler = async (m, { conn, args }) => {
+  const user = m.sender
+  global.db.data.users[user] = global.db.data.users[user] || {}
+  const data = global.db.data.users[user]
+
+  data.limit = data.limit || 0 // Unitycoins invece di mattecash
+  data.pokemons = data.pokemons || []
+
+  const name = args.join(' ')
+  if (!name) return m.reply('📛 Specifica il nome del Pokémon da evolvere.\nEsempio: *.evolvi Charmander*')
+
+  const baseCard = data.pokemons.find(p => p.name.toLowerCase() === name.toLowerCase())
+  if (!baseCard) return m.reply(`❌ Non possiedi *${name}*`)
+
+  const cost = rarityCosts[baseCard.rarity]
+  if (data.limit < cost) { // Controlla i limit (unitycoins) invece di mattecash
+    return m.reply(`⛔ Non hai abbastanza Unitycoins!\n💰 Hai: *${data.limit} UC*\n💸 Richiesti: *${cost} UC*`)
+  }
+
+  const nextForm = await getEvolution(baseCard.name)
+  if (!nextForm) return m.reply(`⛔ *${baseCard.name}* non può evolversi ulteriormente.`)
+
+  data.limit -= cost // Sottrae dalle unitycoins
+
+  await conn.sendMessage(m.chat, { text: `✨ *${baseCard.name}* sta evolvendo...`, mentions: [user] }, { quoted: m })
+  await sleep(1000)
+  await conn.sendMessage(m.chat, { text: '🔄 Evoluzione in corso...', mentions: [user] }, { quoted: m })
+  await sleep(1000)
+  await conn.sendMessage(m.chat, { text: `🎉 *${baseCard.name}* si è evoluto in *${nextForm}*!`, mentions: [user] }, { quoted: m })
+
+  const index = data.pokemons.indexOf(baseCard)
+  if (index > -1) {
+    data.pokemons.splice(index, 1)
+  }
+
+  data.pokemons.push({
+    name: nextForm,
+    rarity: baseCard.rarity,
+    type: baseCard.type
+  })
+
+  return m.reply(`✅ Evoluzione completata!\n💰 Unitycoins rimasti: *${data.limit} UC*`)
+}
+
+handler.help = ['evolvi <nome>']
+handler.tags = ['pokemon']
+handler.command = /^evolvi$/i
 
 export default handler
-
-function formatNumber(num) {
-    return new Intl.NumberFormat('it-IT').format(num)
-}
