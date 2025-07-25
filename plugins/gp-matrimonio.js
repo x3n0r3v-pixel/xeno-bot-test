@@ -23,8 +23,8 @@ const handleSposa = async (m, user, users, text, usedPrefix, conn) => {
     let destinatario = users[mention];
     if (!destinatario) throw '𝐏𝐞𝐫𝐬𝐨𝐧𝐚 𝐧𝐨𝐧 𝐩𝐫𝐞𝐬𝐞𝐧𝐭𝐞 𝐧𝐞𝐥 𝐬𝐢𝐬𝐭𝐞𝐦𝐚';
     if (user.sposato) {
-        let testo = `𝐡𝐚𝐢 𝐠𝐢𝐚̀ 𝐮𝐧 𝐜𝐨𝐧𝐢𝐮𝐠𝐞...\n\n@${user.coniuge.split('@')[0]} 𝐭𝐫𝐚𝐝𝐢𝐦𝐞𝐧𝐭𝐨!!! 😡😡😡`;
-        m.reply(testo, null, { mentions: [user.coniuge] });
+        let testo = `𝐡𝐚𝐢 𝐠𝐢𝐚̀ 𝐮𝐧 𝐜𝐨𝐧𝐢𝐮𝐠𝐞...\n\n@${user.coniuge?.split('@')[0] || 'sconosciuto'} 𝐭𝐫𝐚𝐝𝐢𝐦𝐞𝐧𝐭𝐨!!! 😡😡😡`;
+        m.reply(testo, null, { mentions: user.coniuge ? [user.coniuge] : [] });
         return;
     }
     if (destinatario.sposato) {
@@ -119,12 +119,13 @@ const handleDivorzia = (m, user, users) => {
     if (!ex.ex.includes(m.sender)) ex.ex.push(m.sender);
 
     user.sposato = false;
+    let exConiuge = user.coniuge; // Salva il coniuge prima di cancellarlo
     user.coniuge = '';
     ex.sposato = false;
     ex.coniuge = '';
 
-    let testo = `𝐭𝐮 𝐞 @${user.coniuge.split('@')[0]} 𝐬𝐢𝐞𝐭𝐞 𝐨𝐫𝐚 𝐝𝐢𝐯𝐨𝐫𝐳𝐢𝐚𝐭𝐢.\n\n𝐭𝐚𝐧𝐭𝐨 𝐞𝐫𝐚𝐯𝐚𝐭𝐞 𝐮𝐧𝐚 𝐜𝐨𝐩𝐩𝐢𝐚 𝐨𝐫𝐫𝐢𝐛𝐢𝐥𝐞`;
-    m.reply(testo, null, { mentions: [user.coniuge] });
+    let testo = `𝐭𝐮 𝐞 @${exConiuge?.split('@')[0] || 'sconosciuto'} 𝐬𝐢𝐞𝐭𝐞 𝐨𝐫𝐚 𝐝𝐢𝐯𝐨𝐫𝐳𝐢𝐚𝐭𝐢.\n\n𝐭𝐚𝐧𝐭𝐨 𝐞𝐫𝐚𝐯𝐚𝐭𝐞 𝐮𝐧𝐚 𝐜𝐨𝐩𝐩𝐢𝐚 𝐨𝐫𝐫𝐢𝐛𝐢𝐥𝐞`;
+    m.reply(testo, null, { mentions: exConiuge ? [exConiuge] : [] });
 };
 
 handler.group = true;
