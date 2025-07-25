@@ -2,7 +2,7 @@ import { generateWAMessageFromContent } from '@whiskeysockets/baileys'
 import { smsg } from './lib/simple.js'
 import { format } from 'util'
 import { fileURLToPath } from 'url'
-import path, { join, dirname } from 'path'
+import path, { join } from 'path'
 import { unwatchFile, watchFile } from 'fs'
 import fs from 'fs'
 import chalk from 'chalk'
@@ -545,5 +545,9 @@ global.dfail = (type, m, conn) => {
     }, {quoted: m})
 }
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const file = global.__filename(import.meta.url, true)
+watchFile(file, async () => {
+    unwatchFile(file)
+    console.log(chalk.redBright("Update 'handler.js'"))
+    if (global.reloadHandler) console.log(await global.reloadHandler())
+})
