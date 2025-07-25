@@ -38,18 +38,18 @@ export async function handler(chatUpdate) {
         m.exp = 0
         m.limit = false
         
-        // --- INTEGRAZIONE NUOVO ANTISPAM COMANDI (vare-sam) ---
+        // --- INTEGRAZIONE ANTISPAM COMANDI ---
         global.ignoredUsersGlobal = global.ignoredUsersGlobal || new Set()
         global.ignoredUsersGroup = global.ignoredUsersGroup || {}
         global.groupSpam = global.groupSpam || {}
 
         // Definizione unica di isOwner/isROwner
-        const isROwner = [conn?.decodeJid?.(global?.conn?.user?.id), ...(global.owner || []).map(([number]) => number)]
+        const isROwner = [this.decodeJid(global.conn.user.id), ...(global.owner || []).map(([number]) => number)]
             .map(v => v && v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
             .includes(m.sender)
         const isOwner = isROwner || m.fromMe
         const isMods = isOwner || global.mods.map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-        const isPrems = isROwner || isOwner || isMods || global.db.data.users[m.sender].premiumTime > 0
+        const isPrems = isROwner || isOwner || isMods || global.db.data.users[m.sender]?.premiumTime > 0
 
         if (m.isGroup && !isOwner && global.db.data.chats[m.chat]?.antispamcomandi !== false) {
             if (!global.groupSpam[m.chat]) {
@@ -57,29 +57,29 @@ export async function handler(chatUpdate) {
                     count: 0,
                     firstCommandTimestamp: 0,
                     isSuspended: false
-                };
+                }
             }
 
-            const groupData = global.groupSpam[m.chat];
-            const now = Date.now();
+            const groupData = global.groupSpam[m.chat]
+            const now = Date.now()
 
             if (groupData.isSuspended) {
-                return;
+                return
             }
             if (now - groupData.firstCommandTimestamp > 60000) {
-                groupData.count = 1;
-                groupData.firstCommandTimestamp = now;
+                groupData.count = 1
+                groupData.firstCommandTimestamp = now
             } else {
-                groupData.count++;
+                groupData.count++
             }
             if (groupData.count > 2) { 
-                groupData.isSuspended = true;
-                await this.reply(m.chat, `『 ⚠ 』 Anti-spam comandi\n\nRilevati troppi comandi in un minuto, aspettate 10 secondi prima di riutilizzare i comandi.\n\n> SVILUPPATO DA SAM-VARE`, m);
+                groupData.isSuspended = true
+                await this.reply(m.chat, `『 ⚠ 』 Anti-spam comandi\n\nRilevati troppi comandi in un minuto, aspettate 10 secondi prima di riutilizzare i comandi.\n\n> SVILUPPATO DA SAM-VARE`, m)
                 setTimeout(() => {
-                    delete global.groupSpam[m.chat];
-                    console.log(`[Anti-Spam] Comandi riattivati per il gruppo: ${m.chat}`);
-                }, 10000);
-                return;
+                    delete global.groupSpam[m.chat]
+                    console.log(`[Anti-Spam] Comandi riattivati per il gruppo: ${m.chat}`)
+                }, 10000)
+                return
             }
         }
         // --- FINE INTEGRAZIONE ANTISPAM ---
@@ -212,8 +212,8 @@ export async function handler(chatUpdate) {
 
         const groupMetadata = (m.isGroup ? ((conn.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) : {}
         const participants = (m.isGroup ? groupMetadata.participants : []) || []
-        const user = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) === m.sender) : {}) || {}
-        const bot = (m.isGroup ? participants.find(u => conn.decodeJid(u.id) == this.user.jid) : {}) || {}
+        const user = (m.isGroup ? participants.find(u => this.decodeJid(u.id) === m.sender) : {}) || {}
+        const bot = (m.isGroup ? participants.find(u => this.decodeJid(u.id) == this.user.jid) : {}) || {}
         const isRAdmin = user?.admin == 'superadmin' || false
         const isAdmin = isRAdmin || user?.admin == 'admin' || false
         const isBotAdmin = bot?.admin || false
@@ -445,7 +445,7 @@ export async function handler(chatUpdate) {
                 }).catch(console.error)
             }
 
-            if (m.sender && (user = global.db.data.users[m.sender]) {
+            if (m.sender && (user = global.db.data.users[m.sender])) {
                 user.exp += m.exp
                 user.limit -= m.limit * 1
                 user.money -= m.money * 1 
