@@ -51,15 +51,30 @@ export async function handler(chatUpdate) {
         }
     })()
 
-    // Funzione per verificare i prefissi
+    // Funzione migliorata per verificare i prefissi
     const hasValidPrefix = (text, prefixes) => {
         if (!text || typeof text !== 'string') return false
+        
+        // Se prefixes è una regex, usa test()
+        if (prefixes instanceof RegExp) {
+            return prefixes.test(text)
+        }
+        
+        // Se prefixes è un array, controlla ogni elemento
         const prefixList = Array.isArray(prefixes) ? prefixes : [prefixes]
-        return prefixList.some(p => typeof p === 'string' && text.startsWith(p))
+        
+        return prefixList.some(p => {
+            if (p instanceof RegExp) {
+                return p.test(text)
+            } else if (typeof p === 'string') {
+                return text.startsWith(p)
+            }
+            return false
+        })
     }
 
-    // Sistema anti-spam comandi avanzato
-    if (m.isGroup && !isOwner && hasValidPrefix(m.text, conn.prefix || global.prefix)) {
+    // Sistema anti-spam comandi avanzato (solo per comandi testuali)
+    if (m.isGroup && !isOwner && typeof m.text === 'string' && hasValidPrefix(m.text, conn.prefix || global.prefix)) {
         if (!global.groupSpam[m.chat]) {
             global.groupSpam[m.chat] = {
                 count: 0,
