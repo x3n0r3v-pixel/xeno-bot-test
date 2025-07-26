@@ -38,17 +38,28 @@ export async function handler(chatUpdate) {
     if (!m) return
     if (global.db.data == null) await global.loadDatabase()
 
-    // Sistema anti-spam comandi avanzato
+    // Funzione per verificare se è un owner
     const isOwner = (() => {
         try {
             const isROwner = [conn.decodeJid(global.conn.user.id), ...global.owner.map(([number]) => number)]
+                .filter(Boolean)
                 .map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net')
                 .includes(m.sender)
             return isROwner || m.fromMe
-        } catch { return false }
+        } catch { 
+            return false 
+        }
     })()
 
- if (m.isGroup && !isOwner && m.text && m.text.startsWith(conn.prefix || global.prefix)) {
+    // Funzione per verificare i prefissi
+    const hasValidPrefix = (text, prefixes) => {
+        if (!text || typeof text !== 'string') return false
+        const prefixList = Array.isArray(prefixes) ? prefixes : [prefixes]
+        return prefixList.some(p => typeof p === 'string' && text.startsWith(p))
+    }
+
+    // Sistema anti-spam comandi avanzato
+    if (m.isGroup && !isOwner && hasValidPrefix(m.text, conn.prefix || global.prefix)) {
         if (!global.groupSpam[m.chat]) {
             global.groupSpam[m.chat] = {
                 count: 0,
@@ -56,6 +67,7 @@ export async function handler(chatUpdate) {
                 isSuspended: false
             }
         }
+
         const groupData = global.groupSpam[m.chat]
         const now = Date.now()
 
