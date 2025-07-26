@@ -11,7 +11,8 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
   // Ottieni foto profilo
   let avatarUrl;
   try {
-    avatarUrl = await conn.profilePictureUrl(user, 'image');
+    avatarUrl = await conn.profilePictureUrl(user, 'image').catch(_ => null);
+    if (!avatarUrl) throw new Error('No avatar');
   } catch {
     avatarUrl = 'https://telegra.ph/file/6880771a42bad09dd6087.jpg'; // fallback
   }
@@ -29,18 +30,18 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
 
     await conn.sendMessage(m.chat, {
       image: buffer,
-      caption: `🌈 @${user.split('@')[0]} è gay al ${randomPercent}% 🏳️‍🌈`,
+      caption: `🌈 @${user.split('@')[0]} è gay al ${randomPercent}% �️‍🌈`,
       mentions: [user],
     }, { quoted: m });
 
   } catch (e) {
-    console.error(e);
-    return m.reply('❌ Errore durante la generazione dell\'immagine. Controlla se l\'avatar è valido.');
+    console.error('Error in gay command:', e);
+    m.reply('❌ Errore durante la generazione dell\'immagine. Riprova più tardi.');
   }
 };
 
 handler.help = ['gay @utente'];
 handler.tags = ['fun'];
-handler.command = /^gayy$/i;
+handler.command = /^gay$/i;  // Modificato da gayy a gay per maggiore compatibilità
 
 export default handler;
