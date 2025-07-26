@@ -319,7 +319,7 @@ export async function handler(chatUpdate) {
                 }
 
                 let hl = _prefix 
-                let adminMode = global.db.data.chats[m.chat]?.modoadmin
+                let adminMode = global.db.data.chats[m.chat]?.soloadmin
                 let mystica = `${plugin.botAdmin || plugin.admin || plugin.group || plugin || noPrefix || hl || m.text.slice(0, 1) == hl || plugin.command}`
                 if (adminMode && !isOwner && !isROwner && m.isGroup && !isAdmin && mystica) return
 
