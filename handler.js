@@ -48,20 +48,14 @@ export async function handler(chatUpdate) {
         } catch { return false }
     })()
 
-// Replace startsWith with test()
-const prefix = conn.prefix || global.prefix;
-if (m.isGroup && !isOwner && m.text && (
-    (typeof prefix === 'string' && m.text.startsWith(prefix)) ||
-    (prefix instanceof RegExp && prefix.test(m.text))
-)) {
-    if (!global.groupSpam[m.chat]) {
-        global.groupSpam[m.chat] = {
-            count: 0,
-            firstCommandTimestamp: Date.now(),
-            isSuspended: false
+ if (m.isGroup && !isOwner && m.text && m.text.startsWith(conn.prefix || global.prefix)) {
+        if (!global.groupSpam[m.chat]) {
+            global.groupSpam[m.chat] = {
+                count: 0,
+                firstCommandTimestamp: Date.now(),
+                isSuspended: false
+            }
         }
-    }
-}
         const groupData = global.groupSpam[m.chat]
         const now = Date.now()
 
