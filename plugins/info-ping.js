@@ -80,7 +80,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     try {
       messageOptions.contextInfo.externalAdReply = {
         title: nomeDelBot,
-        body: `Versione: ${versioneBot}`,
+        body: `Versione: 6.0`,
         mediaType: 1,
         renderLargerThumbnail: false,
         previewType: 'thumbnail',
