@@ -9,7 +9,16 @@ export async function before(m, { conn }) {
     const type = m.mtype || '';
 
     // bot escluso
-    if (m.sender === conn.user.jid) return true; 
+    if (m.sender === conn.user.jid) return true;
+
+    // admin esclusi
+    const groupMetadata = await conn.groupMetadata(m.chat);
+    const admins = groupMetadata.participants
+        .filter(p => p.admin)
+        .map(p => p.id);
+
+  
+    if (admins.includes(m.sender)) return true;
 
     if (['imageMessage', 'videoMessage'].includes(type)) {
         const isViewOnce = msg?.[type]?.viewOnce;
@@ -28,7 +37,7 @@ export async function before(m, { conn }) {
 
             // Messaggio di avviso
             await conn.sendMessage(m.chat, {
-                text: '⚠ 𝐀𝐍𝐓𝐈𝐌𝐄𝐃𝐈𝐀 𝐀𝐓𝐓𝐈𝐕𝐎 ⚠\n 𝐒𝐨𝐥𝐨 𝐟𝐨𝐭𝐨 𝐞 𝐯𝐢𝐝𝐞𝐨 𝐚𝐝 1 𝐯𝐢𝐬𝐮𝐚𝐥 𝐬𝐨𝐧𝐨 𝐩𝐞𝐫𝐦𝐞𝐬𝐬𝐢.',
+                text: `> ⚠️ 𝐀𝐍𝐓𝐈𝐌𝐄𝐃𝐈𝐀 𝐀𝐓𝐓𝐈𝐕𝐎 ⚠️\n 𝐒𝐨𝐥𝐨 𝐟𝐨𝐭𝐨 𝐞 𝐯𝐢𝐝𝐞𝐨 𝐚𝐝 1 𝐯𝐢𝐬𝐮𝐚𝐥 𝐬𝐨𝐧𝐨 𝐩𝐞𝐫𝐦𝐞𝐬𝐬𝐢.`,
                 mentions: [m.sender]
             });
         }
