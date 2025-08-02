@@ -83,10 +83,8 @@ async function drawTextWithEmoji(ctx, text, x, y, font, color = '#fff', align = 
 async function getUserName(conn, jid, pushNameFromStub = '') {
     const isValid = str => str && typeof str === 'string' && str.length > 1 && str.length < 26 && !/^\d+$/.test(str)
     
-    // Try pushName from stub first
     if (isValid(pushNameFromStub)) return pushNameFromStub
     
-    // Try to get from contact list
     const contact = conn.contacts?.[jid]
     if (contact) {
         if (isValid(contact.notify)) return contact.notify
@@ -95,13 +93,11 @@ async function getUserName(conn, jid, pushNameFromStub = '') {
         if (isValid(contact.verifiedName)) return contact.verifiedName
     }
     
-    // Try to get name from API
     try {
         const nameFromApi = await conn.getName(jid)
         if (isValid(nameFromApi)) return nameFromApi
     } catch {}
     
-    // Try to get from group metadata participants
     try {
         const groupJid = Object.keys(conn.chats || {}).find(id => 
             conn.chats[id].participants?.some(p => p.id === jid)
@@ -112,18 +108,15 @@ async function getUserName(conn, jid, pushNameFromStub = '') {
         }
     } catch {}
     
-    // Try to get business name or status
     try {
         const profile = await conn.fetchStatus(jid).catch(() => null)
         if (profile && isValid(profile.status)) {
-            // If status looks like a name (not a typical status message)
             if (profile.status.length < 30 && !/[📱💬🔥❤️]/g.test(profile.status)) {
                 return profile.status
             }
         }
     } catch {}
     
-    // Last resort: format the phone number nicely
     const phoneNumber = jid.split('@')[0]
     return `Utente ${phoneNumber}`
 }
@@ -137,7 +130,6 @@ async function getUserProfilePic(conn, jid) {
         }
     } catch {}
     
-    // Return default avatar if no profile picture found
     try {
         const res = await fetch(DEFAULT_AVATAR_URL)
         if (res.ok) return Buffer.from(await res.arrayBuffer())
@@ -179,7 +171,6 @@ async function getGroupBackgroundImage(groupJid, conn) {
 
 async function createCircularProfilePic(profileBuffer, size = 300) {
     if (!profileBuffer) {
-        // Use default avatar if no profile picture
         try {
             const res = await fetch(DEFAULT_AVATAR_URL)
             if (res.ok) {
@@ -274,7 +265,6 @@ async function createImage(title, username, groupName, profilePicBuffer, isGoodb
         const groupY = usernameY + 120
         const decorationY = cardY + cardHeight - 80
         
-        // Increased font sizes by 10px
         ctx.save()
         ctx.font = 'bold 150px Arial, "Montserrat", "Segoe UI", "Liberation Sans", "Noto Sans", sans-serif'
         ctx.textAlign = 'center'
@@ -324,28 +314,6 @@ async function createImage(title, username, groupName, profilePicBuffer, isGoodb
     }
 }
 
-const requestCounter = { count: 0, lastReset: Date.now(), isBlocked: false, blockUntil: 0 }
-function checkAntiSpam() {
-    const now = Date.now()
-    if (now - requestCounter.lastReset > 30000) {
-        requestCounter.count = 0
-        requestCounter.lastReset = now
-    }
-    if (requestCounter.isBlocked) {
-        if (now < requestCounter.blockUntil) return false
-        requestCounter.isBlocked = false
-        requestCounter.count = 0
-    }
-    requestCounter.count++
-    if (requestCounter.count > 8) {
-        requestCounter.isBlocked = true
-        requestCounter.blockUntil = now + 30000
-        return false
-    }
-    return true
-}
-
-// Function to replace placeholders in custom messages
 function replacePlaceholders(message, who, username, groupName, memberCount, displayName) {
     return message
         .replace(/@user/g, `@${who.split('@')[0]}`)
@@ -356,9 +324,7 @@ function replacePlaceholders(message, who, username, groupName, memberCount, dis
         .replace(/\$tag/g, `@${who.split('@')[0]}`)
 }
 
-// Command handler for setting welcome/goodbye messages
 export async function handler(m, { conn, text, command, isAdmin, isOwner }) {
-    // Richiedi la presenza di alcuni file come protezione base
     const filesToCheck = [
         './termini.jpeg',
         './CODE_OF_CONDUCT.md',
@@ -378,14 +344,12 @@ export async function handler(m, { conn, text, command, isAdmin, isOwner }) {
     
     const chat = global.db.data.chats[m.chat] || {}
     
-    // Initialize custom messages if not exist
     if (!chat.customWelcome) chat.customWelcome = null
     if (!chat.customGoodbye) chat.customGoodbye = null
     if (!chat.welcomeEnabled) chat.welcomeEnabled = true
     
     const cmd = command.toLowerCase()
     
-    // Handle different commands
     if (['setbenvenuto', 'setwelcome', 'benvenuto'].includes(cmd)) {
         if (!text) {
             return m.reply(`🎉 *Imposta messaggio di benvenuto*
@@ -520,8 +484,8 @@ handler.admin = true
 export async function before(m, { conn, groupMetadata }) {
     if (!m.isGroup || !m.messageStubType) return true
     if (!checkAntiSpam()) return true
-    const chat = global.db?.data?.chats?.[m.chat]
-    if (!chat || chat.welcome === false || chat.welcomeEnabled === false) return true
+    const chat = global.db.data.chats[m.chat] || {}
+    if (!chat.welcomeEnabled) return true
     const who = m.messageStubParameters?.[0]
     const pushNameFromStub = m.messageStubParameters?.[1]
     if (!who || typeof who !== 'string' || !who.includes('@')) return true
@@ -541,7 +505,6 @@ export async function before(m, { conn, groupMetadata }) {
         }
         
         const sendWelcomeMessage = async (isGoodbye = false) => {
-            // Use custom message if available, otherwise use default
             let caption
             if (isGoodbye) {
                 const defaultMsg = `*Arrivederci* @${who.split('@')[0]} 👋\n┊ Ha lasciato il gruppo\n╰► *Membri rimasti:* ${memberCount}`
@@ -595,6 +558,27 @@ export async function before(m, { conn, groupMetadata }) {
         }
     } catch (error) {
         console.error('Errore:', error)
+    }
+    return true
+}
+
+const requestCounter = { count: 0, lastReset: Date.now(), isBlocked: false, blockUntil: 0 }
+function checkAntiSpam() {
+    const now = Date.now()
+    if (now - requestCounter.lastReset > 30000) {
+        requestCounter.count = 0
+        requestCounter.lastReset = now
+    }
+    if (requestCounter.isBlocked) {
+        if (now < requestCounter.blockUntil) return false
+        requestCounter.isBlocked = false
+        requestCounter.count = 0
+    }
+    requestCounter.count++
+    if (requestCounter.count > 8) {
+        requestCounter.isBlocked = true
+        requestCounter.blockUntil = now + 30000
+        return false
     }
     return true
 }
