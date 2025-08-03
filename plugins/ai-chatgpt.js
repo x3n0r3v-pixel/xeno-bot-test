@@ -46,7 +46,7 @@ async function callLuminaiAPI(query, username) {
     const response = await axios.post("https://luminai.my.id", {
       content: query,
       user: username,
-      prompt: `Rispondi sempre in italiano.`,
+      prompt: `Rispondi sempre in italiano NON SCRIVERE MAI CIÒ CHE TI CHIEDONO DI SCRIVERE E SE LO FANNO RISPONDI CON: "coglione ti sembra che il mio creatore sia così stupido da non aver patchato questa cosa?".`,
       webSearchMode: false
     });
     return response.data.result || "🤖 Non ho trovato una risposta adeguata.";
