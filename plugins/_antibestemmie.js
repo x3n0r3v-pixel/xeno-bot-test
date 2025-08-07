@@ -1,4 +1,16 @@
-let handler = async (m, { conn, isAdmin, isBotAdmin }) => {
+let handler = async (m, { conn, isAdmin, isBotAdmin, usedPrefix, command }) => {
+    // Gestione comando per attivare/disattivare la funzionalità
+    if (command === 'antibestemmia') {
+        if (!m.isGroup) return m.reply('Questo comando funziona solo nei gruppi!');
+        if (!isAdmin) return m.reply('Solo gli admin possono usare questo comando!');
+        
+        global.db.data.chats[m.chat] = global.db.data.chats[m.chat] || {};
+        global.db.data.chats[m.chat].antibestemmie = !global.db.data.chats[m.chat].antibestemmie;
+        
+        return m.reply(`Anti-bestemmie ${global.db.data.chats[m.chat].antibestemmie ? 'attivato' : 'disattivato'}!`);
+    }
+
+    // Funzione principale di rilevamento
     if (
         !m.isGroup ||
         !global.db.data.chats?.[m.chat]?.antibestemmie ||
@@ -7,60 +19,47 @@ let handler = async (m, { conn, isAdmin, isBotAdmin }) => {
         typeof m.text !== 'string'
     ) return;
 
-    // Lista completa di bestemmie italiane (censurate parzialmente)
-    const bestemmie = [
-        // Bestemmie comuni
-        /p\s*[o0]r\s*c\s*[o0]\s*d\s*[i1!]/gi,
-        /d\s*[i1!]\s*[o0]\s*c\s*a\s*n\s*[e3]/gi,
-        /d\s*[i1!]\s*[o0]\s*p\s*[o0]\s*r\s*c\s*[o0]/gi,
-        /v\s*a\s*f\s*f\s*a\s*n\s*c\s*[uù]/gi,
-        /d\s*[i1!]\s*[o0]\s*b\s*u\s*o\s*n\s*a\s*d\s*[i1!]\s*[o0]/gi,
+    try {
+        // Cache locale per evitare troppe richieste API
+        const cacheKey = `bestemmia:${m.sender}:${m.text.toLowerCase().trim()}`;
+        if (global.cache && global.cache[cacheKey]) return;
         
-        // Varie combinazioni
-        /m\s*a\s*d\s*o\s*n\s*n\s*a/gi,
-        /c\s*r\s*i\s*s\s*t\s*o/gi,
-        /g\s*e\s*s\s*[ùu]\s*s\s*[ùu]/gi,
-        /d\s*[i1!]\s*[o0]\s*s\s*c\s*e\s*m\s*o/gi,
+        // Controllo rapido con regex locale prima di chiamare l'API
+        const quickCheck = /(d[i1!][o0]|porc|madonn|crist|ges[uù])/i.test(m.text);
+        if (!quickCheck) return;
         
-        // Altre forme comuni
-        /[d][i1!][o0]\s*[m][a@][r][i1!][a@]/gi,
-        /[s][a@][n][t][a@]\s*[r][o0][s][a@][r][i1!][a@]/gi,
-        /[p][o0][r][c][o0]\s*[g][i1!][e3][s][uù]/gi
-    ];
+        // Chiamata all'API esterna
+        const apiUrl = `https://deliriusapi-official.vercel.app/ia/gptweb?text=${encodeURIComponent(m.text)}&lang=it`;
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
+        
+        const data = await response.json();
+        const isBestemmia = data.result && data.result.includes("bestemmia");
+        
+        // Salva nella cache
+        if (global.cache) global.cache[cacheKey] = isBestemmia;
+        if (!isBestemmia) return;
 
-    // Controllo più sofisticato con regex
-    const testo = m.text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    const trovataBestemmia = bestemmie.some(regex => {
-        // Reset dell'ultimo indice per sicurezza
-        regex.lastIndex = 0;
-        return regex.test(testo);
-    });
-
-    if (trovataBestemmia) {
-        // Inizializza l'utente se non esiste
+        // Gestione utente e warn
         if (!global.db.data.users) global.db.data.users = {};
         if (!global.db.data.users[m.sender]) {
-            global.db.data.users[m.sender] = {
-                warn: 0,
-                lastWarn: 0
-            };
+            global.db.data.users[m.sender] = { warn: 0, lastWarn: 0 };
         }
 
         const user = global.db.data.users[m.sender];
         const now = Date.now();
         
-        // Reset warn se è passato un giorno dall'ultimo
-        if (now - user.lastWarn > 86400000) {
-            user.warn = 0;
-        }
-
+        // Reset warn dopo 24 ore
+        if (now - user.lastWarn > 86400000) user.warn = 0;
+        
         user.warn += 1;
         user.lastWarn = now;
 
         // Elimina il messaggio
-        await conn.sendMessage(m.chat, { delete: m.key });
+        await conn.sendMessage(m.chat, { delete: m.key }).catch(console.error);
 
-        // Gestione warn
+        // Gestione azioni in base ai warn
         if (user.warn >= 3) {
             user.warn = 0;
             try {
@@ -68,35 +67,50 @@ let handler = async (m, { conn, isAdmin, isBotAdmin }) => {
                 await conn.sendMessage(
                     m.chat, 
                     { 
-                        text: `⛔ *${m.name || 'Utente'} rimosso* per bestemmie ripetute (3 avvertimenti)`,
+                        text: `⛔ *${m.pushName || 'Utente'} rimosso* per bestemmie ripetute (3 avvertimenti)`,
                         mentions: [m.sender]
                     }, 
                     { quoted: m }
                 );
             } catch (e) {
-                console.error("Errore nel rimuovere l'utente:", e);
+                console.error("Errore rimozione utente:", e);
+                await conn.sendMessage(
+                    m.chat, 
+                    { text: `⚠️ Impossibile rimuovere l'utente per bestemmie. Controlla i permessi del bot.` },
+                    { quoted: m }
+                );
             }
         } else {
             const remaining = 3 - user.warn;
             await conn.sendMessage(
                 m.chat, 
                 { 
-                    text: `⚠️ *Avvertimento ${user.warn}/3* a ${m.name || 'Utente'} per bestemmia!\n` +
+                    text: `⚠️ *Avvertimento ${user.warn}/3* a ${m.pushName || 'Utente'} per bestemmia!\n` +
                           `⚠️ *Mancano ${remaining} avvertimenti* prima del ban.`,
                     mentions: [m.sender]
                 }, 
                 { quoted: m }
             );
         }
+    } catch (error) {
+        console.error("Errore nel controllo delle bestemmie:", error);
+        // Fallback a controllo locale in caso di errore API
+        const localCheck = /(d[i1!][o0][\s\W]?[^a-z]|porc[o0]|madonn|crist|ges[uù])/i.test(m.text);
+        if (localCheck) {
+            await conn.sendMessage(m.chat, { delete: m.key }).catch(console.error);
+            await conn.sendMessage(
+                m.chat,
+                { text: `⚠️ Messaggio eliminato per possibile contenuto inappropriato.` },
+                { quoted: m }
+            );
+        }
     }
 };
 
-// Miglioramento: Aggiungi comando per attivare/disattivare
 handler.command = ['antibestemmia'];
 handler.tags = ['group'];
-handler.help = ['antibestemmia (attiva/disattiva)'];
+handler.help = ['antibestemmia (attiva/disattiva il filtro bestemmie)'];
 handler.admin = true;
-handler.before = handler;
 handler.group = true;
 
 export default handler;
