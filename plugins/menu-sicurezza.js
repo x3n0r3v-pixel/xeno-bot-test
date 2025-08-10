@@ -67,6 +67,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 ┃◈┃• *ℹ 𝐂𝐎𝐌𝐄 𝐒𝐈 𝐔𝐒𝐀*
 ┃◈┃• *🟢 attiva [funzione]* 
 ┃◈┃• *🔴 disabilita [funzione]*
+┃◈╰━━━━━━━━━━━━━┈·๏
 ┃◈┃
 ${statusList.split('\n').map(line => `┃◈┃• ${line}`).join('\n')}
 ┃◈┃
