@@ -1,19 +1,18 @@
 let handler = async (m, { conn, usedPrefix }) => {
     let user = global.db.data.users[m.sender]
     
-    // Inizializzazione sicura per evitare NaN
     user.exp = Number(user.exp) || 0
     user.level = Number(user.level) || 1
     
-    // Calcolo XP necessario per il prossimo livello
+
     let { min, xp, max } = xpRange(user.level, global.multiplier || 1)
     let currentLevelXP = user.exp - min
     let xpNeeded = Math.max(0, max - user.exp) // Evita valori negativi
     
-    // Formattazione numeri con separatore delle migliaia
+
     let format = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     
-    // Messaggio con stile avanzato
+
     let txt = `✨ 𝐈𝐋 𝐓𝐔𝐎 𝐏𝐑𝐎𝐅𝐈𝐋𝐎 𝐗𝐏 ✨\n\n`
     txt += `▸ *𝐔𝐓𝐄𝐍𝐓𝐄*: ${conn.getName(m.sender)}\n`
     txt += `▸ *𝐥𝐢𝐯𝐞𝐥𝐥𝐨 𝐚𝐭𝐭𝐮𝐚𝐥𝐞*: ${user.level}\n`
@@ -37,7 +36,6 @@ handler.command = ['xp', 'exp', 'esperienza']
 handler.register = true
 export default handler
 
-// Funzione corretta per il calcolo
 function xpRange(level, multiplier = 1) {
     if(level < 0) level = 0
     let min = level === 0 ? 0 : Math.pow(level, 2) * 20
