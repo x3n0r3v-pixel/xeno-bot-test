@@ -146,8 +146,30 @@ console.log(chalk.bold.redBright('Opzione non valida. Inserisci solo 1 o 2.'));
 }} while (opcion !== '1' && opcion !== '2' || fs.existsSync(`./${authFile}/creds.json`))
 }
 
-console.info = () => {}
-//console.warn = () => {}
+const filterStrings = [
+  "Q2xvc2luZyBzdGFsZSBvcGVu",
+  "Q2xvc2luZyBvcGVuIHNlc3Npb24=",
+  "RmFpbGVkIHRvIGRlY3J5cHQ=",
+  "U2Vzc2lvbiBlcnJvcg==",
+  "RXJyb3I6IEJhZCBNQUM=",
+  "RGVjcnlwdGVkIG1lc3NhZ2U="
+];
+
+
+console.info = () => { };
+console.debug = () => { };
+['log', 'warn', 'error'].forEach(methodName => {
+  const originalMethod = console[methodName];
+  console[methodName] = function () {
+    const message = arguments[0];
+    if (typeof message === 'string' && filterStrings.some(filterString => message.includes(Buffer.from(filterString, 'base64').toString()))) {
+      arguments[0] = "";
+    }
+    originalMethod.apply(console, arguments);
+  };
+});
+
+
 const connectionOptions = {
 logger: pino({ level: 'silent' }),
 printQRInTerminal: opcion == '1' ? true : methodCodeQR ? true : false,
