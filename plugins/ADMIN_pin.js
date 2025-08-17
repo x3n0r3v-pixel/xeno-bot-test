@@ -17,7 +17,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
             text: 'Scegli per quanto tempo vuoi fissare il messaggio:',
             buttons,
             headerType: 1
-        });
+        }, { quoted: m });
         return;
     }
 
