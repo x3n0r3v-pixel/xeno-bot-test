@@ -11,10 +11,10 @@ const handler = async (message, { conn }) => {
     const newsText = `*INFO - RILASCIO V6.1*\n\n`
                   + `📅 *Data:* 18/08 \n`
                   + `🆕 *Aggiornamenti principali:*\n`
-                  + `• Nuovo comando .social\n`
+                  + `• Nuovo comando social\n`
                   + `• Ottimizzato i log su console\n`
-                  + `• Ottimizzato .aggiorna\n`
-                  + `• nuova interfaccia .dox\n`
+                  + `• Ottimizzato aggiorna\n`
+                  + `• nuova interfaccia dox\n`
                   + `• nuovi staffer: giusemd & anubi\n`
                   + `• *Cambio gestione security transato a DEATH:*\n`
                   + `  - Nuove funzionalità in security\n`
