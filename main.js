@@ -376,6 +376,7 @@ if (connection === 'close') {
 }
 
 process.on('uncaughtException', console.error);
+process.on('unhandledRejection', console.error);
 
 let isInit = true;
 let handler = await import('./handler.js');
