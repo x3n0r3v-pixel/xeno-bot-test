@@ -17,7 +17,6 @@ END:VCARD`.replace(/\n/g, '\r\n');
                 { vcard: createVCard('Creatore', '393515533859', 'Founder') },
                 { vcard: createVCard('Finanziatore', '393803482529', 'Financer') },
 
-                // Team Sviluppo
                 { vcard: createVCard('Developer 1', '393935731102', 'Developer') },
                 { vcard: createVCard('Developer 2', '447365589428', 'Developer') },
                 { vcard: createVCard('Developer 3', '393297570233', 'Developer') },
@@ -26,7 +25,8 @@ END:VCARD`.replace(/\n/g, '\r\n');
                 { vcard: createVCard('Developer 6', '393509368693', 'Developer') },
                 { vcard: createVCard('Developer 7', '66621409462', 'Developer') },
                 { vcard: createVCard('Developer 8', '393476686131', 'Developer') },
-                { vcard: createVCard('Developer 9', '393669729127', 'Developer') }
+                { vcard: createVCard('Developer 9', '393669729127', 'Developer') },
+                { vcard: createVCard('Developer 10', '27746449887', 'Developer') }
             ]
         }
     }, { quoted: m });
