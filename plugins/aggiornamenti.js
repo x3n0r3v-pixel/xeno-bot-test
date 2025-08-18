@@ -30,6 +30,6 @@ const handler = async (message, { conn }) => {
 
 handler.help = ['novita'];
 handler.tags = ['info'];
-handler.command = /^(novita|aggiornamenti|novità)$/i; // <-- solo con prefisso .
+handler.command = /^\.(novita|aggiornamenti|novità)$/i;
 
 export default handler;
