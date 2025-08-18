@@ -7,7 +7,7 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const handler = async (message, { conn, usedPrefix, command }) => {
+const handler = async (message, { conn }) => {
     const newsText = `*NOVITÀ - RILASCIO V6.1*\n\n`
                   + `📅 *Data:* 18/08 \n`
                   + `🆕 *Aggiornamenti principali:*\n`
@@ -19,7 +19,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
                   + `• *Cambio gestione security transato a DEATH:*\n`
                   + `  - Nuove funzionalità in security\n`
                   + `  - Ristrutturazione completa del progetto\n`
-                  + `• Preparazione per V7.0 con nuove funzionalità\n\n`
+                  + `• Preparazione per V7.0 con nuove funzionalità\n\n`;
 
     await conn.sendMessage(
         message.chat,
@@ -30,6 +30,6 @@ const handler = async (message, { conn, usedPrefix, command }) => {
 
 handler.help = ['novita'];
 handler.tags = ['info'];
-handler.command = /^(novita|aggiornamenti|novità)$/i;
+handler.command = /^.(novita|aggiornamenti|novità)$/i; // <-- solo con prefisso .
 
 export default handler;
