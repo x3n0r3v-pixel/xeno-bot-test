@@ -12,9 +12,9 @@ const handler = async (message, { conn, usedPrefix, command }) => {
                     + `🌍 *Instagram:*\n`
                     + `https://instagram.com/chatunity_\n\n`
                     + `📢 *TikTok:*\n`
-                    + `https://t.me/chatunitychannel\n\n`
+                    + `https://www.tiktok.com/@chatunitycenter\n\n`
                     + `💬 *GitHub:*\n`
-                    + `https://t.me/chatunitygroup\n\n`
+                    + `https://github.com/chatunitycenter\n\n`
 
     await conn.sendMessage(
         message.chat,
