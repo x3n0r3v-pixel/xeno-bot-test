@@ -14,6 +14,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
                   + `• Nuovo comando .social\n`
                   + `• Ottimizzato i log su console\n`
                   + `• nuova interfaccia .dox\n`
+                  + `• nuovi staffer: giusemd & anubi\n`
                   + `• *Cambio gestione security transato a DEATH:*\n`
                   + `  - Nuove funzionalità in security\n`
                   + `  - Ristrutturazione completa del progetto\n`
