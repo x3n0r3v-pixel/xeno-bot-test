@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const handler = async (message, { conn }) => {
-    const newsText = `*NOVITÀ - RILASCIO V6.1*\n\n`
+    const newsText = `*UPDATE - RILASCIO V6.1*\n\n`
                   + `📅 *Data:* 18/08 \n`
                   + `🆕 *Aggiornamenti principali:*\n`
                   + `• Nuovo comando .social\n`
@@ -30,6 +30,6 @@ const handler = async (message, { conn }) => {
 
 handler.help = ['novita'];
 handler.tags = ['info'];
-handler.command = /^\.(novita|aggiornamenti|novità)$/i;
+handler.command = /^(novita|aggiornamenti|novità)$/i;
 
 export default handler;
