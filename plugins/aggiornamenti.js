@@ -13,6 +13,7 @@ const handler = async (message, { conn, usedPrefix, command }) => {
                   + `🆕 *Aggiornamenti principali:*\n`
                   + `• Nuovo comando .social\n`
                   + `• Ottimizzato i log su console\n`
+                  + `• Ottimizzato .aggiorna\n`
                   + `• nuova interfaccia .dox\n`
                   + `• nuovi staffer: giusemd & anubi\n`
                   + `• *Cambio gestione security transato a DEATH:*\n`
