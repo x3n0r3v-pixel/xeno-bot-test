@@ -40,7 +40,7 @@
 termux-setup-storage
 ```
 ```bash
-apt update -y && yes | apt upgrade && pkg install -y bash wget mpv
+apt update -y && yes | apt upgrade -y && pkg install -y bash wget mpv && \
 wget -O - https://raw.githubusercontent.com/chatunitycenter/chatunity-bot/main/chatunity.sh | bash
 ```
 ---
