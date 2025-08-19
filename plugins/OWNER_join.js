@@ -1,44 +1,30 @@
-let handler = async (m, { conn, args }) => {
-  if (m.isGroup) return m.reply('❌ Questo comando funziona solo in privato.');
-  if (!args[0]) return m.reply(`📩 Usa così:\n\n.join <link gruppo>`);
+let handler = async (m, { conn, text, usedPrefix, command, participants, isOwner, groupMetadata }) => {
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-  let invite = args[0];
-  let regex = /https:\/\/chat\.whatsapp\.com\/([a-zA-Z0-9]+)/;
-  let match = invite.match(regex);
+  let linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/i;
+  let [_, code] = text.match(linkRegex) || [];
+  if (!code) throw `Link non valido!`;
 
-  if (!match) return m.reply('❌ Inserisci un link valido di un gruppo WhatsApp.');
-
-  let code = match[1];
+  m.reply(`😎 Attendi 3 secondi, sto entrando nel gruppo`);
+  await delay(3000);
 
   try {
-    let res = await conn.groupGetInviteInfo(code);
+      let res = await conn.groupAcceptInvite(code);
+      let b = await conn.groupMetadata(res);
+      let d = b.participants.map(v => v.id);
+      let member = d.toString();
+      let now = new Date() * 1;
 
-    if (!res) return m.reply('❌ Link non valido o scaduto.');
-
-    await conn.groupAcceptInvite(code);
-
-    let group = await conn.groupFetchAllParticipating();
-    let joinedGroup = Object.values(group).find(g => g.id === res.id);
-
-    if (!joinedGroup) return m.reply('⚠️ Non sono riuscito a entrare nel gruppo.');
-
-    let memberCount = Object.keys(joinedGroup.participants).length;
-
-    if (memberCount < 30) {
-      await conn.groupLeave(res.id);
-      return m.reply(`❌ Il gruppo *${res.subject}* ha solo ${memberCount} membri.\nNon posso rimanere in gruppi con meno di 30 membri.`);
-    }
-
-    m.reply(`✅ Sono entrato nel gruppo *${res.subject}* con ${memberCount} membri!`);
+      await conn.reply(res, `Ciao amici di ${b.subject}\n\nI miei comandi sono visualizzabili in ${usedPrefix}menu`, m, { mentions: d });
 
   } catch (e) {
-    console.error(e);
-    m.reply(`⚠️ Errore durante il join: ${e.message || e}`);
+      throw `Il bot è già nel gruppo`;
   }
-};
+}
 
-handler.command = /^join$/i;
-handler.help = ['join <link gruppo>'];
-handler.tags = ['group'];
+handler.help = ['join <chat.whatsapp.com>'];
+handler.tags = ['owner'];
+handler.command = ['join'];
+handler.rowner = true;
 
 export default handler;
