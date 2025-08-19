@@ -3,10 +3,14 @@ let handler = async (m, { conn, args, command }) => {
   if (!args[0]) return m.reply(`📩 Usa così:\n\n.join <link gruppo>`);
 
   let invite = args[0];
-  if (!invite.includes('whatsapp.com')) return m.reply('❌ Inserisci un link valido di un gruppo WhatsApp.');
+  let regex = /https:\/\/chat\.whatsapp\.com\/([a-zA-Z0-9]+)/;
+  let match = invite.match(regex);
+
+  if (!match) return m.reply('❌ Inserisci un link valido di un gruppo WhatsApp.');
+
+  let code = match[1];
 
   try {
-    let code = invite.split('https://chat.whatsapp.com/')[1];
     let res = await conn.groupGetInviteInfo(code);
 
     if (!res) return m.reply('❌ Link non valido o scaduto.');
@@ -15,12 +19,18 @@ let handler = async (m, { conn, args, command }) => {
       return m.reply(`❌ Il gruppo *${res.subject}* ha solo ${res.size} membri.\nDeve avere almeno 30 membri per permettere l'ingresso.`);
     }
 
+    let groups = await conn.groupFetchAllParticipating();
+    let alreadyInGroup = Object.values(groups).find(g => g.id === res.id);
+    if (alreadyInGroup) {
+      return m.reply(`⚠️ Sono già nel gruppo *${res.subject}*!`);
+    }
+
     await conn.groupAcceptInvite(code);
     m.reply(`✅ Sono entrato nel gruppo *${res.subject}* con ${res.size} membri!`);
 
   } catch (e) {
     console.error(e);
-    m.reply('⚠️ Errore durante il join, controlla il link.');
+    m.reply(`⚠️ Errore durante il join: ${e.message || e}`);
   }
 };
 
