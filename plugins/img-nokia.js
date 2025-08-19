@@ -26,7 +26,7 @@ let handler = async (m, { conn, args }) => {
     }
     // Se non c'è quoted e non c'è immagine, prendi la foto profilo dell'utente che ha inviato il comando
     else if (!m.quoted && (!mimeType || !mimeType.startsWith('image/'))) {
-      let who = m.sender;
+      let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender;
       try {
         let url = await conn.profilePictureUrl(who, 'image');
         const res = await axios.get(url, { responseType: 'arraybuffer' });
