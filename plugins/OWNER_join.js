@@ -1,30 +1,31 @@
-let handler = async (m, { conn, text, usedPrefix, command, participants, isOwner, groupMetadata }) => {
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+let handler = async (m, { conn, args, command }) => {
+  if (m.isGroup) return m.reply('❌ Questo comando funziona solo in privato.');
+  if (!args[0]) return m.reply(`📩 Usa così:\n\n.join <link gruppo>`);
 
-  let linkRegex = /chat.whatsapp.com\/([0-9A-Za-z]{20,24})/i;
-  let [_, code] = text.match(linkRegex) || [];
-  if (!code) throw `Link non valido!`;
-
-  m.reply(`😎 Attendi 3 secondi, sto entrando nel gruppo`);
-  await delay(3000);
+  let invite = args[0];
+  if (!invite.includes('whatsapp.com')) return m.reply('❌ Inserisci un link valido di un gruppo WhatsApp.');
 
   try {
-      let res = await conn.groupAcceptInvite(code);
-      let b = await conn.groupMetadata(res);
-      let d = b.participants.map(v => v.id);
-      let member = d.toString();
-      let now = new Date() * 1;
+    let code = invite.split('https://chat.whatsapp.com/')[1];
+    let res = await conn.groupGetInviteInfo(code);
 
-      await conn.reply(res, `Ciao amici di ${b.subject}\n\nI miei comandi sono visualizzabili in ${usedPrefix}menu`, m, { mentions: d });
+    if (!res) return m.reply('❌ Link non valido o scaduto.');
+
+    if (res.size < 30) {
+      return m.reply(`❌ Il gruppo *${res.subject}* ha solo ${res.size} membri.\nDeve avere almeno 30 membri per permettere l'ingresso.`);
+    }
+
+    await conn.groupAcceptInvite(code);
+    m.reply(`✅ Sono entrato nel gruppo *${res.subject}* con ${res.size} membri!`);
 
   } catch (e) {
-      throw `Il bot è già nel gruppo`;
+    console.error(e);
+    m.reply('⚠️ Errore durante il join, controlla il link.');
   }
-}
+};
 
-handler.help = ['join <chat.whatsapp.com>'];
-handler.tags = ['owner'];
-handler.command = ['join'];
-handler.rowner = true;
+handler.command = /^join$/i;
+handler.help = ['join <link gruppo>'];
+handler.tags = ['group'];
 
 export default handler;
