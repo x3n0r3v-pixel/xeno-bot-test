@@ -102,7 +102,7 @@ pm2 logs
 
 ## 📂 Risorse Utili
 
-- **Dashboard GitHub**: [Visita qui](https://github.com/chatunity-bot)
+- **Dashboard GitHub**: [Visita qui](https://github.com/chatunitycenter)
 - **Canale WhatsApp**: [Unisciti qui](https://whatsapp.com/channel/0029VaZVlJZHwXb8naJBQN0J)
 - **Contatto**: [Scrivi qui](https://wa.me/393515533859)
 - **Collaborazioni**: [Partecipa qui](https://whatsapp.com/channel/0029Vb1C4od5vKA35u1Mqc06)
