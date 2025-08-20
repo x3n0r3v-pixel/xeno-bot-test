@@ -183,19 +183,19 @@ const handler = async (m, { conn, args, usedPrefix, text, command, groupMetadata
   if (command === 'setuser') {
     const username = text.trim()
     if (!username) {
-      await conn.sendMessage(m.chat, { text: `❌ Usa il comando così: ${usedPrefix}setuser <username>\n\nDeveloped by davide-turbo` })
+      await conn.sendMessage(m.chat, { text: `❌ Usa il comando così: ${usedPrefix}setuser <username>` })
       return
     }
 
     await setLastfmUsername(m.sender, username)
-    await conn.sendMessage(m.chat, { text: `✅ Username *${username}* salvato!\n\nDeveloped by davide-turbo` })
+    await conn.sendMessage(m.chat, { text: `✅ Username *${username}* salvato!` })
     return
   }
 
   const user = await getLastfmUsername(m.sender)
   if (!user) {
     await conn.sendMessage(m.chat, {
-      text: `🎵 *Registrazione Last.fm richiesta*\n\n@${m.sender.split('@')[0]}, per usare i comandi musicali devi registrare il tuo username Last.fm.\n\n📱 *Usa questo comando:*\n${usedPrefix}setuser <tuo_username>\n\n💡 *Non hai Last.fm?*\nRegistrati sul sito, collega Spotify e inizia a fare scrobbling della tua musica!\n\nDeveloped by davide-turbo`,
+      text: `🎵 *Registrazione Last.fm richiesta*\n\n@${m.sender.split('@')[0]}, per usare i comandi musicali devi registrare il tuo username Last.fm.\n\n📱 *Usa questo comando:*\n${usedPrefix}setuser <tuo_username>\n\n💡 *Non hai Last.fm?*\nRegistrati sul sito, collega Spotify e inizia a fare scrobbling della tua musica!`,
       mentions: [m.sender]
     })
     return
@@ -203,7 +203,7 @@ const handler = async (m, { conn, args, usedPrefix, text, command, groupMetadata
 
   if (command === 'cur') {
     const track = await getRecentTrack(user)
-    if (!track) return conn.sendMessage(m.chat, { text: '❌ Nessuna traccia trovata.\n\nDeveloped by davide-turbo' })
+    if (!track) return conn.sendMessage(m.chat, { text: '❌ Nessuna traccia trovata.' })
 
     const detailedTrack = await getTrackInfo(user, track.artist['#text'], track.name)
 
@@ -218,19 +218,26 @@ const handler = async (m, { conn, args, usedPrefix, text, command, groupMetadata
         `📊 ${userPlaycount} scrobble${userPlaycount === 1 ? '' : 's'} personali\n🔁 ${globalPlaycount.toLocaleString()} totali • 🌍 ${globalListeners.toLocaleString()} ascoltatori`
       : `⏹️ Ultimo brano riprodotto da @${m.sender.split`@`[0]}:\n\n` +
         `🎵 *${track.name}*\n🖌️ ${track.artist['#text']}\n💿 ${track.album?.['#text'] || 'Album sconosciuto'}\n\n` +
-        `📊 ${userPlaycount} play ${userPlaycount === 1 ? '' : 's'} • 🔁 ${globalPlaycount.toLocaleString()} totali • 🌍 ${globalListeners.toLocaleString()} ascoltatori`
+        `📊 ${userPlaycount} play ${userPlaycount === 1 ? '' : ''} • 🔁 ${globalPlaycount.toLocaleString()} totali • 🌍 ${globalListeners.toLocaleString()} ascoltatori`
 
     if (image) {
       await conn.sendMessage(m.chat, {
-        image: { url: image },
-        caption: caption + `\n\nDeveloped by davide-turbo`,
-        mentions: conn.parseMention(caption)
-      }, { quoted: m })
+      text: caption,
+        contextInfo: {
+  mentionedJid: conn.parseMention(caption),
+  externalAdReply: {
+    title: `${track.name}`,
+body: `${track.artist['#text']}`,
+    thumbnail: await (await fetch(image)).buffer(),
+    renderLargerThumbnail: true
+  }
+}
+})
     } else {
       await conn.sendMessage(m.chat, {
-        text: caption + `\n\nDeveloped by davide-turbo`,
-       
-      }, { quoted: m })
+        text: caption,
+        mentions: conn.parseMention(caption)
+      })
     }
 
     return
