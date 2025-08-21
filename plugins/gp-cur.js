@@ -229,6 +229,8 @@ const handler = async (m, { conn, args, usedPrefix, text, command, groupMetadata
     title: `${track.name}`,
 body: `${track.artist['#text']}`,
     thumbnail: await (await fetch(image)).buffer(),
+    thumbnailUrl: image, 
+     mediaType: 1,
     renderLargerThumbnail: true
   }
 }
