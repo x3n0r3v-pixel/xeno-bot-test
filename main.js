@@ -1,40 +1,109 @@
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '1';
 import './config.js';
 import './api.js';
-import {createRequire} from 'module';
-import path, {join} from 'path';
-import {fileURLToPath, pathToFileURL} from 'url';
-import {platform} from 'process';
-import * as ws from 'ws';
-import {readdirSync, statSync, unlinkSync, existsSync, readFileSync, rmSync, watch} from 'fs';
-import yargs from 'yargs';
-import {spawn} from 'child_process';
-import lodash from 'lodash';
-import chalk from 'chalk';
+import { join } from 'path';
+import { readdirSync, readFileSync, existsSync, watch } from 'fs';
 import syntaxerror from 'syntax-error';
-import {tmpdir} from 'os';
-import {format} from 'util';
-import P from 'pino';
-import pino from 'pino';
-import Pino from 'pino';
-import {Boom} from '@hapi/boom';
-import {makeWASocket, protoType, serialize} from './lib/simple.js';
-import {Low, JSONFile} from 'lowdb';
-import {mongoDB, mongoDBV2} from './lib/mongoDB.js';
-import store from './lib/store.js';
-const {proto} = (await import('@whiskeysockets/baileys')).default;
-const {DisconnectReason, useMultiFileAuthState, MessageRetryMap, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser, PHONENUMBER_MCC} = await import('@whiskeysockets/baileys');
-import readline from 'readline';
+import { format } from 'util';
+import { makeWASocket, protoType, serialize } from './lib/simple.js';
+import { useMultiFileAuthState, fetchLatestBaileysVersion, jidNormalizedUser, MessageRetryMap, makeCacheableSignalKeyStore } from '@whiskeysockets/baileys';
 import NodeCache from 'node-cache';
-const {CONNECTING} = ws;
-const {chain} = lodash;
-const PORT = process.env.PORT || process.env.SERVER_PORT || 3000;
+import readline from 'readline';
+import pino from 'pino';
 
 protoType();
 serialize();
 
-global.__filename = function filename(pathURL = import.meta.url, rmPrefix = platform !== 'win32') {
-  return rmPrefix ? /file:\/\/\//.test(pathURL) ? fileURLToPath(pathURL) : pathURL : pathToFileURL(pathURL).toString();
+const authFile = 'Sessioni';
+const { state, saveCreds } = await useMultiFileAuthState(authFile);
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const question = (texto) => new Promise(resolve => rl.question(texto, resolve));
+
+// Configurazione socket
+const msgRetryCounterCache = new NodeCache();
+const msgRetryCounterMap = MessageRetryMap;
+const { version } = await fetchLatestBaileysVersion();
+
+const connectionOptions = {
+    logger: pino({ level: 'silent' }),
+    printQRInTerminal: true,
+    auth: {
+        creds: state.creds,
+        keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'fatal' }).child({ level: 'fatal' })),
+    },
+    markOnlineOnConnect: true,
+    generateHighQualityLinkPreview: true,
+    syncFullHistory: true,
+    getMessage: async (key) => {
+        const jid = jidNormalizedUser(key.remoteJid);
+        return ""; // logica semplice, puoi integrarla con store se vuoi
+    },
+    msgRetryCounterCache,
+    msgRetryCounterMap,
+    version,
+};
+
+global.conn = makeWASocket(connectionOptions);
+global.conn.isInit = false;
+
+// -------------------- CARICAMENTO PLUGIN --------------------
+const pluginFolder = join(process.cwd(), 'plugins'); // cartella dei tuoi plugin
+const pluginFilter = (filename) => filename.endsWith('.js');
+global.plugins = {};
+
+async function loadPlugins() {
+    for (const filename of readdirSync(pluginFolder).filter(pluginFilter)) {
+        try {
+            const file = join(pluginFolder, filename);
+            const module = await import(file);
+            global.plugins[filename] = module.default || module;
+        } catch (e) {
+            console.error(`Errore caricando plugin ${filename}:`, e);
+            delete global.plugins[filename];
+        }
+    }
+}
+
+// Watch per ricaricare plugin quando cambiano
+async function reloadPlugin(filename) {
+    if (!pluginFilter(filename)) return;
+    const file = join(pluginFolder, filename);
+    if (!existsSync(file)) {
+        delete global.plugins[filename];
+        console.log(`Plugin eliminato: ${filename}`);
+        return;
+    }
+    const err = syntaxerror(readFileSync(file), filename, { sourceType: 'module', allowAwaitOutsideFunction: true });
+    if (err) console.error(`Errore sintassi plugin ${filename}:`, format(err));
+    else {
+        try {
+            const module = await import(`${file}?update=${Date.now()}`);
+            global.plugins[filename] = module.default || module;
+            console.log(`Plugin aggiornato: ${filename}`);
+        } catch (e) {
+            console.error(`Errore import plugin ${filename}:`, e);
+        }
+    }
+}
+
+watch(pluginFolder, (_, filename) => reloadPlugin(filename));
+await loadPlugins();
+
+// -------------------- HANDLER MESSAGGI --------------------
+const handler = await import('./handler.js');
+global.conn.handler = handler.handler.bind(global.conn);
+
+global.conn.ev.on('messages.upsert', global.conn.handler);
+
+// -------------------- DATABASE --------------------
+import { Low, JSONFile } from 'lowdb';
+global.db = new Low(new JSONFile('database.json'));
+await global.db.read();
+global.db.data ||= { users: {}, chats: {}, stats: {}, msgs: {}, settings: {} };
+global.db.chain = require('lodash').chain(global.db.data);
+
+console.log('Bot pronto con plugin:', Object.keys(global.plugins));  return rmPrefix ? /file:\/\/\//.test(pathURL) ? fileURLToPath(pathURL) : pathURL : pathToFileURL(pathURL).toString();
 }; global.__dirname = function dirname(pathURL) {
   return path.dirname(global.__filename(pathURL, true));
 }; global.__require = function require(dir = import.meta.url) {
