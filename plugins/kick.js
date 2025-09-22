@@ -17,7 +17,7 @@ module.exports = {
 
     try {
       await chat.removeParticipants([memberId]);
-      await message.reply('✅ Membro espulso correttamente.');
+      await message.reply('GET OUT😭💔✌️');
     } catch (err) {
       console.error(err);
       await message.reply('⚠️ Non è stato possibile espellere questo membro.');
